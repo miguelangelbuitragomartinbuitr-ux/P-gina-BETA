@@ -279,6 +279,37 @@ ul.clean{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:5px;f
 .room .rn{font-style:normal;font-family:var(--serif);font-size:30px;color:var(--led)}.room h4{font-size:18px;margin:8px 0;font-weight:500}.room p{font-size:14px;line-height:1.7;color:#c9d0d8;font-weight:300}.room b{color:#fff;font-weight:500}
 .pledge{list-style:none;margin-top:22px;display:grid;gap:14px;max-width:72ch}.pledge li{padding-left:22px;position:relative;font-size:15px;line-height:1.7;color:#c9d0d8;font-weight:300}.pledge li::before{content:"";position:absolute;left:0;top:.75em;width:8px;height:8px;border-radius:50%;background:var(--led)}.pledge b{color:#fff;font-weight:500}
 .plans{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:18px;margin-top:44px}.plans figure{margin:0;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:#fff}.plans img{width:100%;display:block}.plans figcaption{background:#10161c;padding:10px 14px;font-size:12px;letter-spacing:.08em;color:#c9d0d8}
+
+/* ---------- MÓVIL ---------- */
+@media (max-width:760px){
+  .bar:not(.tbar){flex-wrap:wrap;row-gap:8px;column-gap:10px;padding:10px 14px}
+  .bar:not(.tbar) .pillbtn{margin-left:auto;padding:10px 14px;font-size:11px}
+  .bar:not(.tbar) nav{order:3;flex:1 1 100%;margin-left:0;gap:6px;padding-bottom:2px;-webkit-overflow-scrolling:touch}
+  .bar:not(.tbar) nav a{flex:none;padding:7px 13px;border:1px solid var(--line);border-radius:99px;font-size:11px;background:rgba(255,255,255,.04)}
+  #cine,#apto,#trio,#prod{scroll-margin-top:104px}
+  .bleft .backbtn{height:40px;padding:0 14px 0 11px}.bleft .backbtn em{font-size:11px}
+  .bsep{margin:0 16px;height:26px}
+  .v3{height:clamp(440px,74svh,640px);border-radius:12px}
+  .v3 canvas{touch-action:pan-y}
+  .v3-bar{left:8px;right:8px;bottom:8px;gap:8px;flex-direction:column;align-items:stretch}
+  .v3-g{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}.v3-g::-webkit-scrollbar{display:none}
+  .v3-bar button{flex:none;padding:8px 13px;font-size:12px}
+  .v3-real{width:46%;top:8px;right:8px}.v3-real figcaption{font-size:9px;padding:5px 7px}
+  .v3-hint{font-size:10px;left:10px;top:10px;max-width:48%;line-height:1.4}
+  .rooms{grid-template-columns:1fr}.plans{grid-template-columns:1fr}
+  .facts{gap:22px}
+  .tbar .zsw{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;gap:6px;width:100%}.tbar .zsw::-webkit-scrollbar{display:none}
+  .tbar .zb{flex:none;padding:8px 14px;border-radius:99px;flex-direction:row;align-items:center;gap:8px;white-space:nowrap}.tbar .zb small{font-size:8px;letter-spacing:.12em;opacity:.9}
+  .tbar{row-gap:8px!important;padding:8px 14px!important}
+  .zband{padding:12px 16px}.zband span{font-size:12px}
+  .tpane table,#exp table{display:block;max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .tpane table th,.tpane table td{white-space:normal;min-width:84px}
+  .tpane img,.tpane canvas,.tpane video{max-width:100%}
+}
+@media (max-aspect-ratio:1/1){
+  #cine{background:linear-gradient(rgba(7,9,12,.78),rgba(7,9,12,.78)),url(img/lobby.jpg) center/cover}
+  #cine video{object-fit:contain}
+}
 </style>
 </head>
 <body>
@@ -331,7 +362,7 @@ ul.clean{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:5px;f
         <div class="v3-g"><button data-t="muebles" class="on">Muebles Beta</button><button data-t="corte">Muros bajos</button><button data-t="etiq" class="on">Nombres</button></div>
       </div>
       <figure class="v3-real" id="v3real"><img alt="" loading="lazy"><figcaption>Vista fotorrealista de este espacio · toca para ver completa</figcaption></figure>
-      <div class="v3-hint">Arrastra para girar · rueda o pellizco para acercar</div>
+      <div class="v3-hint">Arrastra de lado para girar · pellizca para acercar</div>
     </div>
     <p class="v3note rv">Modelo 3D construido a partir de los planos del Tipo B (distribución 1:50 y acotado 1:60); los muebles se modelan según sus renders y planos de detalle, en la ubicación indicada en los planos. Las imágenes fotorrealistas de cada espacio se generaron con IA (Higgsfield) tomando como referencia los renders del grupo; el fondo urbano es referencial.</p>
 

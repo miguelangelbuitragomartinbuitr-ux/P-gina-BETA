@@ -16,7 +16,7 @@ function init(host){
   gd.addColorStop(0,'#0c1a26');gd.addColorStop(.5,'#2f5870');gd.addColorStop(.8,'#8fa3a8');gd.addColorStop(1,'#f0b27a');sg.fillStyle=gd;sg.fillRect(0,0,4,256);
   S.background=new THREE.CanvasTexture(sk); S.fog=new THREE.Fog(0x6b8796,25,200);
   const C=new THREE.PerspectiveCamera(52,1,.1,400); const OC=new THREE.OrbitControls(C,cv);
-  OC.enableDamping=true; OC.dampingFactor=.08; OC.maxPolarAngle=Math.PI*.495; OC.minDistance=1.2; OC.maxDistance=20;
+  OC.enableDamping=true; OC.touches={ONE:THREE.TOUCH.ROTATE,TWO:THREE.TOUCH.DOLLY_PAN}; OC.dampingFactor=.08; OC.maxPolarAngle=Math.PI*.495; OC.minDistance=1.2; OC.maxDistance=20;
   S.add(new THREE.HemisphereLight(0xfff2e0,0x2a3036,.38));
   const sun=new THREE.DirectionalLight(0xffe2bd,.5); sun.position.set(-6,12,8); sun.castShadow=true; sun.shadow.mapSize.set(2048,2048); const sc2=sun.shadow.camera; sc2.left=-9;sc2.right=9;sc2.top=9;sc2.bottom=-9;sc2.near=1;sc2.far=40; sun.shadow.bias=-.0006; S.add(sun); const sun2=new THREE.DirectionalLight(0xbcd2e0,.5); sun2.position.set(4,6,-12); S.add(sun2);
   const warm=new THREE.PointLight(0xffe0b8,.55,9); C.add(warm); S.add(C);
