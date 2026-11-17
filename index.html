@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Beta Ensambladora · Álamo de Veramonte</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Albert+Sans:wght@400;500;600&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&family=Unbounded:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+/* Idea: noche de obra. Negro azulado profundo, luz LED ámbar que sale de los muebles y un verde vidrio para la capa técnica.
+   Titulares anchos (Unbounded) con una palabra en serif itálica como firma. Tema único oscuro por decisión de diseño. */
+:root{color-scheme:dark;
+  --night:#06080b; --deep:#0c1016; --panel:#121820; --line:rgba(255,255,255,.1); --ink:#f2ede4; --mute:#8f98a3;
+  --led:#ffb869; --led2:#ff8a3d; --glass:#7fe3d6; --ok:#8fe0ae; --warn:#ffc867; --bad:#ff9a85; --unk:#b9bef0;
+  --display:"Unbounded","Arial Black",sans-serif; --serif:"Instrument Serif",Georgia,serif;
+  --body:"Albert Sans","Segoe UI",system-ui,sans-serif; --mono:"JetBrains Mono",ui-monospace,Menlo,monospace;
+  --ease:cubic-bezier(.16,1,.3,1)}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{background:var(--night);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.55;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0;z-index:90;pointer-events:none;opacity:.07;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E")}
+a{color:var(--led)} button{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--led);outline-offset:3px}
+h1,h2,h3{margin:0;font-family:var(--display);font-weight:800;line-height:1.02;letter-spacing:-.02em;text-wrap:balance;text-transform:uppercase}
+h1 em,h2 em{font-family:var(--serif);font-style:italic;font-weight:400;text-transform:none;letter-spacing:0;color:var(--led);font-size:1.18em}
+p{margin:0;max-width:62ch}
+.mono{font-family:var(--mono);font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--mute)}
+.page{display:none} .page.on{display:block}
+#cursor{position:fixed;z-index:80;width:420px;height:420px;border-radius:50%;pointer-events:none;transform:translate(-50%,-50%);
+  background:radial-gradient(circle,rgba(255,184,105,.13),transparent 62%);left:50%;top:40%;transition:opacity .4s}
+
+/* ---------- LOBBY ---------- */
+#lobby{position:relative;min-height:100vh;display:none;flex-direction:column;justify-content:center;padding:clamp(24px,4vw,56px) clamp(24px,7vw,110px);overflow:hidden;isolation:isolate;background:#0a0807}
+#lobby.on{display:flex}
+#bg{position:absolute;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none}
+.lb-img{position:absolute;inset:-5%;z-index:-4;transform:translate3d(calc(var(--px,0)*-18px),calc(var(--py,0)*-12px),0);transition:transform .9s var(--ease);opacity:0;animation:lbin 2.2s ease .1s forwards}
+.lb-img img{width:100%;height:100%;object-fit:cover;display:block;filter:blur(3px) saturate(1.08);transform-origin:70% 55%;animation:kb 32s ease-in-out infinite alternate}
+@keyframes kb{from{transform:scale(1.04) translate3d(0,0,0)}to{transform:scale(1.2) translate3d(-3%,-2%,0)}}
+@keyframes lbin{to{opacity:1}}
+.lb-shade{position:absolute;inset:0;z-index:-3;background:linear-gradient(90deg,rgba(10,8,7,.8) 0,rgba(10,8,7,.5) 34%,rgba(10,8,7,.06) 70%,rgba(10,8,7,.18) 100%),radial-gradient(ellipse at 70% 50%,transparent 45%,rgba(10,8,7,.32) 100%)}
+.lb-beam{position:absolute;inset:0;z-index:-2;overflow:hidden;pointer-events:none;mix-blend-mode:screen}
+.lb-beam::before{content:"";position:absolute;top:-20%;bottom:-20%;left:-60%;width:50%;background:linear-gradient(100deg,transparent,rgba(255,184,105,.13) 45%,rgba(255,225,185,.2) 50%,rgba(255,184,105,.13) 55%,transparent);transform:skewX(-14deg);animation:beam 11s ease-in-out 1.5s infinite}
+@keyframes beam{0%{left:-60%}55%,100%{left:130%}}
+.lb-logo{position:absolute;top:clamp(22px,4vw,48px);left:clamp(24px,7vw,110px);width:clamp(120px,13vw,180px);gap:10px;opacity:0;animation:fadeup 1.4s var(--ease) .5s forwards}
+@keyframes fadeup{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.go::after{content:"";position:absolute;inset:-1px;border-radius:99px;border:1px solid var(--led);opacity:0;animation:ring 2.6s ease-out 2.2s infinite;pointer-events:none}
+@keyframes ring{0%{opacity:.7;transform:scale(1)}100%{opacity:0;transform:scale(1.28,1.7)}}
+.lob-mid .go{opacity:0;animation:fadeup 1.1s var(--ease) 1.6s forwards}
+@media(max-width:700px){#lobby{justify-content:flex-end;padding-bottom:12vh}.lb-shade{background:linear-gradient(0deg,rgba(10,8,7,.88) 0,rgba(10,8,7,.55) 50%,rgba(10,8,7,.12) 100%)}}
+@media (prefers-reduced-motion:reduce){.lb-img img,.lb-beam::before,.go::after{animation:none}}
+.wm{position:absolute;left:0;top:50%;transform:translateY(-50%);z-index:-1;white-space:nowrap;font-family:var(--display);font-weight:800;font-size:clamp(120px,24vw,360px);
+  line-height:.9;color:transparent;-webkit-text-stroke:1px rgba(255,255,255,.07);animation:drift 60s linear infinite;user-select:none}
+@keyframes drift{to{transform:translate(-50%,-50%)}}
+.lob-top,.lob-bot{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;align-items:flex-end}
+.lob-top{align-items:flex-start}
+.proj b{display:block;font-family:var(--display);font-weight:600;font-size:15px;letter-spacing:.22em}
+.chips{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+.chip{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;border:1px solid var(--line);border-radius:99px;padding:6px 12px;color:#c9d0d8;background:rgba(255,255,255,.03);backdrop-filter:blur(6px)}
+.lob-mid{display:flex;flex-direction:column;align-items:flex-start;gap:clamp(26px,4vh,44px);padding:6vh 0;max-width:min(760px,100%)}
+.lob-mid h1{font-size:clamp(34px,5.4vw,84px);margin:0;text-shadow:0 2px 40px rgba(0,0,0,.45)}
+.lob-mid h1 .w{display:inline-block;animation:up .9s var(--ease) both}
+@keyframes up{from{transform:translateY(.5em) rotate(2deg);opacity:.15;filter:blur(8px)}to{transform:none;opacity:1;filter:none}}
+.go{position:relative;border:0;cursor:pointer;border-radius:99px;padding:22px 64px;font-family:var(--display);font-weight:800;font-size:clamp(18px,2vw,26px);letter-spacing:.2em;color:#1b1107;
+  background:linear-gradient(100deg,var(--led),var(--led2));box-shadow:0 0 0 1px rgba(255,255,255,.2) inset,0 18px 60px -10px rgba(255,138,61,.7);overflow:hidden;transition:transform .5s var(--ease),box-shadow .4s}
+.go::before{content:"";position:absolute;inset:0;background:linear-gradient(100deg,transparent 30%,rgba(255,255,255,.65) 50%,transparent 70%);transform:translateX(-120%);animation:sweep 3.2s var(--ease) infinite}
+@keyframes sweep{60%,100%{transform:translateX(120%)}}
+.go:hover{transform:scale(1.06);box-shadow:0 0 0 1px rgba(255,255,255,.3) inset,0 24px 90px -6px rgba(255,138,61,.95)}
+.go span{position:relative}
+.by b{font-family:var(--display);font-weight:800;font-size:clamp(20px,2.4vw,30px);letter-spacing:.2em;display:block}
+#wipe{position:fixed;inset:0;z-index:70;background:radial-gradient(circle at var(--x,50%) var(--y,60%),var(--led) 0,var(--led2) 30%,#1b1107 70%);clip-path:circle(0 at var(--x,50%) var(--y,60%));pointer-events:none}
+#wipe.run{animation:wipe 1.25s var(--ease) forwards}
+@keyframes wipe{0%{clip-path:circle(0 at var(--x) var(--y));opacity:1}55%{clip-path:circle(150vmax at var(--x) var(--y));opacity:1}100%{clip-path:circle(150vmax at var(--x) var(--y));opacity:0}}
+
+/* ---------- EXPERIENCIA ---------- */
+.bar{position:fixed;top:0;left:0;right:0;z-index:40;display:flex;flex-direction:row;flex-wrap:nowrap;align-items:center;gap:20px;padding:14px clamp(16px,3vw,38px);transition:background .4s,backdrop-filter .4s}
+.bar.solid{background:rgba(6,8,11,.78);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.logo{font-family:var(--display);font-weight:800;letter-spacing:.22em;font-size:16px;background:none;border:0;cursor:pointer}
+.bar nav{display:flex;flex-direction:row;flex-wrap:nowrap;gap:4px;margin-left:auto;overflow-x:auto;scrollbar-width:none;min-width:0}
+.logo,.pillbtn{flex:none}
+.logo{padding:0;display:inline-flex;align-items:center;gap:14px;color:var(--ink)}
+.logo .arr{font-family:var(--mono);font-size:18px;color:var(--led)}
+.brand{display:inline-flex;flex-direction:column;gap:6px;width:clamp(92px,8vw,118px)}
+.brand img{width:100%;height:auto;display:block}
+.brand .ds{display:flex;justify-content:space-between;font:500 8.5px/1 var(--body);color:#f4ecde;padding:0 1px}
+.brand .ds i{font-style:normal}
+.brand.lb-logo{width:clamp(130px,13vw,180px)}
+.lb-logo .ds{font-size:clamp(11px,1.1vw,15px)}
+.bar nav a,.tb{font-family:var(--mono);font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:#c9d0d8;text-decoration:none;padding:8px 12px;border-radius:99px;white-space:nowrap;background:none;border:0;cursor:pointer;transition:background .25s,color .25s}
+.bar nav a:hover,.tb:hover{background:rgba(255,255,255,.08);color:#fff}
+.tb[aria-pressed="true"]{background:var(--glass);color:#062320;font-weight:500}
+.pillbtn{border:1px solid var(--led);color:var(--led);background:rgba(255,184,105,.08);border-radius:99px;padding:9px 16px;font-family:var(--mono);font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;white-space:nowrap;transition:background .25s,color .25s}
+.pillbtn:hover{background:var(--led);color:#1b1107}
+#cine{position:relative;height:100vh;min-height:560px;overflow:hidden;background:#000}
+#cine video,#hero3d{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+#cine video{opacity:0;transition:opacity 1.2s ease} #cine video.show{opacity:1}
+.vig{position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse at 50% 45%,transparent 40%,rgba(0,0,0,.7) 100%),linear-gradient(0deg,var(--night) 0,transparent 26%)}
+#flash{position:absolute;inset:0;background:#000;opacity:0;pointer-events:none;transition:opacity .7s ease}
+.hud{position:absolute;left:0;right:0;bottom:clamp(26px,7vh,70px);display:flex;flex-direction:column;align-items:center;gap:22px;padding:0 clamp(16px,6vw,90px);text-align:center}
+.chap .mono{color:var(--led)}
+.chap h2{font-size:clamp(26px,4.6vw,68px);text-shadow:0 2px 30px rgba(0,0,0,.55)}
+.chap p{color:#d6dbe1;margin-top:10px;font-size:17px}
+.swap{animation:swap .9s var(--ease) both}
+@keyframes swap{from{opacity:0;transform:translateY(26px);filter:blur(10px)}to{opacity:1;transform:none;filter:none}}
+.ticks{display:flex;gap:8px;align-items:center}
+.ticks i{display:block;width:34px;height:3px;cursor:pointer;border-radius:9px;background:rgba(255,255,255,.2);overflow:hidden}
+.ticks i b{display:block;height:100%;width:0;background:var(--led)}
+.scrollcue{display:flex;flex-direction:column;align-items:center}
+.scrollcue::after{content:"";width:1px;height:44px;background:linear-gradient(var(--led),transparent);animation:cue 2s ease-in-out infinite}
+@keyframes cue{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+.corner{position:absolute;width:26px;height:26px;border:1px solid rgba(255,255,255,.35);pointer-events:none}
+.corner.a{top:76px;left:clamp(16px,3vw,38px);border-right:0;border-bottom:0}.corner.b{top:76px;right:clamp(16px,3vw,38px);border-left:0;border-bottom:0}
+.wrap{max-width:1280px;margin:0 auto;padding:0 clamp(16px,3vw,38px)}
+.sec{padding:clamp(70px,12vh,150px) 0}
+.sec h2{font-size:clamp(30px,5.4vw,84px)}
+.rv{opacity:.2;transform:translateY(40px);transition:opacity 1s var(--ease),transform 1s var(--ease)} .rv.in{opacity:1;transform:none}
+.acc{margin-top:46px;border-top:1px solid var(--line)}
+.acc details{border-bottom:1px solid var(--line)}
+.acc summary{list-style:none;cursor:pointer;display:grid;grid-template-columns:70px 1fr auto;gap:18px;align-items:center;padding:26px 6px;transition:padding .5s var(--ease),background .4s}
+.acc summary::-webkit-details-marker{display:none}
+.acc summary:hover{padding-left:22px;background:linear-gradient(90deg,rgba(255,184,105,.08),transparent)}
+.acc summary .n{font-family:var(--mono);color:var(--led);font-size:13px}
+.acc summary b{font-family:var(--display);font-weight:600;font-size:clamp(20px,3vw,40px);text-transform:uppercase;letter-spacing:-.01em}
+.acc summary .x{width:44px;height:44px;border-radius:50%;border:1px solid var(--line);display:grid;place-items:center;font-size:22px;transition:transform .5s var(--ease),background .3s}
+.acc details[open] summary .x{transform:rotate(45deg);background:var(--led);color:#1b1107}
+.acc .body{padding:4px 6px 34px 94px;display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:26px;animation:swap .7s var(--ease) both}
+.fact b{display:block;font-family:var(--display);font-weight:600;font-size:26px;color:var(--ink);text-transform:uppercase}
+.fact span{color:var(--mute);font-size:14.5px}
+.tri{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:46px}
+.mc{all:unset;cursor:pointer;position:relative;aspect-ratio:3/4;border-radius:6px 44px 6px 44px;overflow:hidden;display:flex;align-items:flex-end;isolation:isolate;transition:border-radius .7s var(--ease),transform .7s var(--ease)}
+.mc:hover{border-radius:44px 6px 44px 6px;transform:translateY(-10px)}
+.mc img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2;transition:transform 1.4s var(--ease)} .mc:hover img{transform:scale(1.08)}
+.mc::before{content:"";position:absolute;inset:0;z-index:-3}
+.mc.k1::before{background:radial-gradient(circle at 30% 20%,#ffb869 0,#7a4a1e 30%,#12100d 75%)}
+.mc.k2::before{background:radial-gradient(circle at 70% 30%,#c98a55 0,#4a3020 35%,#0e0d0c 78%)}
+.mc.k3::before{background:radial-gradient(circle at 40% 70%,#e7dfd2 0,#6b6457 30%,#0e0f10 76%)}
+.mc::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(0deg,rgba(6,8,11,.95) 5%,transparent 60%)}
+.mc .in{padding:24px;display:flex;flex-direction:column;gap:6px}
+.mc .in b{font-family:var(--display);font-weight:800;font-size:clamp(18px,2vw,28px);text-transform:uppercase}
+.mc .in span{color:#c9d0d8;font-size:14px}
+.big{display:block;width:100%;margin-top:40px;cursor:pointer;border:1px solid rgba(255,184,105,.5);border-radius:28px;padding:clamp(34px,7vw,90px) 24px;background:radial-gradient(ellipse at 50% 120%,rgba(255,138,61,.35),transparent 60%),var(--deep);
+  font-family:var(--display);font-weight:800;font-size:clamp(26px,6.4vw,104px);letter-spacing:-.02em;text-transform:uppercase;position:relative;overflow:hidden;transition:letter-spacing .8s var(--ease),box-shadow .5s,background .5s}
+.big:hover{letter-spacing:.04em;box-shadow:0 0 120px -20px rgba(255,138,61,.8) inset,0 30px 120px -40px rgba(255,138,61,.9)}
+.big small{display:block;font-family:var(--mono);font-size:12px;letter-spacing:.2em;color:var(--led);margin-bottom:14px;font-weight:400}
+footer{padding:40px 0 60px;border-top:1px solid var(--line);color:var(--mute);font-size:13.5px}
+
+/* ---------- TÉCNICA ---------- */
+#tec{min-height:100vh;background:linear-gradient(180deg,#080c10,#0b1116)}
+#tec .bar{position:sticky;background:rgba(8,12,16,.9);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.tpane{display:none;padding:22px clamp(16px,3vw,38px) 70px;flex-direction:column;gap:18px} .tpane.on{display:flex;animation:swap .7s var(--ease) both}
+.bench{display:grid;grid-template-columns:210px minmax(0,1fr) 400px;gap:14px;min-height:calc(100vh - 120px)}
+.rail{display:flex;flex-direction:column;gap:8px}
+.rail button{all:unset;cursor:pointer;display:flex;gap:12px;align-items:center;padding:14px;border:1px solid var(--line);border-radius:14px;transition:border-color .3s,background .3s,transform .4s var(--ease)}
+.rail button:hover{transform:translateX(6px);border-color:rgba(127,227,214,.5)}
+.rail button[aria-pressed="true"]{border-color:var(--glass);background:rgba(127,227,214,.08)}
+.rail svg{width:30px;height:30px;stroke:var(--glass);fill:none;stroke-width:1.4;flex:none}
+.rail b{font-family:var(--display);font-weight:600;font-size:13px;text-transform:uppercase;display:block}
+.rail span{font-size:12.5px;color:var(--mute)}
+.stage{position:relative;border:1px solid var(--line);border-radius:18px;overflow:hidden;min-height:520px;
+  background:radial-gradient(circle at 50% 40%,#16202a,#080c10 75%),repeating-linear-gradient(0deg,transparent 0 39px,rgba(127,227,214,.05) 39px 40px)}
+.stage::before{content:"";position:absolute;inset:0;pointer-events:none;background:repeating-linear-gradient(0deg,transparent 0 39px,rgba(127,227,214,.06) 39px 40px),repeating-linear-gradient(90deg,transparent 0 39px,rgba(127,227,214,.06) 39px 40px)}
+#iso{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:none}
+.stage .lab{position:absolute;left:18px;top:16px} .stage .lab h3{font-size:20px;margin-top:6px}
+.dock{position:absolute;left:18px;right:18px;bottom:16px;display:flex;gap:10px;align-items:center;flex-wrap:wrap;background:rgba(8,12,16,.72);backdrop-filter:blur(10px);border:1px solid var(--line);border-radius:99px;padding:8px 14px}
+.dock input[type=range]{accent-color:var(--glass);flex:1;min-width:120px}
+.slotimg{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;padding:70px 20px 80px}
+.empty{position:absolute;inset:0;display:grid;place-items:center;padding:40px;text-align:center;color:var(--mute)}
+.bom{border:1px solid var(--line);border-radius:18px;background:rgba(18,24,32,.7);display:flex;flex-direction:column;min-height:0;max-height:calc(100vh - 120px)}
+.bom header{padding:18px 18px 12px;border-bottom:1px solid var(--line)} .bom header h3{font-size:16px;margin-top:6px}
+.bom .list{overflow:auto;flex:1}
+.row{display:grid;grid-template-columns:34px 1fr auto;gap:10px;padding:11px 18px;border-bottom:1px solid rgba(255,255,255,.05);cursor:pointer;transition:background .25s,padding .35s var(--ease)}
+.row:hover,.row.sel{background:rgba(127,227,214,.09);padding-left:24px}
+.row .q{font-family:var(--mono);font-size:12px;color:var(--glass)} .row b{font-weight:600;font-size:14px;display:block} .row small{color:var(--mute);font-size:12.5px}
+.row .t{font-family:var(--mono);font-size:10.5px;color:var(--mute);text-align:right;text-transform:uppercase}
+.bom .foot{padding:12px 18px;border-top:1px solid var(--line);font-size:12.5px;color:var(--mute)}
+#pinfo{padding:14px 18px;border-top:1px solid var(--line);background:rgba(127,227,214,.05)} #pinfo h3{font-size:14px;margin-bottom:8px}
+.sheet{background:rgba(18,24,32,.7);border:1px solid var(--line);border-radius:18px;padding:22px;display:flex;flex-direction:column;gap:12px;min-width:0}
+.sheet h3{font-size:16px}
+.grid{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
+.kv{display:grid;grid-template-columns:minmax(100px,34%) 1fr;gap:6px 12px;font-size:14px;margin:0} .kv dt{color:var(--mute)} .kv dd{margin:0}
+.pill{display:inline-flex;font-family:var(--mono);font-size:11px;padding:2px 9px;border-radius:99px;white-space:nowrap;border:1px solid}
+.pill.ok{color:var(--ok)} .pill.parcial{color:var(--warn)} .pill.falta{color:var(--bad)} .pill.sinver{color:var(--unk)}
+.src{font-family:var(--mono);font-size:11px;color:var(--mute)}
+.note{border-left:2px solid var(--warn);padding:10px 14px;background:rgba(255,200,103,.07);font-size:14px;border-radius:0 10px 10px 0} .note.bad{border-left-color:var(--bad);background:rgba(255,154,133,.07)}
+.tw{overflow-x:auto} table{border-collapse:collapse;width:100%;font-size:13.5px}
+th,td{padding:8px 10px;border-bottom:1px solid rgba(255,255,255,.07);text-align:left;vertical-align:top}
+th{font-family:var(--mono);font-weight:500;font-size:10.5px;text-transform:uppercase;letter-spacing:.1em;color:var(--glass);white-space:nowrap}
+td.num,th.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap} tr.tot td{font-weight:700;border-top:1px solid var(--glass)}
+.tabs,.filters{display:flex;gap:8px;flex-wrap:wrap}
+.btn,.tabs button{font-size:13px;padding:8px 14px;border-radius:99px;border:1px solid var(--line);background:rgba(255,255,255,.04);cursor:pointer;transition:border-color .25s,background .25s}
+.btn:hover,.tabs button:hover{border-color:var(--glass)} .btn.primary,.tabs button[aria-pressed="true"]{background:var(--glass);color:#062320;border-color:var(--glass);font-weight:600}
+input[type=number]{font:inherit;padding:8px 10px;border:1px solid var(--line);border-radius:10px;background:#080c10;color:var(--ink);width:140px}
+label.f{display:flex;flex-direction:column;gap:4px;font-size:13px;color:var(--mute)} .calc{display:flex;gap:14px;flex-wrap:wrap;align-items:flex-end}
+.out{font-family:var(--mono);font-size:13.5px;border:1px dashed var(--glass);border-radius:12px;padding:12px 14px} .out b{font-family:var(--display);font-size:22px;color:var(--glass)}
+.bars{height:6px;border-radius:9px;background:rgba(255,255,255,.1);display:flex;overflow:hidden;margin:8px 0}
+.bars i{display:block;height:100%} .bars .ok{background:var(--ok)} .bars .parcial{background:var(--warn)} .bars .sinver{background:var(--unk)} .bars .falta{background:var(--bad)}
+ul.clean{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:5px;font-size:14px}
+@media (max-width:1050px){.bench{grid-template-columns:1fr}.rail{flex-direction:row;overflow-x:auto}.rail button{flex:none}.bom{max-height:none}.tri{grid-template-columns:1fr}.mc{aspect-ratio:4/3}.acc .body{padding-left:6px}.acc summary{grid-template-columns:40px 1fr auto}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.rv{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+<div id="cursor"></div>
+<div id="wipe"></div>
+
+<!-- ============ LOBBY ============ -->
+<section id="lobby" class="on">
+  <div class="lb-img"><img src="img/lobby.jpg" alt=""></div>
+  <div class="lb-shade"></div>
+  <div class="lb-beam"></div>
+  <canvas id="bg"></canvas>
+  <span class="brand lb-logo" role="img" aria-label="Beta Design"><img src="img/beta-mark.png" alt=""><span class="ds" aria-hidden="true"><i>D</i><i>E</i><i>S</i><i>I</i><i>G</i><i>N</i></span></span>
+  <div class="lob-mid">
+    <h1 id="hl1">¿Quieres conocer <em>tus</em> nuevos muebles?</h1>
+    <button class="go" id="go"><span>VAMOS</span></button>
+  </div>
+</section>
+
+<!-- ============ EXPERIENCIA ============ -->
+<div id="exp" class="page">
+  <header class="bar" id="xbar">
+    <button class="logo" data-go="lobby" aria-label="Beta Design, volver al inicio"><span class="brand"><img src="img/beta-mark.png" alt="Beta"><span class="ds" aria-label="Design"><i>D</i><i>E</i><i>S</i><i>I</i><i>G</i><i>N</i></span></span></button>
+    <nav><a href="#" data-sc="cine">Recorrido</a><a href="#" data-sc="puntos">Puntos críticos</a><a href="#" data-sc="trio">Muebles</a></nav>
+    <button class="pillbtn" data-go="tecnica">Información técnica</button>
+  </header>
+
+  <section id="cine">
+    <canvas id="hero3d"></canvas>
+    <video id="vA" muted playsinline preload="auto"></video><video id="vB" muted playsinline preload="auto"></video>
+    <div class="vig"></div><div id="flash"></div>
+    <div class="hud">
+      <div class="chap" id="chap"></div>
+      <div class="ticks" id="ticks" aria-label="Capítulos del recorrido"></div>
+      <div class="scrollcue" aria-hidden="true"></div>
+    </div>
+  </section>
+
+  <section class="sec" id="puntos"><div class="wrap">
+    <span class="mono rv" style="color:var(--led)">Lo que hay detrás</span>
+    <h2 class="rv">Puntos <em>críticos</em> del proyecto</h2>
+    <div class="acc rv">
+      <details open><summary><span class="n">01</span><b>La empresa</b><span class="x">+</span></summary><div class="body">
+        <div class="fact"><b>Beta Ensambladora</b><span>Solo produce: fabrica juegos de tres muebles para la obra. No vende ni fija precios.</span></div>
+        <div class="fact"><b>Por lotes</b><span>Tipo de producción declarado. Se compran tableros, herrajes y parte eléctrica; la planta corta y deja las piezas listas para ensamble.</span></div>
+        <div class="fact"><b>2 meses</b><span>Plazo desde la firma del contrato. Volumen, jornada y ritmo requerido: pendientes del grupo.</span></div></div></details>
+      <details><summary><span class="n">02</span><b>El apartamento</b><span class="x">+</span></summary><div class="body">
+        <div class="fact"><b>66 m²</b><span>Construidos, 53 m² privados. Tipo B del proyecto Álamo, nueva etapa de Veramonte.</span></div>
+        <div class="fact"><b>3 espacios</b><span>Cocina abierta en U, sala y vestier. Planos del grupo a escala 1:60 y 1:50.</span></div>
+        <div class="fact"><b>Bogotá</b><span>Colina Campestre, cerca de la avenida Boyacá. Fuente: brochure de la constructora.</span></div></div></details>
+      <details><summary><span class="n">03</span><b>Los muebles</b><span class="x">+</span></summary><div class="body">
+        <div class="fact"><b>Clóset</b><span>2385 mm de alto por 1950 mm de ancho. Melamina 15 mm, puertas corredizas de vidrio, tubos de acero inoxidable, LED cálido.</span></div>
+        <div class="fact"><b>Sala</b><span>38 elementos en el explosionado. Unión con 118 conectores minifix y 97 pasadores.</span></div>
+        <div class="fact"><b>Cocina</b><span>5 módulos superiores y 3 inferiores, mesón en piedra sinterizada de unos 4 m², barra de desayuno.</span></div></div></details>
+      <details><summary><span class="n">04</span><b>La planta</b><span class="x">+</span></summary><div class="body">
+        <div class="fact"><b>297 m²</b><span>Bodega en arriendo en Puente Aranda, Bogotá, con 2 oficinas y 3 baños.</span></div>
+        <div class="fact"><b>Obra al norte</b><span>Los muebles viajan de Puente Aranda a Colina Campestre.</span></div>
+        <div class="fact"><b>En diseño</b><span>Distribución, máquinas, almacenamiento, 5S, GTC 45 y fichas de puesto: pendientes.</span></div></div></details>
+      <details><summary><span class="n">05</span><b>Proveedores y costos</b><span class="x">+</span></summary><div class="body">
+        <div class="fact"><b>3 proveedores</b><span>Madecentro, Homecenter y Häfele comparados para herrajes e iluminación del clóset.</span></div>
+        <div class="fact"><b>$ 3.349.651</b><span>Lista de la cocina cotizada en Madecentro, sin mesón, vidrio ni equipos.</span></div>
+        <div class="fact"><b>Hoja de costos</b><span>Materias primas + mano de obra + indirectos. Lista para llenar en la información técnica.</span></div></div></details>
+    </div>
+  </div></section>
+
+  <section class="sec" id="trio" style="padding-top:0"><div class="wrap">
+    <span class="mono rv" style="color:var(--led)">El conjunto</span>
+    <h2 class="rv">Tres piezas, <em>un</em> hogar</h2>
+    <div class="tri rv">
+      <button class="mc k1" data-go="tecnica" data-m="closet"><img src="img/closet.jpg" alt="" onerror="this.remove()"><span class="in"><span class="mono" style="color:var(--led)">Vestier</span><b>Clóset corredizo</b><span>Luz cálida que se enciende al abrir.</span></span></button>
+      <button class="mc k2" data-go="tecnica" data-m="sala"><img src="img/sala.jpg" alt="" onerror="this.remove()"><span class="in"><span class="mono" style="color:var(--led)">Sala</span><b>Mueble de sala</b><span>Estantes, cajones y mesa en una sola pieza.</span></span></button>
+      <button class="mc k3" data-go="tecnica" data-m="cocina"><img src="img/cocina.jpg" alt="" onerror="this.remove()"><span class="in"><span class="mono" style="color:var(--led)">Cocina</span><b>Cocina en U</b><span>Piedra clara, melamina avellana y barra.</span></span></button>
+    </div>
+    <button class="big rv" data-go="tecnica"><small>Despiece · materiales · proceso · costos</small>Información técnica</button>
+  </div></section>
+
+  <footer><div class="wrap">Beta Ensambladora · Ejercicio académico de Diseño VIII Producción, UPTC Duitama, 2026-2. Página armada con apoyo de IA (Claude) a partir de los documentos del grupo; los diseños, planos, medidas y precios son del grupo. El video de recorrido y las imágenes de los muebles en su espacio son ambientación generada con IA (Higgsfield, Seedance 2.5) a partir de los renders y planos del grupo.</div></footer>
+</div>
+
+<!-- ============ INFORMACIÓN TÉCNICA ============ -->
+<div id="tec" class="page">
+  <header class="bar">
+    <button class="logo" data-go="recorrido" aria-label="Volver al recorrido"><span class="arr">←</span><span class="brand"><img src="img/beta-mark.png" alt="Beta"><span class="ds" aria-label="Design"><i>D</i><i>E</i><i>S</i><i>I</i><i>G</i><i>N</i></span></span></button>
+    <nav id="ttabs">
+      <button class="tb" data-t="muebles" aria-pressed="true">Muebles</button><button class="tb" data-t="empresa" aria-pressed="false">Empresa y ritmo</button>
+      <button class="tb" data-t="planta" aria-pressed="false">Proceso y planta</button><button class="tb" data-t="costos" aria-pressed="false">Costos</button><button class="tb" data-t="estado" aria-pressed="false">Estado</button>
+    </nav>
+  </header>
+
+  <div class="tpane on" id="p-muebles">
+    <div class="bench">
+      <div class="rail" id="rail">
+        <button data-m="closet" aria-pressed="true"><svg viewBox="0 0 32 32"><rect x="5" y="3" width="22" height="26"/><path d="M16 3v26M12 15v3M20 15v3"/></svg><span><b>Clóset</b><span>Vestier</span></span></button>
+        <button data-m="sala" aria-pressed="false"><svg viewBox="0 0 32 32"><path d="M3 26h26M5 26V10h9v16M14 18h13v8M18 6h8v8h-8z"/></svg><span><b>Sala</b><span>Mueble de sala</span></span></button>
+        <button data-m="cocina" aria-pressed="false"><svg viewBox="0 0 32 32"><path d="M3 16h26v12H3zM3 4h10v8H3zM19 4h10v8H19zM11 16v12M21 16v12"/></svg><span><b>Cocina</b><span>En U con barra</span></span></button>
+      </div>
+      <div class="stage">
+        <canvas id="iso" aria-label="Vista isométrica explosionada"></canvas>
+        <img class="slotimg" id="slotimg" alt="" hidden>
+        <div class="empty" id="empty" hidden></div>
+        <div class="lab"><span class="mono" style="color:var(--glass)" id="stk">Isométrico · medidas en mm</span><h3 id="sth">Clóset corredizo</h3></div>
+        <div class="dock" id="dock"><button class="btn primary" id="bplay">Explosionar</button><input type="range" id="ex" min="0" max="100" value="0" aria-label="Despiece"><button class="btn" id="bdo">Puertas: visibles</button><button class="btn" id="bled">LED: encendido</button></div>
+      </div>
+      <aside class="bom">
+        <header><span class="mono" style="color:var(--glass)">Lista de materiales</span><h3 id="bomh">Clóset · 1 unidad</h3></header>
+        <div class="list" id="bom"></div>
+        <div id="pinfo"><h3>Ficha de pieza</h3><p style="font-size:13.5px;color:var(--mute)">Toque una pieza del modelo o una fila de la lista.</p></div>
+        <div class="foot" id="bomf"></div>
+      </aside>
+    </div>
+    <div class="grid" id="x-closet">
+      <div class="sheet"><h3>Despiece completo del clóset</h3><div class="tw"><table id="t-closet"></table></div><p class="src">Fuente: documento «Materias primas» y planos 1 a 3. Total melamina 15 mm: 13,751 m² · tableros delgados: 6,907 m².</p></div>
+      <div class="sheet"><h3>Por confirmar antes de costear</h3><div class="note bad">El respaldo de 2385 × 1950 mm no cabe en un tablero comercial de 1,83 m de ancho: hay que partirlo, y ese cambio va a la tabla de rastreo.</div><div class="note bad">Los «fondos» de 2385 × 690 × 6 y 2385 × 400 × 6 tienen las medidas exactas de las dos puertas de vidrio; en la lista figuran como tablero delgado.</div><h3>Planos en Drive</h3><ul class="clean" id="l-closet"></ul></div>
+    </div>
+    <div class="grid" id="x-sala" hidden>
+      <div class="sheet"><h3>Lista del explosionado de la sala</h3><div class="filters" id="f-sala"></div><div class="tw"><table id="t-sala"></table></div></div>
+      <div class="sheet"><h3>Para revisar</h3><div class="note">CODRC01 y CODLC01 aparecen dos veces en el explosionado: confirmar si son 3 o 6 piezas de cada una. De 31 piezas fabricadas distintas, 13 tienen plano de pieza.</div><div class="note">La tabla del plano no trae material ni medidas por pieza.</div><h3>Planos en Drive</h3><ul class="clean" id="l-sala"></ul></div>
+    </div>
+    <div class="grid" id="x-cocina" hidden>
+      <div class="sheet"><h3>Módulos de la cocina</h3><div class="tw"><table id="t-cocina"></table></div><dl class="kv"><dt>Espacio</dt><dd>Altura libre 2,40 m · ancho máx. 2,25 m · profundidad 2,20 m · tramo posterior 1,90 m</dd></dl></div>
+      <div class="sheet"><h3>Para revisar</h3><div class="note">Los planos están por módulo a escala 1:50. Falta el despiece pieza por pieza, sin el cual no hay plan de corte ni cursograma.</div><h3>Planos en Drive</h3><ul class="clean" id="l-cocina"></ul></div>
+    </div>
+  </div>
+
+  <div class="tpane" id="p-empresa">
+    <div class="grid">
+      <div class="sheet"><h3>Ficha de la empresa</h3><dl class="kv"><dt>Nombre</dt><dd>Beta Ensambladora</dd><dt>Qué fabrica</dt><dd>Juegos de cocina, sala y vestier para el apartamento tipo 66 m²</dd><dt>Para quién</dt><dd>La obra Álamo de Veramonte</dd><dt>Modalidad</dt><dd><span class="pill falta">pendiente</span></dd><dt>Plazo</dt><dd>Dos meses desde la firma <span class="pill parcial">sin justificar</span></dd><dt>Jornada</dt><dd><span class="pill falta">pendiente</span></dd><dt>Volumen</dt><dd><span class="pill falta">pendiente</span></dd><dt>Tipo</dt><dd>Por lotes <span class="pill parcial">falta justificar</span></dd></dl><p class="src">Fuente: documento «EMPRESA Beta Ensambladora»</p></div>
+      <div class="sheet"><h3>Ritmo requerido</h3><p style="font-size:14px">Ritmo = horas disponibles en el plazo ÷ juegos a entregar.</p><div class="calc"><label class="f" for="r-j">Juegos<input type="number" id="r-j" min="1" placeholder="dato del grupo"></label><label class="f" for="r-s">Semanas<input type="number" id="r-s" min="1" step="0.1" placeholder="dato del grupo"></label><label class="f" for="r-h">Horas por semana<input type="number" id="r-h" min="1" placeholder="dato del grupo"></label></div><div class="out" id="r-out"></div></div>
+    </div>
+  </div>
+
+  <div class="tpane" id="p-planta">
+    <div class="grid">
+      <div class="sheet"><h3>Localización elegida</h3><dl class="kv"><dt>Inmueble</dt><dd>Bodega en arriendo, 297 m²</dd><dt>Ubicación</dt><dd>Puente Aranda, Bogotá</dd><dt>Dotación</dt><dd>2 oficinas, 3 baños</dd><dt>Canon</dt><dd><span class="pill falta">pendiente</span></dd><dt>Anuncio</dt><dd><a href="https://www.fincaraiz.com.co/bodega-en-arriendo-en-cundinamarca-bogota/194230166">Fincaraíz 194230166</a></dd></dl></div>
+      <div class="sheet"><h3>Hipótesis de producción</h3><p style="font-size:14px"><span class="pill falta">pendiente</span> Una frase escrita antes de calcular: qué operación limitará la planta.</p></div>
+    </div>
+    <div class="sheet"><h3>Entregables del proceso</h3><div class="tw"><table id="t-proc"></table></div></div>
+    <div class="sheet"><h3>Entregables de la planta</h3><div class="tw"><table id="t-planta"></table></div></div>
+  </div>
+
+  <div class="tpane" id="p-costos">
+    <div class="sheet"><h3>Clóset · herrajes, puertas e iluminación por proveedor</h3><div class="tabs" id="ptabs"></div><div class="tw"><table id="t-herr"></table></div><div class="note">Precios sin soporte ni referencia exacta, y elección solo por precio. La guía pide cotización real con fecha y cuadro con cinco criterios.</div></div>
+    <div class="sheet"><h3>Cocina · lista cotizada en Madecentro</h3><div class="tw"><table id="t-coc"></table></div><p class="src">Sin precio todavía: mesón, vidrio, perfilería, grifería, poceta y electrodomésticos.</p></div>
+    <div class="sheet"><h3>Hoja de costos</h3><div class="calc"><label class="f" for="c-sal">Costo hora MOD ($)<input type="number" id="c-sal" min="0" placeholder="con fuente"></label><label class="f" for="c-cif">Indirectos por juego ($)<input type="number" id="c-cif" min="0" placeholder="presupuesto"></label><label class="f" for="c-vol">Volumen (juegos)<input type="number" id="c-vol" min="1" placeholder="elemento K"></label></div><div class="tw"><table id="t-cost"></table></div></div>
+  </div>
+
+  <div class="tpane" id="p-estado">
+    <div class="sheet"><h3>Estado frente a la lista de chequeo de la guía</h3><div id="summary"></div></div>
+    <div class="filters" id="f-estado"></div>
+    <div class="sheet"><div class="tw"><table id="t-estado"></table></div></div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<script>
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const cop=n=>'$ '+Math.round(n).toLocaleString('es-CO');
+const drv=id=>'https://drive.google.com/file/d/'+id+'/view';
+const LBL={ok:'listo',parcial:'parcial',falta:'falta',sinver:'sin verificar'};
+const pill=s=>`<span class="pill ${s}">${LBL[s]}</span>`;
+const store={get(k){try{return localStorage.getItem('anm_'+k)}catch(e){return null}},set(k,v){try{localStorage.setItem('anm_'+k,v)}catch(e){}}};
+const RM=matchMedia('(prefers-reduced-motion:reduce)').matches;
+/* ---------- auditoría (sección 10 de la guía) ---------- */
+const AUD=[
+['Nota 1','Ficha del proyecto con enlace y fecha','parcial','Brochure y tipo de apartamento en la carpeta.','Enlace al proyecto y fecha de consulta.'],
+['Nota 1','Plano de los tres espacios a escala, con la referencia declarada','parcial','Planos 01 (1:60) y 02 (1:50) y distribución de cocina.','Declarar las dos referencias de escalado (área publicada y medida estándar).'],
+['Nota 1','Requisitos de cada mueble con su fuente','parcial','Hay requisitos para los tres muebles.','Fuente de cada requisito. En sala los valores están «por definir» y la Hoja 1 del archivo trae contenido de otro trabajo (análisis de competencia de branding).'],
+['Nota 1','Tres alternativas por mueble y matriz de selección','parcial','Cocina: tres propuestas y matriz ponderada. Sala: dos imágenes de propuestas.','Matriz de sala y de clóset; tercera alternativa de sala. La matriz de cocina dice que sus puntajes son «de ejemplo».'],
+['Nota 1','Planos de conjunto y de pieza con cortes, cotas y escala','parcial','Sala: conjunto y 13 planos de pieza. Clóset: planos 1 a 3, puertas y cajón. Cocina: 15 hojas por módulo.','Sala: 18 piezas sin plano. Cocina: planos de pieza (hoy son de módulo a 1:50).'],
+['Nota 1','Despiece y lista de materiales, con herrajes y tornillería','parcial','Clóset: despiece con medidas y herrajes. Sala: lista del explosionado.','Sala: material y medidas por pieza. Cocina: despiece completo. Cableado en los tres.'],
+['Nota 1','Dos materiales por mueble como mínimo, tres en el conjunto','parcial','Clóset: melamina, vidrio, acero inoxidable. Cocina: melamina, piedra sinterizada, vidrio, aluminio.','Confirmar el segundo material del mueble de sala.'],
+['Nota 1','Detalle de cada unión entre materiales distintos','falta','Solo una frase sobre tornillos y tarugos en el clóset.','Dibujo de detalle: vidrio con riel, piedra con mueble, tubo con lateral.'],
+['Nota 1','Fichas de la luminaria y del equipo; alojamiento y cableado','falta','LED genérico (12 V, 2700 a 3000 K); vidrio inteligente de Vittrum descrito en texto.','Referencia exacta y ficha técnica de luminaria y equipo; recorrido del cable, ventilación y acceso de mantenimiento.'],
+['Nota 1','Renders de cada mueble en su espacio','sinver','Hay renders de los tres muebles en la carpeta.','Confirmar que muestran el espacio escalado alrededor, con luz y equipo.'],
+['Nota 2','Ficha de la empresa, volumen, plazo y ritmo requerido','parcial','Nombre, bodega y plazo de dos meses.','Volumen con cálculo y fuente, jornada y ritmo. Los apartados están vacíos en el documento.'],
+['Nota 2','Tabla de fabricar o comprar y tipo de producción','parcial','Tres frases generales; tipo por lotes.','Tabla pieza por pieza con razón; justificar el tipo con volumen y ritmo.'],
+['Nota 2','Hipótesis de producción, escrita antes de calcular','falta','','Una frase.'],
+['Nota 2','Localización con proveedores y obra','parcial','Bodega elegida en Puente Aranda.','Tabla de factores con peso y calificación; mapa con proveedores y obra.'],
+['Nota 2','Matriz de relaciones, plano propuesto y los dos recorridos','falta','','Matriz entre áreas, plano a escala de la bodega con máquinas, recorridos de material y operario, tabla de distancias.'],
+['Nota 2','Máquinas con su ficha','falta','','Inventario por operación y ficha del fabricante de cada máquina.'],
+['Nota 2','Tabla de piezas, análisis del valor y planes de corte','falta','El apartado existe sin texto.','Las tres cosas. Los planes de corte dependen del despiece completo.'],
+['Nota 2','Diagramas de operaciones y de flujo de los tres muebles','sinver','El documento tiene títulos para clóset y sala; el contenido sería imagen.','Confirmar clóset y sala; hacer cocina; incluir ensamble, instalación eléctrica y empaque.'],
+['Nota 2','Cursogramas con totales y tabla VA/NVA','falta','','Cursograma por mueble con transportes y esperas, totales, VA/NVA y examen crítico.'],
+['Nota 2','Bimanual y dispositivos de sujeción','falta','','Bimanual de la operación más repetitiva y diseño de la plantilla.'],
+['Nota 2','Tiempos con fuente y cuello de botella frente al ritmo','falta','El apartado existe sin texto.','Tabla de tiempos con experto, comparación o dato publicado; comparación con el ritmo.'],
+['Nota 2','Zonas de almacenamiento','falta','','Zonas sobre el plano y tabla de áreas según el lote.'],
+['Nota 2','Estándar 5S, matriz GTC 45 y fichas de puesto','falta','','Las tres, propias de esta planta.'],
+['Nota 2','Plan de inspección','falta','','Puntos en el cursograma, criterios por pieza y hoja de verificación.'],
+['Nota 2','Hipótesis contrastada y tabla de rastreo','falta','','Contraste de la hipótesis y tabla decisión del mueble → consecuencia en la planta.'],
+['Nota 3','Lista de compras para todo el volumen','falta','Listas por un mueble (clóset y cocina).','Multiplicar por el volumen, agregar sala e insumos (lija, pegante, discos, canto).'],
+['Nota 3','Cotizaciones exigidas, con soporte','parcial','Herrajes del clóset en tres proveedores; cocina en Madecentro; tornillos en dos tiendas.','Tres por cada materia prima (melamina, vidrio, piedra, aluminio), tres de iluminación, tres del equipo; soporte y fecha de todas.'],
+['Nota 3','Cuadro comparativo y proveedor elegido','parcial','Comparación de herrajes solo por precio.','Criterios: costo, capacidad, plazo, ubicación y especificación.'],
+['Nota 3','Hoja de costos de cada mueble','falta','','Materias primas + mano de obra + indirectos, con el cálculo a la vista.'],
+['Nota 3','Costo del conjunto y del volumen','falta','','Depende de la hoja de costos y del volumen.']
+];
+function sumHtml(){const g={};AUD.forEach(a=>{(g[a[0]]=g[a[0]]||{ok:0,parcial:0,sinver:0,falta:0,n:0})[a[2]]++;g[a[0]].n++});
+  const T={'Nota 1':'Diseño del mobiliario','Nota 2':'Sistema de producción','Nota 3':'Proveedores y costos'};
+  return '<div class="grid">'+Object.keys(g).map(k=>{const x=g[k];return `<div><b>${k}</b> · ${T[k]}<div class="bars" role="img" aria-label="${x.ok} listos, ${x.parcial} parciales, ${x.sinver} sin verificar, ${x.falta} faltan">${['ok','parcial','sinver','falta'].map(s=>`<i class="${s}" style="width:${100*x[s]/x.n}%"></i>`).join('')}</div><span class="src">${x.ok} listos · ${x.parcial} parciales · ${x.sinver} sin verificar · ${x.falta} faltan (de ${x.n})</span></div>`}).join('')+'</div>';}
+$('#summary').innerHTML=sumHtml();
+let fE='todos';
+function drawEstado(){
+  $('#f-estado').innerHTML=['todos','ok','parcial','sinver','falta'].map(s=>`<button class="btn ${fE===s?'primary':''}" data-fe="${s}">${s==='todos'?'Todos':LBL[s]} (${s==='todos'?AUD.length:AUD.filter(a=>a[2]===s).length})</button>`).join('');
+  $('#t-estado').innerHTML='<tr><th>Nota</th><th>Punto de la lista</th><th>Estado</th><th>Lo que hay</th><th>Lo que falta</th></tr>'+AUD.filter(a=>fE==='todos'||a[2]===fE).map(a=>`<tr><td>${a[0]}</td><td>${a[1]}</td><td>${pill(a[2])}</td><td>${a[3]||'Nada en la carpeta'}</td><td>${a[4]}</td></tr>`).join('');}
+$('#f-estado').addEventListener('click',e=>{const b=e.target.closest('[data-fe]');if(b){fE=b.dataset.fe;drawEstado();}});
+drawEstado();
+const rows=(idx)=>'<tr><th>Entregable</th><th>Estado</th><th>Lo que falta</th></tr>'+idx.map(i=>`<tr><td>${AUD[i][1]}</td><td>${pill(AUD[i][2])}</td><td>${AUD[i][4]}</td></tr>`).join('');
+$('#t-proc').innerHTML=rows([16,17,18,19,20]);
+$('#t-planta').innerHTML=rows([14,15,21,22,23,24]);
+
+/* ---------- clóset: piezas ---------- */
+const PZ={
+ resp:{n:'Respaldo (tablero grande)',d:'2385 × 1950 × 15',m:'Melamina 15 mm',q:1,o:'No cabe en tablero de 1,83 m de ancho'},
+ lat:{n:'Lateral exterior',d:'2385 × 500 × 15',m:'Melamina 15 mm',q:2,o:'Pieza 10 en plano 2'},
+ div:{n:'Divisor vertical',d:'2385 × 485 × 15',m:'Melamina 15 mm',q:2,o:''},
+ tapa:{n:'Tapa superior e inferior',d:'1950 × 530 × 5',m:'Tablero delgado 5 mm',q:2,o:'Pieza 9 en plano 2'},
+ rtap:{n:'Repisa sobre cajones',d:'800 × 485 × 15',m:'Melamina 15 mm',q:1,o:''},
+ rep:{n:'Repisa',d:'485 × 400 × 15',m:'Melamina 15 mm',q:5,o:'Unión por tarugos'},
+ fcaj:{n:'Frente de cajón',d:'800 × 170 × 15',m:'Melamina 15 mm',q:6,o:''},
+ lcaj:{n:'Lateral de caja de cajón',d:'485 × 150 × 15',m:'Melamina 15 mm',q:12,o:'Posición esquemática'},
+ tcaj:{n:'Frente y trasera de caja de cajón',d:'740 × 150 × 15',m:'Melamina 15 mm',q:12,o:'Posición esquemática'},
+ bcaj:{n:'Fondo de cajón',d:'770 × 485 × 5',m:'Tablero delgado 5 mm',q:6,o:'Posición esquemática'},
+ tubo:{n:'Tubo colgador',d:'705 × Ø 25',m:'Acero inoxidable',q:2,o:''},
+ pta1:{n:'Puerta corrediza ancha',d:'2385 × 690 × 6',m:'Vidrio',q:1,o:'En la lista aparece como «Fondo 5-6 mm»'},
+ pta2:{n:'Puerta corrediza angosta',d:'2385 × 400 × 6',m:'Vidrio',q:1,o:'En la lista aparece como «Fondo 5-6 mm»'},
+ led:{n:'Cinta LED con perfil y difusor',d:'5 m en total',m:'LED 12 V, 2700 a 3000 K',q:1,o:'Fuente, sensor y cableado aparte'}
+};
+const OTROS=[['Pieza pequeña','200 × 57,5 × 15','Melamina 15 mm',2,'Sin ubicar en el modelo'],['Tarugo','30 × Ø 10','Madera',21,''],['Tornillo avellanado cruz','25 × Ø 5,5','Acero',58,'']];
+$('#t-closet').innerHTML='<tr><th>Pieza</th><th>Medidas (mm)</th><th>Material</th><th class="num">Cant.</th><th>Observación</th></tr>'+Object.entries(PZ).map(([k,p])=>`<tr data-pz="${k}" style="cursor:pointer"><td>${p.n}</td><td>${p.d}</td><td>${p.m}</td><td class="num">${p.q}</td><td>${p.o}</td></tr>`).join('')+OTROS.map(p=>`<tr><td>${p[0]}</td><td>${p[1]}</td><td>${p[2]}</td><td class="num">${p[3]}</td><td>${p[4]}</td></tr>`).join('');
+const links=(a)=>a.map(x=>`<li><a href="${x[2]||drv(x[1])}">${x[0]}</a></li>`).join('');
+$('#l-closet').innerHTML=links([['Lista de piezas (plano 1)','1UP_B9KlpOJVaYjk1XoHX3gWgmtWq58gv'],['Planos 1','1bLqrHxWhV6j7seB7mOtnlAfH4e5IeGzL'],['Planos 2','1FtSwsFFKtr5V2C-BzvtOdferMghHkDh8'],['Planos 3','1Jv7fzrm9CUOI9aonrIJpHvxwHh0-ZecL'],['Planos de puertas','1oGppDUvv12aQZDMzrCSqN6TjB02MU7U9'],['Planos de cajón','11htLz3AOuRzutgU1uB_Y3LB4Tc5wHwYM'],['Ensamblaje clóset parte A','1HPjAgrnuaxnpHEUXHBfCU2_1Vb0RLS2L'],['Render con iluminación','1FlQpDuX5gOQzp2zffxoH-uXKhSS8AshO'],['Requerimientos del clóset','1GKdvnaNO5bMow1W2LdA-DCR4NoyDzyTd']]);
+function info(k){const p=PZ[k], c=/Vidrio|Acero|LED/.test(p.m);$('#pinfo').innerHTML=`<h3>${p.n}</h3><dl class="kv"><dt>Medidas</dt><dd>${p.d}${k==='led'?'':' mm'}</dd><dt>Material</dt><dd>${p.m}</dd><dt>Cantidad</dt><dd>${p.q}</dd><dt>Origen</dt><dd>${c?'Se compra':'Se corta en planta a partir de tablero comprado'}</dd><dt>Observación</dt><dd>${p.o||'Ninguna'}</dd><dt>Costo</dt><dd><span class="pill falta">pendiente</span> ${k==='led'?'ver iluminación en la estación Costos':c?'falta la cotización de este material':'depende del plan de corte y de la cotización del tablero'}</dd></dl>`;}
+$('#t-closet').addEventListener('click',e=>{const r=e.target.closest('[data-pz]');if(r){info(r.dataset.pz);hl(r.dataset.pz);}});
+
+/* ---------- modelo del clóset (mm, del STEP del grupo) ---------- */
+let hl=()=>{};
+function buildCloset(sc,warm){
+  const M=.001, parts=[], doors=[], leds=[], LG=new THREE.Group(); sc.add(LG);
+  const mk={mel:()=>new THREE.MeshStandardMaterial({color:0xc79a6b,roughness:.6}),del:()=>new THREE.MeshStandardMaterial({color:0x9c7a55,roughness:.75}),
+    met:()=>new THREE.MeshStandardMaterial({color:0xc9cdd0,metalness:.9,roughness:.25}),gl:()=>new THREE.MeshStandardMaterial({color:0x9fe0d6,transparent:true,opacity:.2,roughness:.05,depthWrite:false}),led:()=>new THREE.MeshBasicMaterial({color:0xffc27a})};
+  function bx(k,mat,x0,x1,h0,h1,d0,d1,ex,dr){const m=new THREE.Mesh(new THREE.BoxGeometry((x1-x0)*M,(h1-h0)*M,(d1-d0)*M),mk[mat]());
+    m.userData={k,dr,base:new THREE.Vector3((x0+x1)/2*M,(h0+h1)/2*M,(d0+d1)/2*M),ex:new THREE.Vector3(...ex)}; m.position.copy(m.userData.base); sc.add(m); parts.push(m); return m;}
+  const pl=(x,h,d,i,r)=>{const p=new THREE.PointLight(0xffb25a,i*warm,r,2);p.position.set(x,h,d);LG.add(p);return p;};
+  bx('resp','mel',-1092,858,0,2385,0,15,[0,0,-1]);
+  bx('lat','mel',-1092,-1077,0,2385,15,515,[-1,0,0]); bx('lat','mel',843,858,0,2385,15,515,[1,0,0]);
+  bx('div','mel',-387,-372,0,2385,15,500,[-.25,0,.7]); bx('div','mel',428,443,0,2385,15,500,[.25,0,.7]);
+  bx('tapa','del',-1092,858,2385,2390,0,530,[0,1,0]); bx('tapa','del',-1092,858,-5,0,0,530,[0,-.5,0]);
+  bx('rtap','mel',-372,428,1114,1129,15,500,[0,0,1.3]);
+  const SH=[337,677,1077,1477,1877]; SH.forEach(h=>{bx('rep','mel',443,843,h,h+15,15,500,[.4,0,1.3]); const l=bx('led','led',448,838,h-6,h,488,496,[.4,0,1.3]); l.userData.pl=pl(.643,(h-40)*M,.4,.3,1.0); leds.push(l);});
+  for(let i=0;i<6;i++){const h=12+185*i;
+    bx('fcaj','mel',-372,428,h,h+170,500,515,[0,0,2.6],i);
+    bx('lcaj','mel',-357,-342,h+10,h+160,15,500,[0,0,1.7],i); bx('lcaj','mel',398,413,h+10,h+160,15,500,[0,0,1.7],i);
+    bx('tcaj','mel',-342,398,h+10,h+160,15,30,[0,0,1.7],i); bx('tcaj','mel',-342,398,h+10,h+160,485,500,[0,0,1.7],i);
+    bx('bcaj','del',-357,413,h+5,h+10,15,500,[0,0,1.7],i);}
+  [1999.5,1099.5].forEach(h=>{const c=new THREE.Mesh(new THREE.CylinderGeometry(.0125,.0125,.705,16),mk.met()); c.rotation.z=Math.PI/2;
+    c.userData={k:'tubo',base:new THREE.Vector3(-.7245,h*M,.2575),ex:new THREE.Vector3(-.3,0,1.5)}; c.position.copy(c.userData.base); sc.add(c); parts.push(c);});
+  doors.push(bx('pta1','gl',-1077,-387,0,2385,515,521,[-.3,0,3.4]), bx('pta2','gl',443,843,0,2385,524,530,[.3,0,3.4]));
+  [[-1072,-392],[-367,423],[448,838]].forEach(x=>{const l=bx('led','led',x[0],x[1],2379,2385,488,496,[0,.6,1]); l.userData.pl=pl((x[0]+x[1])/2*M,2.3,.42,.4,1.6); leds.push(l);});
+  leds.push(bx('led','led',-367,423,1108,1114,488,496,[0,0,1.3]));
+  return {parts,doors,leds,LG,setEx(t){parts.forEach(m=>m.position.copy(m.userData.base).addScaledVector(m.userData.ex,t*.55));}};
+}
+function lights(sc,k){sc.add(new THREE.AmbientLight(0xffe6c8,.28*k)); sc.add(new THREE.HemisphereLight(0xffe9cf,0x1a120a,.3*k)); const d=new THREE.DirectionalLight(0xfff1dc,.6*k); d.position.set(3,5,6); sc.add(d);}
+const ease=t=>t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2, lerp=(a,b,t)=>a+(b-a)*t;
+
+/* ---------- recorrido cinematográfico ---------- */
+const CLIPS=[['img/clip-1.mp4','Llegada','Bienvenido <em>a</em> casa','La puerta se abre a la sala y a su mueble de TV.'],['img/clip-2.mp4','Detalle','El mueble, <em>de</em> cerca','Veta, repisas y luz del mueble de sala.'],['img/clip-4.mp4','Cocina','Cocinar <em>en</em> compañía','Cocina en U con barra de desayuno.'],['img/clip-5.mp4','Vestier','Todo <em>a</em> la vista','Clóset corredizo con luz cálida, y el baño.'],['img/clip-6.mp4','Balcón','Bogotá <em>desde</em> tu sala','La casa completa vista desde afuera.']];
+const SHOTS=[['Vestier','Clóset <em>corredizo</em>','Puertas de vidrio que se deslizan sin ocupar el cuarto.',[3.0,1.5,5.4],[1.8,1.4,4.4],[-.1,1.2,.25],[-.1,1.2,.25]],
+ ['Luz','LED cálido <em>en</em> cada repisa','Cinta de 12 V entre 2700 y 3000 K, con perfil difusor.',[2.7,2.1,2.9],[2.3,.9,3.0],[.5,1.9,.25],[.5,.8,.25]],
+ ['Cajones','Seis cajones <em>a</em> la mano','Correderas telescópicas de 30 cm para 20 a 30 kg.',[-1.5,1.1,2.5],[.7,.9,2.3],[.03,.6,.4],[.03,.6,.4]],
+ ['Despiece','43 piezas <em>de</em> melamina','Cada pieza del mueble es una fila del proceso de la planta.',[3.6,2.3,6.2],[2.4,2.9,6.8],[-.1,1.2,.5],[-.1,1.2,.5]]];
+let cineOn=false, cineMode=null, heroInit=false;
+function chapter(i,list){ $('#chap').innerHTML=`<h2 class="swap">${list[i][cineMode==='video'?2:1]}</h2>`;
+  $('#ticks').innerHTML=list.map((_,j)=>`<i><b style="width:${j<i?100:0}%"></b></i>`).join(''); }
+function startCine(){ cineOn=true; if(cineMode) return; const v=$('#vA');
+  v.addEventListener('canplay',()=>{ if(!cineMode){cineMode='video';$('#hero3d').style.display='none';playClip(0,v,$('#vB'));} },{once:true});
+  v.addEventListener('error',()=>{ if(!cineMode){cineMode='3d';hero3d();} },{once:true});
+  v.src=CLIPS[0][0]; setTimeout(()=>{ if(!cineMode){cineMode='3d';hero3d();} },2500); }
+function playClip(i,a,b){ curClip=i; chapter(i,CLIPS); a.classList.add('show'); b.classList.remove('show'); a.play().catch(()=>{});
+  const tk=$$('#ticks i b')[i]; a.ontimeupdate=()=>{ if(tk&&a.duration) tk.style.width=(100*a.currentTime/a.duration)+'%'; };
+  const n=(i+1)%CLIPS.length; let ok=true; b.onerror=()=>{ok=false;}; b.src=CLIPS[n][0];
+  a.onended=()=>{ if(ok){ playClip(n,b,a); } else if(i===0){ a.currentTime=0; a.play().catch(()=>{}); } else { b.onerror=null; b.src=CLIPS[0][0]; playClip(0,b,a); } }; }
+function hero3d(){ if(heroInit||!window.THREE) { if(!window.THREE){cineMode='none';chapter(0,SHOTS);} return; } heroInit=true;
+  const cv=$('#hero3d'), sc=new THREE.Scene(), cam=new THREE.PerspectiveCamera(32,1,.1,60), ren=new THREE.WebGLRenderer({canvas:cv,antialias:true});
+  ren.setPixelRatio(Math.min(devicePixelRatio||1,1.75)); ren.toneMapping=THREE.ACESFilmicToneMapping; ren.toneMappingExposure=.8; ren.outputEncoding=THREE.sRGBEncoding;
+  sc.background=new THREE.Color(0x07090c); sc.fog=new THREE.Fog(0x07090c,7,16); lights(sc,.55);
+  const fl=new THREE.Mesh(new THREE.PlaneGeometry(40,40),new THREE.MeshStandardMaterial({color:0x14110e,roughness:.35,metalness:.2})); fl.rotation.x=-Math.PI/2; fl.position.y=-.006; sc.add(fl);
+  const wall=new THREE.Mesh(new THREE.PlaneGeometry(40,8),new THREE.MeshStandardMaterial({color:0x1a1611,roughness:.95})); wall.position.set(0,4,-.02); sc.add(wall);
+  const C=buildCloset(sc,1.6); const key=new THREE.SpotLight(0xffd3a1,1.1,14,.5,.6,1.2); key.position.set(2.5,4.5,5); key.target.position.set(-.1,1.1,.2); sc.add(key,key.target);
+  const D=7, a=new THREE.Vector3(), b=new THREE.Vector3(), tg=new THREE.Vector3(); let t0=performance.now(), cur=-1;
+  function rs(){const w=cv.clientWidth,h=cv.clientHeight; if(!w) return; ren.setSize(w,h,false); cam.aspect=w/h; cam.fov=w<h?46:32; cam.updateProjectionMatrix();}
+  addEventListener('resize',rs);
+  (function loop(now){ requestAnimationFrame(loop); if(!cineOn||scrollY>innerHeight) return; if(cv.width!==Math.round(cv.clientWidth*ren.getPixelRatio())) rs();
+    const T=RM?0:Math.max(0,(now-t0)/1000), i=Math.floor(T/D)%SHOTS.length, p=(T%D)/D, e=ease(p), S=SHOTS[i];
+    if(i!==cur){cur=i;chapter(i,SHOTS);} const tk=$$('#ticks i b')[i]; if(tk) tk.style.width=(p*100)+'%';
+    $('#flash').style.opacity=(p<.06||p>.94)&&!RM?1:0;
+    cam.position.copy(a.set(...S[3]).lerp(b.set(...S[4]),e)); cam.lookAt(tg.set(...S[5]).lerp(b.set(...S[6]),e));
+    const slide=i===0?ease(Math.min(1,p*1.5)):i===3?0:1;
+    C.doors[0].position.x=C.doors[0].userData.base.x+.69*slide; C.doors[1].position.x=C.doors[1].userData.base.x-.4*slide*(i===1?1:0);
+    C.leds.forEach((l,j)=>{const on=i!==1||p>.08+j*.07; l.visible=on; if(l.userData.pl) l.userData.pl.visible=on;});
+    C.setEx(i===3?ease(Math.min(1,p*1.25))*.8:0);
+    if(i===0){C.doors.forEach(d=>d.position.z=d.userData.base.z);}
+    if(i===2) C.parts.forEach(m=>{ if(m.userData.dr!==undefined){ const q=Math.max(0,Math.min(1,p*3.2-m.userData.dr*.28)); m.position.z=m.userData.base.z+.3*Math.sin(Math.min(1,q)*Math.PI*.5)*(p>.85?1-(p-.85)/.15:1);} });
+    ren.render(sc,cam); })(performance.now());
+}
+
+let curClip=0;
+function goClip(j){ if(cineMode!=='video') return; j=(j+CLIPS.length)%CLIPS.length; const A=$('#vA'), B=$('#vB');
+  A.onended=B.onended=null; A.pause(); B.pause(); B.classList.remove('show'); A.onerror=()=>{ A.onerror=null; A.src=CLIPS[0][0]; playClip(0,A,B); }; A.src=CLIPS[j][0]; playClip(j,A,B); }
+$('#ticks').addEventListener('click',e=>{ const t=e.target.closest('i'); if(!t) return; goClip([...$('#ticks').children].indexOf(t)); });
+/* toque: mitad derecha = siguiente, mitad izquierda = anterior */
+$('#cine').addEventListener('click',e=>{ if(cineMode!=='video'||e.target.closest('#ticks,a,button')) return;
+  const r=$('#cine').getBoundingClientRect(); goClip(curClip+((e.clientX-r.left)>=r.width/2?1:-1)); });
+$('#cine').addEventListener('mousemove',e=>{ if(cineMode!=='video') return; const r=$('#cine').getBoundingClientRect(); $('#cine').style.cursor=(e.clientX-r.left)>=r.width/2?'e-resize':'w-resize'; });
+/* ---------- isométrico técnico ---------- */
+let isoInit=false;
+function iso3d(){ if(isoInit) return;
+  if(!window.THREE||!THREE.OrbitControls){ $('#empty').hidden=false; $('#empty').textContent='El visor 3D no cargó. Use la lista de materiales de la derecha.'; return; } isoInit=true;
+  const cv=$('#iso'), sc=new THREE.Scene(), cam=new THREE.OrthographicCamera(-1,1,1,-1,.1,60), ren=new THREE.WebGLRenderer({canvas:cv,antialias:true,alpha:true});
+  ren.setPixelRatio(Math.min(devicePixelRatio||1,2)); ren.toneMapping=THREE.ACESFilmicToneMapping; ren.toneMappingExposure=.85; ren.outputEncoding=THREE.sRGBEncoding; lights(sc,1.15);
+  const C=buildCloset(sc,1), tg=new THREE.Vector3(-.1,1.15,.3); cam.position.set(tg.x+6,tg.y+6,tg.z+6);
+  const ctl=new THREE.OrbitControls(cam,cv); ctl.target.copy(tg); ctl.enableDamping=true; ctl.minZoom=.4; ctl.maxZoom=4; ctl.update();
+  const edges=[]; C.parts.forEach(m=>{ if(m.userData.k==='led') return; const e=new THREE.LineSegments(new THREE.EdgesGeometry(m.geometry),new THREE.LineBasicMaterial({color:0x7fe3d6,transparent:true,opacity:.35})); m.add(e); edges.push(e); });
+  let cur=0,tgt=0;
+  $('#ex').addEventListener('input',e=>tgt=e.target.value/100);
+  $('#bplay').onclick=()=>{tgt=tgt>.4?0:.9; $('#ex').value=tgt*100; $('#bplay').textContent=tgt?'Armar':'Explosionar';};
+  $('#bdo').onclick=function(){const v=!C.doors[0].visible;C.doors.forEach(d=>d.visible=v);this.textContent='Puertas: '+(v?'visibles':'ocultas');};
+  $('#bled').onclick=function(){const v=!C.leds[0].visible;C.leds.forEach(d=>d.visible=v);C.LG.visible=v;this.textContent='LED: '+(v?'encendido':'apagado');};
+  hl=k=>{C.parts.forEach(m=>{if(m.material.emissive) m.material.emissive.setHex(m.userData.k===k?0x0f6b62:0);}); $$('#bom .row').forEach(r=>r.classList.toggle('sel',r.dataset.pz===k));};
+  const rc=new THREE.Raycaster(), v2=new THREE.Vector2(); let dn=null;
+  cv.addEventListener('pointerdown',e=>dn=[e.clientX,e.clientY]);
+  cv.addEventListener('pointerup',e=>{ if(!dn||Math.hypot(e.clientX-dn[0],e.clientY-dn[1])>5) return; const r=cv.getBoundingClientRect();
+    v2.set((e.clientX-r.left)/r.width*2-1,-(e.clientY-r.top)/r.height*2+1); rc.setFromCamera(v2,cam);
+    const hit=rc.intersectObjects(C.parts.filter(p=>p.visible))[0]; if(hit){info(hit.object.userData.k);hl(hit.object.userData.k);} });
+  function rs(){const w=cv.clientWidth,h=cv.clientHeight; if(!w) return; ren.setSize(w,h,false); const s=1.75*(1+cur*.75), ar=w/h, k=ar<1?1/ar:1; cam.left=-s*ar*k; cam.right=s*ar*k; cam.top=s*k; cam.bottom=-s*k; cam.updateProjectionMatrix();}
+  addEventListener('resize',rs); rs();
+  setTimeout(()=>{ if(!RM&&tgt===0){ $('#bplay').click(); } },900);
+  (function loop(){ requestAnimationFrame(loop); if(!$('#tec').classList.contains('on')||cv.hidden) return;
+    if(cv.width!==Math.round(cv.clientWidth*ren.getPixelRatio())) rs();
+    if(Math.abs(tgt-cur)>.001){ cur+=(tgt-cur)*.07; C.setEx(cur); rs(); } ctl.update(); ren.render(sc,cam); })();
+}
+/* ---------- sala ---------- */
+const SALA=[[2,'Conector minifix','CODCM01',118,'h'],[3,'Corredera para cajón','CODCC01',6,'h'],[4,'Tapa mesa principal','CODTMP01',1,'f','1BUoL_oxfIxL1pILSHRvJevh9o1e8f2z_'],[5,'Base inferior estante grande superior','CODBEG01',1,'f','1XYFwbmvtGVcFoRO9QuKq9EwS8CReFJ0X'],[6,'Respaldo superior izquierdo','CODR02',1,'f','1NXOsORcV7gaWCcvV46hC0NYjq0Wnwr-S'],[7,'Base inferior principal','CODBP01',1,'f'],[8,'Zócalo inferior trasero','CODSIT01',1,'f','1wZ96h4YBgj_TY-mDr8b6AdTNHDKC-hAl'],[9,'Respaldo','CODR01',1,'f','1wXJ-09tRUkSgC_6HPusrn6sSHp-VdcI7'],[10,'Lateral izquierda','CODLI01',1,'f','1Uaf50MpW0-8y7Y--GQ3iGF4gP88xJ4bF'],[11,'Lado derecho','CODLD01',1,'f','1pvjgmvKkllc11ONYFV0NE3o1CGN_DgMX'],[12,'Respaldo panel vertical','CODR03',1,'f','11GLblMJwRLAdQBQmagmHAQ_Hpnl_7uWN'],[13,'Separador estante con repisas','CODSR01',1,'f'],[14,'Base inferior estante pequeño superior','CODBPS01',1,'f'],[15,'Tapa estante superior','CODTS02',1,'f'],[16,'Tapa superior sub-mesa','COSTSM01',1,'f'],[17,'Respaldo cajones','CODRC01',3,'f','1lAFWQ0ti8faQKqQCtZW7tgsAIHozcOQJ'],[18,'Soporte lateral derecho cajones','CODSCD01',1,'f','1wk-klT663kJsAo8OQAqbcq9AVR5NJ7aV'],[19,'Soporte lateral izquierdo cajones','CODSCI01',1,'f'],[20,'Separador entre cajones','CODSC01',2,'f','1hv46vll2W4iomlEIKoNy3CPUmEDAQ7BB'],[21,'Lateral de cajón mesa principal','CODLC01',3,'f'],[22,'Delimitador de zócalo','CODDS01',2,'f','1Ae3_-EFx29E6VG2l8KoeJiqAalZecirn'],[23,'Soporte-acoplador base mesa principal','CODSM01',3,'f','1VkhmQGaSv4nV-9szYEEoT7ckxJbI0srA'],[24,'Separador interno sub-mesa','CODSSM01',2,'f'],[25,'Repisas esquineras principales','CPSRP01',2,'f'],[26,'Separador entre gavetas superiores','CODSGS01',1,'f'],[27,'Base delantera inferior','CODBDI01',1,'f'],[28,'Puerta gaveta superior','CODPGS01',1,'f'],[29,'Frente de cajón','CODFC01',1,'f'],[30,'Frente de cajón central','CODFCC01',1,'f'],[31,'Respaldo de cajones (repetido)','CODRC01',3,'f','1lAFWQ0ti8faQKqQCtZW7tgsAIHozcOQJ'],[32,'Base inferior cajones','CODBIC01',3,'f'],[33,'Repisas de estante vertical','CODREV01',3,'f'],[34,'Frente de cajón','CODFC02',1,'f'],[35,'Límite izquierdo sub-mesa','CODLSM02',1,'f'],[36,'Pasador','CODP01',97,'h'],[37,'Soporte de estante','CODSE01',12,'h'],[38,'Tornillo pasante 30 mm','',4,'h'],[39,'Lateral de cajones (repetido)','CODLC01',3,'f']];
+let fS='todas';
+function drawSala(){const F={todas:()=>true,fab:s=>s[4]==='f',sin:s=>s[4]==='f'&&!s[5],her:s=>s[4]==='h'}, N={todas:'Todas',fab:'Fabricadas',sin:'Fabricadas sin plano',her:'Herrajes'};
+  $('#f-sala').innerHTML=Object.keys(F).map(k=>`<button class="btn ${fS===k?'primary':''}" data-fs="${k}">${N[k]} (${SALA.filter(F[k]).length})</button>`).join('');
+  $('#t-sala').innerHTML='<tr><th class="num">N.º</th><th>Pieza</th><th>Código</th><th class="num">Cant.</th><th>Origen</th><th>Plano de pieza</th></tr>'+SALA.filter(F[fS]).map(s=>`<tr><td class="num">${s[0]}</td><td>${s[1]}</td><td style="font-family:var(--mono);font-size:12.5px">${s[2]}</td><td class="num">${s[3]}</td><td>${s[4]==='h'?'Se compra':'Se fabrica'}</td><td>${s[4]==='h'?'No aplica':s[5]?`<a href="${drv(s[5])}">Abrir</a>`:'<span class="pill falta">sin plano</span>'}</td></tr>`).join('');}
+$('#f-sala').addEventListener('click',e=>{const b=e.target.closest('[data-fs]');if(b){fS=b.dataset.fs;drawSala();}}); drawSala();
+$('#l-sala').innerHTML=links([['Plano de conjunto «Mueble de sala», escala 1:20','1Jqibv7hxyXRD3uOMu4G7VqekJ1lCQekP'],['Explosionado con número de piezas','1K2WLr1BRXcbjaoRxjn1XZ9AQPCyVZp3W'],['Render con luces','1h7fADZWjEL9Kp48eO7_yyR9hUvr0YqZY'],['Propuesta final','1PS039o14X9TOY2rTd63jIC1DEJ7fHJwN'],['Requerimientos del mueble de sala','1FDHbNPejPrmrzoJNJgKl6seobS0hQSsl']]);
+
+/* ---------- cocina ---------- */
+$('#t-cocina').innerHTML='<tr><th>Módulo</th><th>Plano</th><th>Despiece</th></tr>'+[['Superior 1','08'],['Superior 2','09'],['Superior 3','10'],['Superior 4','11'],['Superior 5','12'],['Inferior 1','13'],['Inferior 2','14'],['Inferior 3','15'],['Mesón piedra sinterizada','06']].map(m=>`<tr><td>${m[0]}</td><td>Hoja ${m[1]} de Planos.pdf</td><td><span class="pill falta">falta</span></td></tr>`).join('');
+$('#l-cocina').innerHTML=links([['Planos de la cocina (15 hojas)','1mEOFfbLEpeN43Hxl73GynkEh-RKBT-T3'],['Plano de la cocina','1PFIbWSwtf05l1YmEgX06tE_qqblXfwDR'],['Propuestas','1vo83euxU4QNDFYlW7mveccZ_aji99Ssb'],['Propuesta final','1kRn0GcI9dsvan-WDiHxcnlUEMrMHN58-'],['Acabados','1rG-rmBmyMtHyi4NTJce-kV_6lTX6oMrX'],['Requerimientos y matriz de selección','1hhwhCERAdCeB2Lj7igeVL_ORfGlqUp7T']]);
+
+/* ---------- ritmo ---------- */
+function ritmo(){const j=+$('#r-j').value,s=+$('#r-s').value,h=+$('#r-h').value; ['j','s','h'].forEach(k=>store.set('r'+k,$('#r-'+k).value));
+  $('#r-out').innerHTML=(j>0&&s>0&&h>0)?`${s} semanas × ${h} h = ${(s*h).toLocaleString('es-CO')} h disponibles<br>${(s*h).toLocaleString('es-CO')} h ÷ ${j} juegos = <b>${(s*h/j).toLocaleString('es-CO',{maximumFractionDigits:2})} h por juego</b>`:'Ingrese los tres datos para ver el cálculo.';}
+['j','s','h'].forEach(k=>{const v=store.get('r'+k); if(v) $('#r-'+k).value=v; $('#r-'+k).addEventListener('input',ritmo);}); ritmo();
+
+/* ---------- costos ---------- */
+const HERR=[['Cajones','Correderas telescópicas 30 cm, 20 a 30 kg',12,'und',9000,8500,22000],['Cajones','Sistema push',6,'und',5000,4500,12000],['Cajones','Tornillos para correderas 3,5 × 12 mm',72,'und',50,40,100],['Puertas de vidrio','Riel superior de aluminio',1,'und',90000,85000,220000],['Puertas de vidrio','Carros o rodamientos para vidrio',4,'und',25000,22000,60000],['Puertas de vidrio','Mordazas para vidrio',4,'und',30000,28000,70000],['Puertas de vidrio','Guía de piso',2,'und',15000,14000,35000],['Puertas de vidrio','Topes finales y tapas del riel',1,'juego',20000,18000,45000],['Puertas de vidrio','Tornillos y chazos del riel',1,'juego',8000,7000,15000],['Iluminación','Cinta LED 12 V cálida',5,'m',11000,9980,18000],['Iluminación','Perfil de aluminio con difusor',5,'m',14000,13000,30000],['Iluminación','Fuente de poder 12 V',1,'und',35000,32000,70000],['Iluminación','Sensor de puerta o interruptor',1,'und',25000,22000,60000],['Iluminación','Conectores y cable',1,'juego',12000,10000,25000]];
+const PROV=['Madecentro','Homecenter','Häfele']; let pv=+(store.get('pv')||1);
+const totH=i=>HERR.reduce((a,h)=>a+h[2]*h[4+i],0);
+function drawHerr(){ $('#ptabs').innerHTML=PROV.map((p,i)=>`<button data-pv="${i}" aria-pressed="${i===pv}">${p} · ${cop(totH(i))}</button>`).join('');
+  $('#t-herr').innerHTML='<tr><th>Grupo</th><th>Ítem</th><th class="num">Cant.</th><th>Und.</th><th class="num">Precio unit.</th><th class="num">Subtotal</th></tr>'+HERR.map(h=>`<tr><td>${h[0]}</td><td>${h[1]}</td><td class="num">${h[2]}</td><td>${h[3]}</td><td class="num">${cop(h[4+pv])}</td><td class="num">${cop(h[2]*h[4+pv])}</td></tr>`).join('')+`<tr class="tot"><td colspan="5">Total ${PROV[pv]}</td><td class="num">${cop(totH(pv))}</td></tr>`; costos();}
+$('#ptabs').addEventListener('click',e=>{const b=e.target.closest('[data-pv]');if(b){pv=+b.dataset.pv;store.set('pv',pv);drawHerr();}});
+const COC=[['Manija acero 201 cilíndrica 160 mm',14,'und',2800],['Bisagra 90° cierre lento',10,'par',4182],['Brazo neumático hidráulico estándar negro',1,'und',12168],['Riel corredera cierre lento, extensión total, 30 kg',4,'par',38572],['Perfil de aluminio con LED empotrable, 3 m',3,'und',59778],['Tablero aglomerado melamina Avellana RH Pelíkano 15 mm',5,'tablero',515750],['Fondo aglomerado melamina RH Avellana Pelíkano 6 mm',1,'tablero',326975],['Tornillo de ensamble 6 × 2" zincado, caja ×100',2,'caja',8558]];
+const totC=COC.reduce((a,c)=>a+c[1]*c[3],0);
+$('#t-coc').innerHTML='<tr><th>Ítem</th><th class="num">Cant.</th><th>Und.</th><th class="num">Precio unit.</th><th class="num">Subtotal</th></tr>'+COC.map(c=>`<tr><td>${c[0]}</td><td class="num">${c[1]}</td><td>${c[2]}</td><td class="num">${cop(c[3])}</td><td class="num">${cop(c[1]*c[3])}</td></tr>`).join('')+`<tr class="tot"><td colspan="4">Total cotizado</td><td class="num">${cop(totC)}</td></tr>`;
+function costos(){const sal=+$('#c-sal').value||0,cif=+$('#c-cif').value||0,vol=+$('#c-vol').value||0;
+  const MU=[['Vestier · clóset',totH(pv),'herrajes e iluminación en '+PROV[pv]+'; faltan tableros y vidrio'],['Sala',0,'sin cotizaciones'],['Cocina',totC,'Madecentro; faltan mesón, vidrio, aluminio y equipos']];
+  const hrs=MU.map((m,i)=>+(store.get('h'+i)||0)), H=hrs.reduce((a,b)=>a+b,0); let T=0;
+  $('#t-cost').innerHTML='<tr><th>Mueble</th><th class="num">Materias primas cotizadas</th><th class="num">Horas MOD</th><th class="num">Mano de obra</th><th class="num">Indirectos</th><th class="num">Total parcial</th></tr>'+MU.map((m,i)=>{const mo=hrs[i]*sal, ci=H?cif*hrs[i]/H:0, t=m[1]+mo+ci; T+=t;
+    return `<tr><td>${m[0]}<br><span class="src">${m[2]}</span></td><td class="num">${cop(m[1])}</td><td class="num"><input type="number" min="0" step="0.5" id="ch${i}" value="${hrs[i]||''}" style="width:80px" aria-label="Horas de mano de obra ${m[0]}"></td><td class="num">${cop(mo)}</td><td class="num">${cop(ci)}</td><td class="num">${cop(t)}</td></tr>`}).join('')+`<tr class="tot"><td colspan="5">Conjunto (parcial, materias primas incompletas)</td><td class="num">${cop(T)}</td></tr>`+(vol?`<tr><td colspan="5">Todo el volumen: ${vol} juegos × ${cop(T)}</td><td class="num">${cop(T*vol)}</td></tr>`:'');
+  MU.forEach((m,i)=>$('#ch'+i).addEventListener('change',e=>{store.set('h'+i,e.target.value);costos();}));}
+['sal','cif','vol'].forEach(k=>{const v=store.get('c'+k); if(v) $('#c-'+k).value=v; $('#c-'+k).addEventListener('input',e=>{store.set('c'+k,e.target.value);costos();});});
+drawHerr();
+
+/* ---------- página técnica: selección de mueble y lista lateral ---------- */
+function bomRows(m){
+  if(m==='closet') return Object.entries(PZ).map(([k,p])=>`<div class="row" data-pz="${k}"><span class="q">×${p.q}</span><span><b>${p.n}</b><small>${p.d}${k==='led'?'':' mm'} · ${p.m}</small></span><span class="t">${/Vidrio|Acero|LED/.test(p.m)?'compra':'corte'}</span></div>`).join('')+OTROS.map(p=>`<div class="row"><span class="q">×${p[3]}</span><span><b>${p[0]}</b><small>${p[1]} mm · ${p[2]}</small></span><span class="t">compra</span></div>`).join('');
+  if(m==='sala') return SALA.map(s=>`<div class="row"><span class="q">×${s[3]}</span><span><b>${s[1]}</b><small>${s[2]||'sin código'} · elemento ${s[0]}</small></span><span class="t">${s[4]==='h'?'compra':s[5]?'con plano':'sin plano'}</span></div>`).join('');
+  return COC.map(c=>`<div class="row"><span class="q">×${c[1]}</span><span><b>${c[0]}</b><small>${c[2]} · ${cop(c[3])} c/u</small></span><span class="t">${cop(c[1]*c[3])}</span></div>`).join('');
+}
+const MU={closet:['Clóset corredizo','Clóset · 1 unidad','Fuente: «Materias primas» y planos del clóset. Costo por pieza pendiente del plan de corte.'],
+  sala:['Mueble de sala','Sala · lista del explosionado','Fuente: EXPLOSIONADO CON NÚMERO DE PIEZAS.pdf. Sin material ni medidas por pieza.'],
+  cocina:['Cocina en U con barra','Cocina · compras en Madecentro','Fuente: documento «Precios». Total cotizado: '+cop(totC)+'. Faltan mesón, vidrio y equipos.']};
+function mueble(m){ $$('#rail button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.m===m));
+  ['closet','sala','cocina'].forEach(k=>$('#x-'+k).hidden=k!==m);
+  $('#sth').textContent=MU[m][0]; $('#bomh').textContent=MU[m][1]; $('#bomf').textContent=MU[m][2]; $('#bom').innerHTML=bomRows(m);
+  const c=m==='closet', img=$('#slotimg'), em=$('#empty'); $('#iso').hidden=!c; $('#dock').hidden=!c; $('#pinfo').hidden=!c; em.hidden=true; img.hidden=true;
+  $('#stk').textContent=c?'Isométrico · medidas en mm':'Explosionado del grupo';
+  if(c) iso3d(); else { img.onload=()=>img.hidden=false; img.onerror=()=>{em.hidden=false; em.innerHTML='<div><span class="mono" style="color:var(--glass)">Falta la imagen</span><p style="margin-top:10px">El explosionado de '+(m==='sala'?'la sala':'la cocina')+' está en la carpeta solo como PDF o no existe. Con la imagen exportada, o el modelo en STEP o GLB, se monta aquí.</p></div>';}; img.src='img/'+m+'-explosionado.jpg'; } }
+$('#rail').addEventListener('click',e=>{const b=e.target.closest('[data-m]'); if(b) mueble(b.dataset.m);});
+$('#bom').addEventListener('click',e=>{const r=e.target.closest('[data-pz]'); if(r){info(r.dataset.pz);hl(r.dataset.pz);}});
+$('#bom').addEventListener('mouseover',e=>{const r=e.target.closest('[data-pz]'); if(r) hl(r.dataset.pz);});
+$('#ttabs').addEventListener('click',e=>{const b=e.target.closest('[data-t]'); if(!b) return; $$('#ttabs .tb').forEach(x=>x.setAttribute('aria-pressed',x===b)); $$('.tpane').forEach(p=>p.classList.toggle('on',p.id==='p-'+b.dataset.t)); scrollTo(0,0);});
+
+/* ---------- navegación entre lobby, recorrido y técnica ---------- */
+function go(n,m){ const L=$('#lobby'),X=$('#exp'),T=$('#tec'); L.classList.toggle('on',n==='lobby'); X.classList.toggle('on',n==='recorrido'); T.classList.toggle('on',n==='tecnica');
+  cineOn=n==='recorrido'; scrollTo(0,0); try{history.replaceState(null,'','#'+n)}catch(e){location.hash=n}
+  if(n==='recorrido'){ startCine(); cineOn=true; } if(n==='tecnica') mueble(m||'closet'); }
+function wipeTo(n,m,el){ const w=$('#wipe'); if(RM){go(n,m);return;} const r=el.getBoundingClientRect(); w.style.setProperty('--x',(r.left+r.width/2)+'px'); w.style.setProperty('--y',(r.top+r.height/2)+'px');
+  w.classList.remove('run'); void w.offsetWidth; w.classList.add('run'); setTimeout(()=>go(n,m),620); }
+$('#go').addEventListener('click',e=>wipeTo('recorrido',null,e.currentTarget));
+document.addEventListener('click',e=>{ const b=e.target.closest('[data-go]'); if(b){ wipeTo(b.dataset.go,b.dataset.m,b); return; }
+  const a=e.target.closest('[data-sc]'); if(a){ e.preventDefault(); $('#'+a.dataset.sc).scrollIntoView({behavior:RM?'auto':'smooth'}); } });
+addEventListener('scroll',()=>$('#xbar').classList.toggle('solid',scrollY>40),{passive:true});
+$$('.acc details').forEach(d=>d.addEventListener('toggle',()=>{ if(d.open) $$('.acc details').forEach(o=>{if(o!==d) o.open=false;}); }));
+const io=('IntersectionObserver' in window)?new IntersectionObserver(es=>es.forEach(x=>{if(x.isIntersecting) x.target.classList.add('in');}),{threshold:.12}):null;
+$$('.rv').forEach(el=>io?io.observe(el):el.classList.add('in'));
+
+/* ---------- lobby: titular, cursor y fondo ---------- */
+(function(){ const h=$('#hl1'); let i=0; [...h.childNodes].forEach(n=>{ if(n.nodeType===3){ const f=document.createDocumentFragment(); n.textContent.split(/(\s+)/).forEach(w=>{ if(!w.trim()){f.append(w);return;} const s=document.createElement('span'); s.className='w'; s.style.animationDelay=(i++*.09)+'s'; s.textContent=w; f.append(s); }); n.replaceWith(f); } else { n.classList.add('w'); n.style.animationDelay=(i++*.09)+'s'; } }); })();
+(function(){ const c=$('#cursor'); let x=innerWidth/2,y=innerHeight*.4,tx=x,ty=y; addEventListener('pointermove',e=>{tx=e.clientX;ty=e.clientY;},{passive:true});
+  (function f(){ x+=(tx-x)*.08; y+=(ty-y)*.08; c.style.left=x+'px'; c.style.top=y+'px'; requestAnimationFrame(f); })(); })();
+(function(){ const cv=$('#bg'), g=cv.getContext('2d'), L=$('#lobby'); let W,H;
+  const P=Array.from({length:70},()=>({x:Math.random(),y:Math.random(),r:.6+Math.random()*2.2,s:.3+Math.random(),p:Math.random()*6.3}));
+  function rs(){const k=devicePixelRatio>1?1.5:1; W=cv.width=cv.clientWidth*k; H=cv.height=cv.clientHeight*k;} addEventListener('resize',rs); rs();
+  addEventListener('pointermove',e=>{ L.style.setProperty('--px',(e.clientX/innerWidth-.5).toFixed(3)); L.style.setProperty('--py',(e.clientY/innerHeight-.5).toFixed(3)); },{passive:true});
+  (function f(t){ requestAnimationFrame(f); if(!L.classList.contains('on')) return; t=RM?0:t/1000; g.clearRect(0,0,W,H); g.globalCompositeOperation='lighter';
+    P.forEach(p=>{ const x=((p.x+Math.sin(t*.15*p.s+p.p)*.03)%1)*W, y=((p.y-t*.012*p.s)%1+1)%1*H, R=p.r*(W/1400)*3, a=.25+.25*Math.sin(t*.8*p.s+p.p);
+      const q=g.createRadialGradient(x,y,0,x,y,R*4); q.addColorStop(0,`rgba(255,200,130,${a})`); q.addColorStop(1,'rgba(255,184,105,0)'); g.fillStyle=q; g.fillRect(x-R*4,y-R*4,R*8,R*8); }); g.globalCompositeOperation='source-over';
+  })(0); })();
+
+const H0=location.hash.slice(1); if(H0==='recorrido'||H0==='tecnica') go(H0);
+
+</script>
+</body>
+</html>
