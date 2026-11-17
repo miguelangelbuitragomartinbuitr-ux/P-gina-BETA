@@ -108,26 +108,38 @@ function init(host){
   { // pared opuesta: muro inclinado de la habitación 2 (lado este de la sala)
     const P=W(1078,640), n=[-.977,-.214]; tv.position.set(P[0]+n[0]*.21,0,P[1]+n[1]*.21); tv.rotation.y=Math.atan2(n[0],n[1]); FUR.add(tv); }
 
-  /* ===== COCINA EN U CON BARRA (abierta por el sur y por el este) ===== */
-  const ck=new THREE.Group(), cw=2.25, cd=2.45, bx0=-cw/2, bz0=-cd/2;
-  const counter=(x,z,w,d,len)=>{box(ck,w,.86,d,x,0,z,textured(fWalnut,w,.86));box(ck,w+.02,.035,d+.02,x,.86,z,fMarble);};
-  counter(0,bz0+.3,cw,.6);                                                       // fondo (hornilla, fregadero)
-  counter(bx0+.3,.35,.6,cd-.6);                                                  // pierna izquierda
-  /* pierna derecha = barra/península, abierta hacia la sala */
-  box(ck,.6,.86,1.45,cw/2-.3,0,bz0+.6+.725,textured(fWalnut,.6,.86)); box(ck,.62,.04,1.47,cw/2-.3,.86,bz0+.6+.725,fMarble);
-  box(ck,.66,1.0,.55,cw/2-.3+.02,0,bz0+1.6+.55,flutedT?fFlute:fWalnut); box(ck,.7,.04,.7,cw/2-.28,1.0,bz0+1.6+.6,fMarble);              // barra con frente acanalado y cascada
-  box(ck,.04,1.04,.7,cw/2+.04,0,bz0+1.6+.6,fMarble);
-  box(ck,cw,.5,.012,0,.9,bz0+.01,fMarble).scale.y=1; box(ck,.012,.5,cd-.6,bx0+.01,.9,.35,fMarble);                                    // salpicadero
-  box(ck,.5,.012,.5,-.2,.897,bz0+.3,fBlack); [[-.3,-.25],[-.1,-.25],[-.3,-.05],[-.1,-.05]].forEach(p=>cyl(ck,.045,.045,.02,-.2+p[0]+.2,.9,bz0+.3+p[1]+.25-.25+0,fBlack,16)); // hornilla
-  box(ck,.55,.015,.38,.65,.896,bz0+.3,fSteel);                                   // fregadero
-  box(ck,1.32,.62,.34,-.28,1.5,bz0+.17,textured(fWalnut,1.3,.6)); box(ck,.34,.62,1.5,bx0+.17,1.5,.2,textured(fWalnut,.35,.6)); // alacenas
-  box(ck,.6,.3,.34,.45,1.5,bz0+.17,fBlack); box(ck,.55,.28,.3,-.05,1.14,bz0+.18,fSteel).visible=false;
-  box(ck,.62,.9,.62,-.0+.78,.0,bz0+.33,fSteel).visible=false;
-  box(ck,.64,1.85,.66,cw/2-.34,0,bz0+.34,fSteel); box(ck,.02,.3,.04,cw/2-.34-.34,.9,bz0+.34+.2,fBlack);     // refrigerador inox
-  [0,1,2].forEach(i=>{const x=-.55+i*.55;const l=new THREE.Mesh(new THREE.ConeGeometry(.12,.2,4,1,true),fBlack);l.position.set(x+.35,1.78,.55);l.castShadow=true;ck.add(l);const b=new THREE.Mesh(new THREE.SphereGeometry(.035,12,12),fLED);b.position.set(x+.35,1.72,.55);ck.add(b);const cc=new THREE.Mesh(new THREE.CylinderGeometry(.004,.004,.55,6),fBlack);cc.position.set(x+.35,2.1,.55);ck.add(cc);});
-  box(ck,1.3,.014,.012,-.28,1.5,bz0+.36,fLED); box(ck,.014,.014,1.4,bx0+.36,1.5,.2,fLED);
-  [0,1].forEach(i=>{const x=cw/2-.55,z=bz0+2.3+i*.55;cyl(ck,.17,.17,.05,x-.35,.65,z,fLeather,20);cyl(ck,.025,.025,.65,x-.35,0,z,fBlack,8);});
-  glow(ck,0,1.4,0,0xffb869,.6,3.4); glow(ck,.3,.5,bz0+2.4,0xff9a4a,.35,1.8);
+  /* ===== COCINA EN U CON BARRA (según render: barra al frente, hornilla y nevera al fondo) ===== */
+  const ck=new THREE.Group(), cw=2.25, cd=2.45, X0=-cw/2, X1=cw/2, Z0=-cd/2, Z1=cd/2;
+  const wn=(w,h)=>textured(fWalnut,w,h);
+  const base=(x0,x1,z0,z1)=>{const w=x1-x0,d=z1-z0,cx=(x0+x1)/2,cz=(z0+z1)/2;box(ck,w,.86,d,cx,0,cz,wn(Math.max(w,d),.86));box(ck,w+.02,.035,d+.02,cx,.86,cz,fMarble);};
+  base(X0,X1-.72,Z0,Z0+.6);                                   // fondo: hornilla y fregadero
+  base(X0,X0+.6,Z0+.6,Z1-.95);                                // pierna izquierda
+  /* barra al frente, mirando a la sala; cascada de mármol en el extremo */
+  const bx1=X0+1.3, bz0=Z1-.95, bz1=Z1-.35;
+  box(ck,bx1-X0,.78,.1,(X0+bx1)/2,0,bz0+.05,wn(1,.8)); 
+  box(ck,bx1-X0-.04,1.0,.5,(X0+bx1)/2,0,bz1-.27,fFlute); box(ck,bx1-X0+.03,.045,.72,(X0+bx1)/2,1.0,(bz0+bz1)/2+.02,fMarble); // frente acanalado + tapa
+  box(ck,.05,1.04,.72,bx1+.02,0,(bz0+bz1)/2+.02,fMarble);     // cascada
+  box(ck,bx1-X0,.86,.1,(X0+bx1)/2,0,bz0+.05,fFlute).visible=false;
+  /* salpicadero de mármol */
+  box(ck,X1-X0-.72,.55,.015,(X0+X1-.72)/2,.9,Z0+.008,fMarble); box(ck,.015,.55,cd-1.5,X0+.008,.9,(Z0+Z1-.95+.0)/2-.12,fMarble);
+  /* hornilla (4 quemadores), horno bajo cubierta y fregadero */
+  box(ck,.52,.012,.46,X0+.75,.895,Z0+.3,fBlack); [[-.12,-.1],[.12,-.1],[-.12,.1],[.12,.1]].forEach(p=>cyl(ck,.05,.05,.02,X0+.75+p[0],.905,Z0+.3+p[1],fBlack,16));
+  box(ck,.5,.015,.38,X1-1.0,.896,Z0+.3,fSteel); box(ck,.02,.2,.02,X1-1.0,.9,Z0+.12,fSteel);
+  box(ck,.55,.02,.02,X0+.75,.5,Z0+.605,fSteel).visible=false;
+  /* nevera de piso a techo bajo (1,85 m), independiente, apoyada en el piso al final del muro del fondo */
+  const fr=new THREE.Group(); box(fr,.7,1.85,.68,0,0,0,fSteel); box(fr,.7,.012,.01,0,1.17,.345,fBlack); box(fr,.02,.45,.03,-.29,1.22,.36,fBlack); box(fr,.02,.6,.03,-.29,.5,.36,fBlack);
+  fr.position.set(X1-.36,0,Z0+.35); ck.add(fr);
+  box(ck,.72,.4,.35,X1-.36,1.9,Z0+.2,fBlack);                 // alacena sobre la nevera
+  /* alacenas altas nogal + estante abierto con marco negro */
+  box(ck,X1-X0-.74-.0,.62,.34,(X0+X1-.74)/2+.0,1.5,Z0+.18,wn(1.6,.6));
+  box(ck,.34,.62,cd-1.5-.0,X0+.18,1.5,(Z0+Z1-.95)/2-.12,wn(.5,.6));
+  box(ck,.5,.18,.3,X0+.75,1.28,Z0+.19,fSteel).visible=false;
+  /* luz bajo alacenas + péndulos sobre la barra */
+  box(ck,X1-X0-.78,.014,.012,(X0+X1-.74)/2,1.49,Z0+.36,fLED); box(ck,.014,.014,cd-1.6,X0+.36,1.49,(Z0+Z1-.95)/2-.12,fLED);
+  [0,1,2].forEach(i=>{const x=X0+.3+i*.42,z=bz1-.1;const l=new THREE.Mesh(new THREE.ConeGeometry(.12,.2,4,1,true),fBlack);l.position.set(x,1.72,z);l.castShadow=true;ck.add(l);const b=new THREE.Mesh(new THREE.SphereGeometry(.035,12,12),fLED);b.position.set(x,1.66,z);ck.add(b);const cc=new THREE.Mesh(new THREE.CylinderGeometry(.004,.004,.55,6),fBlack);cc.position.set(x,2.05,z);ck.add(cc);});
+  /* taburetes del lado de la sala */
+  [0,1].forEach(i=>{const x=X0+.4+i*.6,z=Z1-.05;cyl(ck,.17,.17,.05,x,.66,z,fLeather,20);cyl(ck,.025,.025,.66,x,0,z,fBlack,8);});
+  glow(ck,0,1.4,0,0xffb869,.6,3.4); glow(ck,X0+.6,.5,Z1-.1,0xff9a4a,.35,1.8);
   place(ck,768,328,0);
 
   /* ===== VESTIER · CLÓSET A MEDIDA (marco nogal, vidrio ahumado, LED) ===== */
