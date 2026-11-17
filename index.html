@@ -87,6 +87,12 @@ p{margin:0;max-width:62ch}
 .bar nav{display:flex;flex-direction:row;flex-wrap:nowrap;gap:4px;margin-left:auto;overflow-x:auto;scrollbar-width:none;min-width:0}
 .logo,.pillbtn{flex:none}
 .logo{padding:0;display:inline-flex;align-items:center;gap:14px;color:var(--ink)}
+.bleft{display:flex;align-items:center;gap:0;flex:none}
+.backbtn{display:inline-flex;align-items:center;gap:10px;height:44px;padding:0 18px 0 14px;border-radius:99px;border:1px solid var(--line);background:rgba(255,255,255,.04);color:var(--ink);cursor:pointer;font-size:12px;letter-spacing:.1em;text-transform:uppercase;transition:.25s}
+.backbtn span{font-family:var(--mono);font-size:18px;color:var(--led);line-height:1}.backbtn em{font-style:normal}
+.backbtn:hover{border-color:var(--led);background:rgba(255,184,105,.1)}.backbtn[hidden]{display:none}
+.bsep{width:1px;height:30px;background:var(--line);margin:0 clamp(22px,2.6vw,38px)}.bsep[hidden]{display:none}
+.bleft .logo{padding:6px 4px}
 .logo .arr{font-family:var(--mono);font-size:18px;color:var(--led)}
 .brand{display:inline-flex;flex-direction:column;gap:6px;width:clamp(92px,8vw,118px)}
 .brand img{width:100%;height:auto;display:block}
@@ -295,7 +301,7 @@ ul.clean{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:5px;f
 <!-- ============ EXPERIENCIA ============ -->
 <div id="exp" class="page">
   <header class="bar" id="xbar">
-    <button class="logo" data-go="lobby" aria-label="Beta Design, volver al inicio"><span class="brand"><img src="img/beta-mark.png" alt="Beta"><span class="ds" aria-label="Design"><i>D</i><i>E</i><i>S</i><i>I</i><i>G</i><i>N</i></span></span></button>
+    <div class="bleft"><button class="backbtn" data-back type="button" id="xback" aria-label="Volver a la página anterior" hidden><span aria-hidden="true">←</span><em>Atrás</em></button><span class="bsep" id="xsep" aria-hidden="true" hidden></span><button class="logo" data-go="lobby" aria-label="Beta Design, ir al inicio"><span class="brand"><img src="img/beta-mark.png" alt="Beta"><span class="ds" aria-label="Design"><i>D</i><i>E</i><i>S</i><i>I</i><i>G</i><i>N</i></span></span></button></div>
     <nav><a href="#" data-sc="cine">Recorrido</a><a href="#" data-sc="apto">Apartamento</a><a href="#" data-sc="trio">Muebles</a><a href="#" data-sc="prod">Producción</a></nav>
     <button class="pillbtn" data-go="tecnica" data-z="producto" data-t="apto">Información técnica</button>
   </header>
@@ -321,7 +327,7 @@ ul.clean{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:5px;f
       <canvas aria-label="Modelo 3D del apartamento Tipo B con los tres muebles de Beta"></canvas>
       <div class="v3-load">Cargando el apartamento…</div>
       <div class="v3-bar">
-        <div class="v3-g"><button data-v="aerea" class="on">Vista general</button><button data-v="sala">Sala</button><button data-v="cocina">Cocina</button><button data-v="vestier">Vestier</button><button data-v="balcon">Balcón</button></div>
+        <div class="v3-g"><button data-v="aerea" class="on">Vista general</button><button data-v="sala">Sala</button><button data-v="cocina">Cocina</button><button data-v="vestier">Vestier</button></div>
         <div class="v3-g"><button data-t="muebles" class="on">Muebles Beta</button><button data-t="corte">Muros bajos</button><button data-t="etiq" class="on">Nombres</button></div>
       </div>
       <figure class="v3-real" id="v3real"><img alt="" loading="lazy"><figcaption>Vista fotorrealista de este espacio · toca para ver completa</figcaption></figure>
@@ -413,7 +419,7 @@ ul.clean{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:5px;f
 <!-- ============ INFORMACIÓN TÉCNICA ============ -->
 <div id="tec" class="page">
   <header class="bar tbar">
-    <button class="logo" data-go="recorrido" aria-label="Volver al recorrido"><span class="arr">←</span><span class="brand"><img src="img/beta-mark.png" alt="Beta"><span class="ds" aria-label="Design"><i>D</i><i>E</i><i>S</i><i>I</i><i>G</i><i>N</i></span></span></button>
+    <div class="bleft"><button class="backbtn" data-back type="button" aria-label="Volver a la página anterior"><span aria-hidden="true">←</span><em>Atrás</em></button><span class="bsep" aria-hidden="true"></span><button class="logo" data-go="lobby" aria-label="Beta Design, ir al inicio"><span class="brand"><img src="img/beta-mark.png" alt="Beta"><span class="ds" aria-label="Design"><i>D</i><i>E</i><i>S</i><i>I</i><i>G</i><i>N</i></span></span></button></div>
     <div class="zsw" id="zsw" aria-label="Zonas de la información técnica">
       <button class="zb zp" data-z="producto" aria-pressed="true"><small>Zona 1</small>El producto</button>
       <button class="zb zc" data-z="empresa" aria-pressed="false"><small>Zona 2</small>La empresa Beta</button>
@@ -663,7 +669,7 @@ function hero3d(){ if(heroInit||!window.THREE) { if(!window.THREE){cineMode='non
   function rs(){const w=cv.clientWidth,h=cv.clientHeight; if(!w) return; ren.setSize(w,h,false); cam.aspect=w/h; cam.fov=w<h?46:32; cam.updateProjectionMatrix();}
   addEventListener('resize',rs);
   (function loop(now){ requestAnimationFrame(loop); if(!cineOn||scrollY>innerHeight) return; if(cv.width!==Math.round(cv.clientWidth*ren.getPixelRatio())) rs();
-    const T=RM?0:Math.max(0,(now-t0)/1000), i=Math.floor(T/D)%SHOTS.length, p=(T%D)/D, e=ease(p), S=SHOTS[i];
+    if(heroReset){t0=now;heroReset=false;} const T=RM?0:Math.max(0,(now-t0)/1000), i=Math.floor(T/D)%SHOTS.length, p=(T%D)/D, e=ease(p), S=SHOTS[i];
     if(i!==cur){cur=i;chapter(i,SHOTS);} const tk=$$('#ticks i b')[i]; if(tk) tk.style.width=(p*100)+'%';
     $('#flash').style.opacity=(p<.06||p>.94)&&!RM?1:0;
     cam.position.copy(a.set(...S[3]).lerp(b.set(...S[4]),e)); cam.lookAt(tg.set(...S[5]).lerp(b.set(...S[6]),e));
@@ -772,17 +778,29 @@ const ZN={producto:['Zona 1 · El producto','Lo que recibe el cliente: el aparta
 let curM='closet', nextTab=null;
 function tab(t){ $$('#ttabs .tb').forEach(x=>x.setAttribute('aria-pressed',x.dataset.t===t)); $$('.tpane').forEach(p=>p.classList.toggle('on',p.id==='p-'+t)); if(t==='muebles') mueble(curM); scrollTo(0,0); }
 function zone(z,t){ $('#tec').dataset.z=z; $$('#zsw .zb').forEach(b=>b.setAttribute('aria-pressed',b.dataset.z===z)); $('#zt').textContent=ZN[z][0]; $('#zd').textContent=ZN[z][1]; $$('#ttabs .tb').forEach(b=>b.hidden=b.dataset.z!==z); tab(t||ZN[z][2]); }
-$('#ttabs').addEventListener('click',e=>{const b=e.target.closest('[data-t]'); if(b) tab(b.dataset.t);});
-$('#zsw').addEventListener('click',e=>{const b=e.target.closest('[data-z]'); if(b) zone(b.dataset.z);});
+$('#ttabs').addEventListener('click',e=>{const b=e.target.closest('[data-t]'); if(b&&b.getAttribute('aria-pressed')!=='true'){ pushHist(); tab(b.dataset.t);} });
+$('#zsw').addEventListener('click',e=>{const b=e.target.closest('[data-z]'); if(b&&b.getAttribute('aria-pressed')!=='true'){ pushHist(); zone(b.dataset.z);} });
 
 /* ---------- navegación entre lobby, recorrido y técnica ---------- */
-function go(n,m){ const L=$('#lobby'),X=$('#exp'),T=$('#tec'); L.classList.toggle('on',n==='lobby'); X.classList.toggle('on',n==='recorrido'); T.classList.toggle('on',n==='tecnica');
-  cineOn=n==='recorrido'; scrollTo(0,0); try{history.replaceState(null,'','#'+n)}catch(e){location.hash=n}
-  if(n==='recorrido'){ startCine(); cineOn=true; } if(n==='tecnica'){ if(m) curM=m; const nt=nextTab; nextTab=null; zone(nt&&nt.z||'producto',nt&&nt.t); } }
-function wipeTo(n,m,el){ const w=$('#wipe'); if(RM){go(n,m);return;} const r=el.getBoundingClientRect(); w.style.setProperty('--x',(r.left+r.width/2)+'px'); w.style.setProperty('--y',(r.top+r.height/2)+'px');
-  w.classList.remove('run'); void w.offsetWidth; w.classList.add('run'); setTimeout(()=>go(n,m),620); }
+let curPage='lobby', heroReset=false; const hist=[];
+function snap(){ return {page:curPage,y:scrollY,clip:curClip,z:$('#tec').dataset.z,t:($('#ttabs .tb[aria-pressed="true"]')||{dataset:{}}).dataset.t,m:curM}; }
+function pushHist(){ if(curPage==='lobby') return; const s=snap(), l=hist[hist.length-1]; if(l&&l.page===s.page&&l.z===s.z&&l.t===s.t&&Math.abs(l.y-s.y)<24) return; hist.push(s); if(hist.length>60) hist.shift(); syncBack(); }
+function syncBack(){ const on=curPage==='recorrido'&&hist.length>0; $('#xback').hidden=!on; $('#xsep').hidden=!on; }
+function go(n,m,rs){ const L=$('#lobby'),X=$('#exp'),T=$('#tec'), prev=curPage;
+  if(!rs){ if(n==='lobby') hist.length=0; else if(prev!=='lobby') pushHist(); }
+  curPage=n; L.classList.toggle('on',n==='lobby'); X.classList.toggle('on',n==='recorrido'); T.classList.toggle('on',n==='tecnica');
+  cineOn=n==='recorrido'; scrollTo(0,0);
+  if(n==='recorrido'){ const fresh=prev==='lobby'&&!rs; startCine(); cineOn=true;
+    if(fresh){ heroReset=true; if(cineMode==='video'&&curClip!==0) goClip(0); else if(cineMode==='video'){ const A=$('#vA'); if(A.currentTime>.5) goClip(0); } }
+    else if(rs&&cineMode==='video'&&rs.clip!==curClip) goClip(rs.clip); }
+  if(n==='tecnica'){ if(m) curM=m; if(rs){ zone(rs.z,rs.t); if(rs.m) curM=rs.m; if(rs.t==='muebles') mueble(curM); } else { const nt=nextTab; nextTab=null; zone(nt&&nt.z||'producto',nt&&nt.t); } }
+  if(rs) requestAnimationFrame(()=>{ scrollTo({top:rs.y,left:0,behavior:'instant'}); });
+  syncBack(); }
+function wipeTo(n,m,el,rs){ const w=$('#wipe'); if(RM){go(n,m,rs);return;} const r=el.getBoundingClientRect(); w.style.setProperty('--x',(r.left+r.width/2)+'px'); w.style.setProperty('--y',(r.top+r.height/2)+'px');
+  w.classList.remove('run'); void w.offsetWidth; w.classList.add('run'); setTimeout(()=>go(n,m,rs),620); }
+function goBack(el){ const s=hist.pop(); syncBack(); if(!s){ wipeTo('recorrido',null,el); return; } wipeTo(s.page,null,el,s); }
 $('#go').addEventListener('click',e=>wipeTo('recorrido',null,e.currentTarget));
-document.addEventListener('click',e=>{ const b=e.target.closest('[data-go]'); if(b){ nextTab=b.dataset.z?{z:b.dataset.z,t:b.dataset.t}:null; wipeTo(b.dataset.go,b.dataset.m,b); return; }
+document.addEventListener('click',e=>{ const bk=e.target.closest('[data-back]'); if(bk){ goBack(bk); return; } const b=e.target.closest('[data-go]'); if(b){ nextTab=b.dataset.z?{z:b.dataset.z,t:b.dataset.t}:null; wipeTo(b.dataset.go,b.dataset.m,b); return; }
   const a=e.target.closest('[data-sc]'); if(a){ e.preventDefault(); $('#'+a.dataset.sc).scrollIntoView({behavior:RM?'auto':'smooth'}); } });
 addEventListener('scroll',()=>$('#xbar').classList.toggle('solid',scrollY>40),{passive:true});
 $$('.acc details').forEach(d=>d.addEventListener('toggle',()=>{ if(d.open) $$('.acc details').forEach(o=>{if(o!==d) o.open=false;}); }));
@@ -807,7 +825,7 @@ const flip=()=>{const f=fr.getBoundingClientRect(),l=li.getBoundingClientRect();
 const openLb=()=>{li.src=im.src;lbx.classList.add('on');li.style.transition='none';li.style.transform='';const go=()=>{li.style.transform=flip();li.style.borderRadius='10px';void li.offsetWidth;li.style.transition='';li.style.transform='none';li.style.borderRadius=''};li.complete?go():li.onload=go};
 const closeLb=()=>{if(!lbx.classList.contains('on'))return;li.style.transform=flip();li.style.borderRadius='10px';lbx.classList.remove('on')};
 fr.addEventListener('click',openLb);lbx.addEventListener('click',closeLb);document.addEventListener('keydown',e=>{if(e.key==='Escape')closeLb()})}catch(x){v.querySelector('.v3-load').textContent='Vista 3D no disponible en este navegador'}o.disconnect()}},{rootMargin:'200px'}).observe(v)}})();
-const H0=location.hash.slice(1); if(H0==='recorrido'||H0==='tecnica') go(H0);
+try{history.scrollRestoration='manual'; history.replaceState(null,'',location.pathname+location.search)}catch(e){} scrollTo(0,0); addEventListener('pageshow',e=>{ if(e.persisted) location.reload(); });
 
 </script>
 <div class="lbx" id="lbx" aria-label="Vista fotorrealista ampliada"><img alt=""><span>Toca en cualquier lugar o presiona Esc para cerrar</span></div>

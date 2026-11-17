@@ -164,7 +164,7 @@ function init(host){
   function lab(txt,ix,iy,hi){const c=document.createElement('canvas');c.width=512;c.height=128;const g=c.getContext('2d');g.font='600 46px Sora,system-ui,sans-serif';g.textAlign='center';g.textBaseline='middle';
     g.fillStyle=hi?'#ffb869':'rgba(255,255,255,.9)';g.fillText(txt,256,64);const t=new THREE.CanvasTexture(c);const s=new THREE.Sprite(new THREE.SpriteMaterial({map:t,transparent:true,depthTest:false}));
     const p=W(ix,iy);s.position.set(p[0],hi?2.9:.35,p[1]);s.scale.set(2,.5,1);s.renderOrder=9;labs.add(s);}
-  [['Sala–comedor',840,640],['Cocina',768,300,1],['Vestier',551,330,1],['Habitación',470,650],['Habitación',1200,700],['Baño',390,300],['Baño',1380,400],['Lavado',1235,300],['Estudio',1070,270],['Balcón',840,885]].forEach(l=>lab(l[0],l[1],l[2],l[3]));
+  [['Sala–comedor',840,640],['Cocina',768,300,1],['Vestier',551,330,1],['Habitación',470,650],['Habitación',1200,700],['Baño',390,300],['Baño',1380,400],['Lavado',1235,300],['Estudio',1070,270]].forEach(l=>lab(l[0],l[1],l[2],l[3]));
   lab('Mueble de sala',1040,640,1); labs.children[labs.children.length-1].position.y=2.9;
 
   /* cámaras */
@@ -172,8 +172,7 @@ function init(host){
     aerea:{p:[0,8.6,6.9],t:[0,0,.2]},
     sala:{p:[-1.9,1.55,1.5],t:[1.4,1.05,.7]},
     cocina:{p:[-1.2,2.0,1.7],t:[-1.25,.9,-2.2]},
-    vestier:{p:[-3.85,1.55,.9],t:[-2.85,1.15,-1.8]},
-    balcon:{p:[-.7,1.6,2.9],t:[-.7,3.2,14]}
+    vestier:{p:[-3.85,1.55,.9],t:[-2.85,1.15,-1.8]}
   };
   let anim=null,curK='aerea';
   let labOn=true;function fly(k){const v=V[k];if(!v)return;labs.visible=labOn&&k==='aerea';host.dispatchEvent(new CustomEvent('view',{detail:k}));curK=k;anim={t0s:performance.now(),t:0,p0:C.position.clone(),t0:OC.target.clone(),p1:new THREE.Vector3(...v.p),t1:new THREE.Vector3(...v.t)};}
