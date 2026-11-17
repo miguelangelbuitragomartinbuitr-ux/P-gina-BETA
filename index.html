@@ -311,6 +311,14 @@ ul.clean{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:5px;f
 
 #cine video{background:#000;-webkit-tap-highlight-color:transparent;pointer-events:none}
 video::-webkit-media-controls,video::-webkit-media-controls-start-playback-button,video::-webkit-media-controls-overlay-play-button,video::-webkit-media-controls-panel{display:none!important;-webkit-appearance:none;opacity:0}
+
+/* lobby centrado */
+#lobby{min-height:100vh;min-height:100svh;justify-content:center;align-items:center;text-align:center;padding:clamp(96px,16vh,150px) clamp(20px,6vw,90px) clamp(40px,8vh,90px)}
+.lob-mid{display:flex;flex-direction:column;align-items:center;gap:clamp(22px,4vh,38px);max-width:min(900px,100%);margin:0 auto}
+.lob-mid h1{margin:0;text-align:center;max-width:20ch;font-size:clamp(30px,5.2vw,72px)}
+.lb-shade{background:radial-gradient(ellipse at 50% 52%,rgba(10,8,7,.74) 0,rgba(10,8,7,.5) 42%,rgba(10,8,7,.18) 100%),linear-gradient(180deg,rgba(10,8,7,.55) 0,transparent 24%,transparent 70%,rgba(10,8,7,.5) 100%)!important}
+@media(max-width:700px){#lobby{justify-content:center;padding-bottom:clamp(40px,8vh,90px)}.lob-mid h1{font-size:clamp(30px,9.4vw,44px)}}
+@media(max-height:480px){#lobby{padding-top:84px;padding-bottom:24px}.lob-mid{gap:16px}.lob-mid h1{font-size:clamp(22px,5vw,34px);max-width:26ch}}
 </style>
 </head>
 <body>
