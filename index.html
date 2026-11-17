@@ -307,9 +307,10 @@ ul.clean{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:5px;f
   .tpane img,.tpane canvas,.tpane video{max-width:100%}
 }
 @media (max-aspect-ratio:1/1){
-  #cine{background:linear-gradient(rgba(7,9,12,.78),rgba(7,9,12,.78)),url(img/lobby.jpg) center/cover}
-  #cine video{object-fit:contain}
 }
+
+#cine video{background:#000;-webkit-tap-highlight-color:transparent;pointer-events:none}
+video::-webkit-media-controls,video::-webkit-media-controls-start-playback-button,video::-webkit-media-controls-overlay-play-button,video::-webkit-media-controls-panel{display:none!important;-webkit-appearance:none;opacity:0}
 </style>
 </head>
 <body>
@@ -339,7 +340,7 @@ ul.clean{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:5px;f
 
   <section id="cine">
     <canvas id="hero3d"></canvas>
-    <video id="vA" muted playsinline preload="auto"></video><video id="vB" muted playsinline preload="auto"></video>
+    <video id="vA" muted playsinline webkit-playsinline disablepictureinpicture disableremoteplayback x-webkit-airplay="deny" preload="auto" tabindex="-1"></video><video id="vB" muted playsinline webkit-playsinline disablepictureinpicture disableremoteplayback x-webkit-airplay="deny" preload="auto" tabindex="-1"></video>
     <div class="vig"></div><div id="flash"></div>
     <div class="hud">
       <div class="chap" id="chap"></div>
@@ -673,6 +674,7 @@ function lights(sc,k){sc.add(new THREE.AmbientLight(0xffe6c8,.28*k)); sc.add(new
 const ease=t=>t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2, lerp=(a,b,t)=>a+(b-a)*t;
 
 /* ---------- recorrido cinematográfico ---------- */
+const PORT=matchMedia('(max-aspect-ratio:1/1)').matches;
 const CLIPS=[['img/clip-1.mp4','Llegada','Bienvenido <em>a</em> casa','La puerta se abre a la sala y a su mueble de TV.'],['img/clip-2.mp4','Detalle','El mueble, <em>de</em> cerca','Veta, repisas y luz del mueble de sala.'],['img/clip-4.mp4','Cocina','Cocinar <em>en</em> compañía','Cocina en U con barra de desayuno.'],['img/clip-5.mp4','Vestier','Todo <em>a</em> la vista','Clóset corredizo con luz cálida, y el baño.'],['img/clip-6.mp4','Balcón','Bogotá <em>desde</em> tu sala','La casa completa vista desde afuera.']];
 const SHOTS=[['Vestier','Clóset <em>corredizo</em>','Puertas de vidrio que se deslizan sin ocupar el cuarto.',[3.0,1.5,5.4],[1.8,1.4,4.4],[-.1,1.2,.25],[-.1,1.2,.25]],
  ['Luz','LED cálido <em>en</em> cada repisa','Cinta de 12 V entre 2700 y 3000 K, con perfil difusor.',[2.7,2.1,2.9],[2.3,.9,3.0],[.5,1.9,.25],[.5,.8,.25]],
@@ -684,11 +686,12 @@ function chapter(i,list){ $('#chap').innerHTML=`<h2 class="swap">${list[i][cineM
 function startCine(){ cineOn=true; if(cineMode) return; const v=$('#vA');
   v.addEventListener('canplay',()=>{ if(!cineMode){cineMode='video';$('#hero3d').style.display='none';playClip(0,v,$('#vB'));} },{once:true});
   v.addEventListener('error',()=>{ if(!cineMode){cineMode='3d';hero3d();} },{once:true});
-  v.src=CLIPS[0][0]; setTimeout(()=>{ if(!cineMode){cineMode='3d';hero3d();} },2500); }
-function playClip(i,a,b){ curClip=i; chapter(i,CLIPS); a.classList.add('show'); b.classList.remove('show'); a.play().catch(()=>{});
+  v.src=SRC(0); setTimeout(()=>{ if(!cineMode){cineMode='3d';hero3d();} },2500); }
+const SRC=i=>PORT?CLIPS[i][0].replace('.mp4','-m.mp4'):CLIPS[i][0];
+function playClip(i,a,b){ curClip=i; chapter(i,CLIPS); a.controls=false; a.setAttribute('disablepictureinpicture',''); a.classList.add('show'); b.classList.remove('show'); a.play().catch(()=>{ const r=()=>{a.play().catch(()=>{});removeEventListener('touchstart',r);removeEventListener('click',r)}; addEventListener('touchstart',r,{once:true});addEventListener('click',r,{once:true}); });
   const tk=$$('#ticks i b')[i]; a.ontimeupdate=()=>{ if(tk&&a.duration) tk.style.width=(100*a.currentTime/a.duration)+'%'; };
-  const n=(i+1)%CLIPS.length; let ok=true; b.onerror=()=>{ok=false;}; b.src=CLIPS[n][0];
-  a.onended=()=>{ if(ok){ playClip(n,b,a); } else if(i===0){ a.currentTime=0; a.play().catch(()=>{}); } else { b.onerror=null; b.src=CLIPS[0][0]; playClip(0,b,a); } }; }
+  const n=(i+1)%CLIPS.length; let ok=true; b.onerror=()=>{ok=false;}; b.src=SRC(n);
+  a.onended=()=>{ if(ok){ playClip(n,b,a); } else if(i===0){ a.currentTime=0; a.play().catch(()=>{}); } else { b.onerror=null; b.src=SRC(0); playClip(0,b,a); } }; }
 function hero3d(){ if(heroInit||!window.THREE) { if(!window.THREE){cineMode='none';chapter(0,SHOTS);} return; } heroInit=true;
   const cv=$('#hero3d'), sc=new THREE.Scene(), cam=new THREE.PerspectiveCamera(32,1,.1,60), ren=new THREE.WebGLRenderer({canvas:cv,antialias:true});
   ren.setPixelRatio(Math.min(devicePixelRatio||1,1.75)); ren.toneMapping=THREE.ACESFilmicToneMapping; ren.toneMappingExposure=.8; ren.outputEncoding=THREE.sRGBEncoding;
@@ -715,7 +718,7 @@ function hero3d(){ if(heroInit||!window.THREE) { if(!window.THREE){cineMode='non
 
 let curClip=0;
 function goClip(j){ if(cineMode!=='video') return; j=(j+CLIPS.length)%CLIPS.length; const A=$('#vA'), B=$('#vB');
-  A.onended=B.onended=null; A.pause(); B.pause(); B.classList.remove('show'); A.onerror=()=>{ A.onerror=null; A.src=CLIPS[0][0]; playClip(0,A,B); }; A.src=CLIPS[j][0]; playClip(j,A,B); }
+  A.onended=B.onended=null; A.pause(); B.pause(); B.classList.remove('show'); A.onerror=()=>{ A.onerror=null; A.src=SRC(0); playClip(0,A,B); }; A.src=SRC(j); playClip(j,A,B); }
 $('#ticks').addEventListener('click',e=>{ const t=e.target.closest('i'); if(!t) return; goClip([...$('#ticks').children].indexOf(t)); });
 /* toque: mitad derecha = siguiente, mitad izquierda = anterior */
 $('#cine').addEventListener('click',e=>{ if(cineMode!=='video'||e.target.closest('#ticks,a,button')) return;
