@@ -248,6 +248,22 @@ ul.clean{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:5px;f
 @media (max-width:760px){.zsw{margin-left:0;width:100%}.zb{flex:1}}
 @media (max-width:1050px){.bench{grid-template-columns:1fr}.rail{flex-direction:row;overflow-x:auto}.rail button{flex:none}.bom{max-height:none}.tri{grid-template-columns:1fr}.mc{aspect-ratio:4/3}.acc .body{padding-left:6px}.acc summary{grid-template-columns:40px 1fr auto}}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.rv{opacity:1;transform:none}}
+
+.v3{position:relative;margin-top:40px;height:clamp(380px,64vh,660px);border:1px solid var(--line);border-radius:14px;overflow:hidden;background:#0d1318}
+.v3 canvas{width:100%;height:100%;display:block;cursor:grab;touch-action:none}.v3 canvas:active{cursor:grabbing}
+.v3-load{position:absolute;inset:0;display:grid;place-items:center;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:#9aa6b2;pointer-events:none;transition:opacity .6s}.v3.live .v3-load{opacity:0}
+.v3-bar{position:absolute;left:12px;right:12px;bottom:12px;display:flex;flex-wrap:wrap;gap:8px 14px;justify-content:space-between;pointer-events:none}
+.v3-g{display:flex;flex-wrap:wrap;gap:6px;pointer-events:auto}
+.v3-bar button{background:rgba(13,19,24,.72);backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,.16);border-radius:99px;padding:8px 14px;font-size:12px;letter-spacing:.04em;cursor:pointer;transition:.2s}
+.v3-bar button:hover{border-color:var(--led)}.v3-bar button.on{background:var(--led);color:#1a1209;border-color:var(--led)}
+.v3-hint{position:absolute;top:12px;left:14px;font-size:11px;letter-spacing:.08em;color:#c9d0d8;opacity:.75;pointer-events:none}
+.v3note,.fine{font-size:12.5px;line-height:1.7;color:#8f9aa6;max-width:78ch;margin-top:14px}
+.sub{margin-top:64px}.sub h3{font-size:clamp(22px,2.6vw,32px);margin-top:8px;font-weight:500}
+.rooms{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:18px;margin-top:26px}
+.room{border:1px solid var(--line);border-radius:12px;padding:24px;background:rgba(255,255,255,.02)}
+.room .rn{font-style:normal;font-family:var(--serif);font-size:30px;color:var(--led)}.room h4{font-size:18px;margin:8px 0;font-weight:500}.room p{font-size:14px;line-height:1.7;color:#c9d0d8;font-weight:300}.room b{color:#fff;font-weight:500}
+.pledge{list-style:none;margin-top:22px;display:grid;gap:14px;max-width:72ch}.pledge li{padding-left:22px;position:relative;font-size:15px;line-height:1.7;color:#c9d0d8;font-weight:300}.pledge li::before{content:"";position:absolute;left:0;top:.75em;width:8px;height:8px;border-radius:50%;background:var(--led)}.pledge b{color:#fff;font-weight:500}
+.plans{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:18px;margin-top:44px}.plans figure{margin:0;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:#fff}.plans img{width:100%;display:block}.plans figcaption{background:#10161c;padding:10px 14px;font-size:12px;letter-spacing:.08em;color:#c9d0d8}
 </style>
 </head>
 <body>
@@ -289,13 +305,46 @@ ul.clean{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:5px;f
   <section class="sec zp" id="apto"><div class="wrap">
     <div class="zlab rv"><b>Parte 1 · El producto</b><span>Lo que recibe el cliente</span></div>
     <span class="mono eb rv">01 · El apartamento</span>
-    <h2 class="rv">Un apartamento <em>de</em> 66 m²</h2>
-    <p class="lead rv">Los tres muebles están pensados para un apartamento del proyecto Álamo de Veramonte, de Constructora Bolívar. Estas son las cifras del espacio donde van.</p>
+    <h2 class="rv">Tu apartamento de <em>66 m²</em>, amoblado a la medida</h2>
+    <p class="lead rv">En Beta Ensambladora fabricamos tres muebles para el Tipo B del Álamo de Veramonte: el mueble de la sala, la cocina en U con barra y el vestier. Cada uno se diseña sobre los planos reales del apartamento, de modo que llega con las medidas de tu espacio y encaja en su lugar.</p>
+
+    <div class="v3 rv" id="v3">
+      <canvas aria-label="Modelo 3D del apartamento Tipo B con los tres muebles de Beta"></canvas>
+      <div class="v3-load">Cargando el apartamento…</div>
+      <div class="v3-bar">
+        <div class="v3-g"><button data-v="aerea" class="on">Vista general</button><button data-v="sala">Sala</button><button data-v="cocina">Cocina</button><button data-v="vestier">Vestier</button><button data-v="balcon">Balcón</button></div>
+        <div class="v3-g"><button data-t="muebles" class="on">Muebles Beta</button><button data-t="corte">Muros bajos</button><button data-t="etiq" class="on">Nombres</button></div>
+      </div>
+      <div class="v3-hint">Arrastra para girar · rueda o pellizco para acercar</div>
+    </div>
+    <p class="v3note rv">Modelo 3D construido a partir de los planos del Tipo B (distribución 1:50 y acotado 1:60). Los muebles se muestran en la ubicación indicada en esos planos y con volúmenes simplificados; el fondo urbano es referencial. Elaborado con apoyo de IA a partir de la documentación del proyecto.</p>
+
     <div class="facts rv">
       <div class="fact"><b>66 m²</b><span>Construidos, con 53 m² privados. Tipo B del proyecto Álamo, nueva etapa de Veramonte.</span></div>
-      <div class="fact"><b>Bogotá</b><span>Colina Campestre, cerca de la avenida Boyacá. Fuente: brochure de la constructora.</span></div>
-      <div class="fact"><b>3 espacios</b><span>Cocina abierta en U, sala y vestier, con un mueble para cada uno. Planos del grupo a escala 1:60 y 1:50.</span></div>
+      <div class="fact"><b>Bogotá</b><span>Colina Campestre, cerca de la avenida Boyacá. Proyecto de Constructora Bolívar.</span></div>
+      <div class="fact"><b>9 espacios</b><span>Sala–comedor, cocina, vestier, estudio, dos habitaciones, dos baños, lavado y balcón.</span></div>
     </div>
+
+    <div class="sub rv"><span class="mono eb">Dónde está cada mueble</span><h3>Tres espacios, tres muebles</h3></div>
+    <div class="rooms rv">
+      <article class="room"><i class="rn">A</i><h4>Sala–comedor</h4><p>El corazón del apartamento, abierto al balcón. Aquí va el <b>mueble de sala</b> de 2,10 m: televisión, almacenamiento cerrado y vitrina en una sola pieza, con luz LED integrada.</p></article>
+      <article class="room"><i class="rn">B</i><h4>Cocina abierta</h4><p>Una cocina en U con barra que se abre a la sala–comedor. Pensada para cocinar con espacio y atender a la vez a quienes están en la sala.</p></article>
+      <article class="room"><i class="rn">C</i><h4>Vestier</h4><p>Un espacio propio junto al baño y la habitación. El <b>clóset a medida</b> aprovecha toda la altura y el largo del muro para ordenar la ropa sin invadir el cuarto.</p></article>
+    </div>
+
+    <div class="sub rv"><span class="mono eb">Cómo trabajamos sobre tu apartamento</span><h3>Medido sobre planos, no sobre supuestos</h3></div>
+    <ul class="pledge rv">
+      <li><b>Parte del plano real.</b> Cada mueble se dibuja sobre la distribución y el acotado del Tipo B, no sobre un espacio genérico.</li>
+      <li><b>Se ve antes de fabricarse.</b> Renders y vistas del mueble en su espacio permiten revisarlo con calma.</li>
+      <li><b>Un solo lenguaje.</b> Madera cálida, gris grafito y luz LED: los tres muebles comparten acabados y se sienten como un conjunto.</li>
+      <li><b>Fabricados en una planta propia.</b> Producimos los tres muebles en una misma planta; su diseño ya tiene en cuenta cómo se arman y se instalan.</li>
+    </ul>
+
+    <div class="plans rv">
+      <figure><img src="img/plano-distribucion.jpg" alt="Plano de distribución del apartamento Tipo B" loading="lazy"><figcaption>Distribución · escala 1:50</figcaption></figure>
+      <figure><img src="img/plano-acotado.jpg" alt="Plano acotado del apartamento Tipo B" loading="lazy"><figcaption>Plano acotado · escala 1:60</figcaption></figure>
+    </div>
+    <p class="fine rv">Información del proyecto tomada del brochure de Constructora Bolívar y de los planos elaborados por el grupo. Las áreas, acabados y renders de la constructora pueden variar según la licencia de construcción (curaduría) y corresponden a una propuesta de la constructora.</p>
   </div></section>
 
   <section class="sec zp" id="trio" style="padding-top:0"><div class="wrap">
@@ -464,8 +513,9 @@ ul.clean{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:5px;f
   </div>
 </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<script src="js/three.min.js"></script>
+<script src="js/OrbitControls.js"></script>
+<script src="js/apto3d.js"></script>
 <script>
 const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
 const cop=n=>'$ '+Math.round(n).toLocaleString('es-CO');
@@ -742,7 +792,7 @@ $$('.rv').forEach(el=>io?io.observe(el):el.classList.add('in'));
       const q=g.createRadialGradient(x,y,0,x,y,R*4); q.addColorStop(0,`rgba(255,200,130,${a})`); q.addColorStop(1,'rgba(255,184,105,0)'); g.fillStyle=q; g.fillRect(x-R*4,y-R*4,R*8,R*8); }); g.globalCompositeOperation='source-over';
   })(0); })();
 
-zone('producto');
+zone('producto'); (function(){const v=document.getElementById('v3');if(v&&window.initApto3D){new IntersectionObserver((e,o)=>{if(e[0].isIntersecting){try{initApto3D(v)}catch(x){v.querySelector('.v3-load').textContent='Vista 3D no disponible en este navegador'}o.disconnect()}},{rootMargin:'200px'}).observe(v)}})();
 const H0=location.hash.slice(1); if(H0==='recorrido'||H0==='tecnica') go(H0);
 
 </script>
