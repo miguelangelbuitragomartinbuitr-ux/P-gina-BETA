@@ -9,7 +9,7 @@ Página interactiva del proyecto (Diseño VIII Producción, UPTC Duitama): recor
 - **macOS / Linux:** doble clic en `abrir.command` (o `./abrir.command`).
 - O abre `index.html` directamente en el navegador.
 
-Necesita conexión a internet (tipografías y la librería 3D se cargan desde CDN).
+Necesita conexión a internet solo para la librería 3D del clóset (se carga desde un CDN). Las tipografías van incluidas en `fonts/`.
 
 ## Contenido
 - `index.html`: toda la página (lobby, recorrido, información técnica).

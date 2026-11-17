@@ -4,20 +4,28 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Beta Ensambladora · Álamo de Veramonte</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Albert+Sans:wght@400;500;600&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&family=Unbounded:wght@400;600;800&display=swap" rel="stylesheet">
+<link rel="preload" href="fonts/sora-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
 <style>
+@font-face{font-family:Sora;font-weight:300;font-style:normal;font-display:swap;src:url(fonts/sora-latin-300-normal.woff2) format('woff2')}
+@font-face{font-family:Sora;font-weight:400;font-style:normal;font-display:swap;src:url(fonts/sora-latin-400-normal.woff2) format('woff2')}
+@font-face{font-family:Sora;font-weight:500;font-style:normal;font-display:swap;src:url(fonts/sora-latin-500-normal.woff2) format('woff2')}
+@font-face{font-family:Sora;font-weight:600;font-style:normal;font-display:swap;src:url(fonts/sora-latin-600-normal.woff2) format('woff2')}
+@font-face{font-family:Unbounded;font-weight:400;font-style:normal;font-display:swap;src:url(fonts/unbounded-latin-400-normal.woff2) format('woff2')}
+@font-face{font-family:Unbounded;font-weight:600;font-style:normal;font-display:swap;src:url(fonts/unbounded-latin-600-normal.woff2) format('woff2')}
+@font-face{font-family:Unbounded;font-weight:800;font-style:normal;font-display:swap;src:url(fonts/unbounded-latin-800-normal.woff2) format('woff2')}
+@font-face{font-family:'Instrument Serif';font-weight:400;font-style:normal;font-display:swap;src:url(fonts/instrument-serif-latin-400-normal.woff2) format('woff2')}
+@font-face{font-family:'Instrument Serif';font-weight:400;font-style:italic;font-display:swap;src:url(fonts/instrument-serif-latin-400-italic.woff2) format('woff2')}
 /* Idea: noche de obra. Negro azulado profundo, luz LED ámbar que sale de los muebles y un verde vidrio para la capa técnica.
    Titulares anchos (Unbounded) con una palabra en serif itálica como firma. Tema único oscuro por decisión de diseño. */
 :root{color-scheme:dark;
   --night:#06080b; --deep:#0c1016; --panel:#121820; --line:rgba(255,255,255,.1); --ink:#f2ede4; --mute:#8f98a3;
   --led:#ffb869; --led2:#ff8a3d; --glass:#7fe3d6; --ok:#8fe0ae; --warn:#ffc867; --bad:#ff9a85; --unk:#b9bef0;
   --display:"Unbounded","Arial Black",sans-serif; --serif:"Instrument Serif",Georgia,serif;
-  --body:"Albert Sans","Segoe UI",system-ui,sans-serif; --mono:"JetBrains Mono",ui-monospace,Menlo,monospace;
+  --body:"Sora","Segoe UI",system-ui,sans-serif; --mono:"Sora","Segoe UI",system-ui,sans-serif;
   --ease:cubic-bezier(.16,1,.3,1)}
 *{box-sizing:border-box}
 html,body{margin:0;height:100%}
-body{background:var(--night);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.55;overflow-x:hidden}
+body{background:var(--night);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.7;font-weight:400;letter-spacing:.005em;overflow-x:hidden}
 body::before{content:"";position:fixed;inset:0;z-index:90;pointer-events:none;opacity:.07;mix-blend-mode:overlay;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E")}
 a{color:var(--led)} button{font:inherit;color:inherit}
@@ -25,7 +33,7 @@ a{color:var(--led)} button{font:inherit;color:inherit}
 h1,h2,h3{margin:0;font-family:var(--display);font-weight:800;line-height:1.02;letter-spacing:-.02em;text-wrap:balance;text-transform:uppercase}
 h1 em,h2 em{font-family:var(--serif);font-style:italic;font-weight:400;text-transform:none;letter-spacing:0;color:var(--led);font-size:1.18em}
 p{margin:0;max-width:62ch}
-.mono{font-family:var(--mono);font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--mute)}
+.mono{font-family:var(--mono);font-size:10.5px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:var(--mute)}
 .page{display:none} .page.on{display:block}
 #cursor{position:fixed;z-index:80;width:420px;height:420px;border-radius:50%;pointer-events:none;transform:translate(-50%,-50%);
   background:radial-gradient(circle,rgba(255,184,105,.13),transparent 62%);left:50%;top:40%;transition:opacity .4s}
@@ -86,10 +94,10 @@ p{margin:0;max-width:62ch}
 .brand .ds i{font-style:normal}
 .brand.lb-logo{width:clamp(130px,13vw,180px)}
 .lb-logo .ds{font-size:clamp(11px,1.1vw,15px)}
-.bar nav a,.tb{font-family:var(--mono);font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:#c9d0d8;text-decoration:none;padding:8px 12px;border-radius:99px;white-space:nowrap;background:none;border:0;cursor:pointer;transition:background .25s,color .25s}
+.bar nav a,.tb{font-family:var(--mono);font-size:10.5px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:#c9d0d8;text-decoration:none;padding:8px 12px;border-radius:99px;white-space:nowrap;background:none;border:0;cursor:pointer;transition:background .25s,color .25s}
 .bar nav a:hover,.tb:hover{background:rgba(255,255,255,.08);color:#fff}
 .tb[aria-pressed="true"]{background:var(--glass);color:#062320;font-weight:500}
-.pillbtn{border:1px solid var(--led);color:var(--led);background:rgba(255,184,105,.08);border-radius:99px;padding:9px 16px;font-family:var(--mono);font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;white-space:nowrap;transition:background .25s,color .25s}
+.pillbtn{border:1px solid var(--led);color:var(--led);background:rgba(255,184,105,.08);border-radius:99px;padding:10px 18px;font-family:var(--mono);font-size:10.5px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;cursor:pointer;white-space:nowrap;transition:background .25s,color .25s}
 .pillbtn:hover{background:var(--led);color:#1b1107}
 #cine{position:relative;height:100vh;min-height:560px;overflow:hidden;background:#000}
 #cine video,#hero3d{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
@@ -125,7 +133,7 @@ p{margin:0;max-width:62ch}
 .acc details[open] summary .x{transform:rotate(45deg);background:var(--led);color:#1b1107}
 .acc .body{padding:4px 6px 34px 94px;display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:26px;animation:swap .7s var(--ease) both}
 .fact b{display:block;font-family:var(--display);font-weight:600;font-size:26px;color:var(--ink);text-transform:uppercase}
-.fact span{color:var(--mute);font-size:14.5px}
+.fact span{color:var(--mute);font-size:14px;font-weight:300;line-height:1.7}
 .tri{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:46px}
 .mc{all:unset;cursor:pointer;position:relative;aspect-ratio:3/4;border-radius:6px 44px 6px 44px;overflow:hidden;display:flex;align-items:flex-end;isolation:isolate;transition:border-radius .7s var(--ease),transform .7s var(--ease)}
 .mc:hover{border-radius:44px 6px 44px 6px;transform:translateY(-10px)}
@@ -148,7 +156,7 @@ footer{padding:40px 0 60px;border-top:1px solid var(--line);color:var(--mute);fo
 #tec{min-height:100vh;background:linear-gradient(180deg,#080c10,#0b1116)}
 #tec .bar{position:sticky;background:rgba(8,12,16,.9);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
 .tpane{display:none;padding:22px clamp(16px,3vw,38px) 70px;flex-direction:column;gap:18px} .tpane.on{display:flex;animation:swap .7s var(--ease) both}
-.bench{display:grid;grid-template-columns:210px minmax(0,1fr) 400px;gap:14px;min-height:calc(100vh - 120px)}
+.bench{display:grid;grid-template-columns:210px minmax(0,1fr) 400px;gap:14px;min-height:calc(100vh - 230px)}
 .rail{display:flex;flex-direction:column;gap:8px}
 .rail button{all:unset;cursor:pointer;display:flex;gap:12px;align-items:center;padding:14px;border:1px solid var(--line);border-radius:14px;transition:border-color .3s,background .3s,transform .4s var(--ease)}
 .rail button:hover{transform:translateX(6px);border-color:rgba(127,227,214,.5)}
@@ -177,14 +185,14 @@ footer{padding:40px 0 60px;border-top:1px solid var(--line);color:var(--mute);fo
 .sheet{background:rgba(18,24,32,.7);border:1px solid var(--line);border-radius:18px;padding:22px;display:flex;flex-direction:column;gap:12px;min-width:0}
 .sheet h3{font-size:16px}
 .grid{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
-.kv{display:grid;grid-template-columns:minmax(100px,34%) 1fr;gap:6px 12px;font-size:14px;margin:0} .kv dt{color:var(--mute)} .kv dd{margin:0}
-.pill{display:inline-flex;font-family:var(--mono);font-size:11px;padding:2px 9px;border-radius:99px;white-space:nowrap;border:1px solid}
+.kv{display:grid;grid-template-columns:minmax(100px,34%) 1fr;gap:8px 14px;font-size:13.5px;margin:0} .kv dt{color:var(--mute);font-weight:300} .kv dd{margin:0}
+.pill{display:inline-flex;font-family:var(--mono);font-size:10px;font-weight:500;letter-spacing:.06em;padding:2px 9px;border-radius:99px;white-space:nowrap;border:1px solid}
 .pill.ok{color:var(--ok)} .pill.parcial{color:var(--warn)} .pill.falta{color:var(--bad)} .pill.sinver{color:var(--unk)}
-.src{font-family:var(--mono);font-size:11px;color:var(--mute)}
-.note{border-left:2px solid var(--warn);padding:10px 14px;background:rgba(255,200,103,.07);font-size:14px;border-radius:0 10px 10px 0} .note.bad{border-left-color:var(--bad);background:rgba(255,154,133,.07)}
-.tw{overflow-x:auto} table{border-collapse:collapse;width:100%;font-size:13.5px}
+.src{font-family:var(--mono);font-size:10.5px;font-weight:300;letter-spacing:.04em;color:var(--mute)}
+.note{border-left:2px solid var(--warn);padding:10px 14px;background:rgba(255,200,103,.07);font-size:13px;font-weight:300;border-radius:0 10px 10px 0} .note.bad{border-left-color:var(--bad);background:rgba(255,154,133,.07)}
+.tw{overflow-x:auto} table{border-collapse:collapse;width:100%;font-size:12.5px;line-height:1.6}
 th,td{padding:8px 10px;border-bottom:1px solid rgba(255,255,255,.07);text-align:left;vertical-align:top}
-th{font-family:var(--mono);font-weight:500;font-size:10.5px;text-transform:uppercase;letter-spacing:.1em;color:var(--glass);white-space:nowrap}
+th{font-family:var(--mono);font-weight:500;font-size:10px;text-transform:uppercase;letter-spacing:.14em;color:var(--glass);white-space:nowrap}
 td.num,th.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap} tr.tot td{font-weight:700;border-top:1px solid var(--glass)}
 .tabs,.filters{display:flex;gap:8px;flex-wrap:wrap}
 .btn,.tabs button{font-size:13px;padding:8px 14px;border-radius:99px;border:1px solid var(--line);background:rgba(255,255,255,.04);cursor:pointer;transition:border-color .25s,background .25s}
@@ -195,6 +203,49 @@ label.f{display:flex;flex-direction:column;gap:4px;font-size:13px;color:var(--mu
 .bars{height:6px;border-radius:9px;background:rgba(255,255,255,.1);display:flex;overflow:hidden;margin:8px 0}
 .bars i{display:block;height:100%} .bars .ok{background:var(--ok)} .bars .parcial{background:var(--warn)} .bars .sinver{background:var(--unk)} .bars .falta{background:var(--bad)}
 ul.clean{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:5px;font-size:14px}
+
+/* ---------- ESTRUCTURA POR ZONAS ---------- */
+.lead{font-size:clamp(15px,1.5vw,18px);font-weight:300;color:#c9d0d8;max-width:60ch;margin-top:18px;line-height:1.75}
+.eb{display:block;margin-bottom:14px}
+.zlab{display:inline-flex;align-items:center;gap:12px;font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;padding:8px 16px 8px 12px;border-radius:99px;border:1px solid var(--zc,var(--led));color:var(--zc,var(--led));margin-bottom:28px}
+.zlab::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--zc,var(--led))}
+.zlab span{color:var(--mute);font-weight:400;letter-spacing:.12em}
+.zp{--zc:var(--led)} .zc{--zc:var(--glass)} .zq{--zc:#aab3c0}
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:34px;margin-top:46px;padding-top:34px;border-top:1px solid var(--line)}
+.divider{position:relative;padding:clamp(90px,16vh,190px) 0;text-align:center;overflow:hidden;background:linear-gradient(180deg,var(--night),#071413 40%,#071413 60%,var(--night));border-top:1px solid rgba(127,227,214,.25);border-bottom:1px solid rgba(127,227,214,.25)}
+.divider::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 50% 50%,rgba(127,227,214,.14),transparent 62%);pointer-events:none}
+.divider .wrap{position:relative;display:flex;flex-direction:column;align-items:center;gap:22px}
+.divider h2{font-size:clamp(30px,6vw,92px)} .divider h2 em{color:var(--glass)}
+.divider p{margin:0 auto;color:#c9d0d8;font-weight:300;font-size:clamp(15px,1.5vw,18px);line-height:1.75;max-width:56ch}
+.zc .acc summary .n,.zc .mono.eb{color:var(--glass)} .zc h2 em{color:var(--glass)}
+.zc .acc summary:hover{background:linear-gradient(90deg,rgba(127,227,214,.08),transparent)}
+.zc .acc details[open] summary .x{background:var(--glass);color:#062320}
+.lnk{grid-column:1/-1;justify-self:start;cursor:pointer;border:1px solid var(--zc,var(--led));color:var(--zc,var(--led));background:none;border-radius:99px;padding:10px 20px;font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;transition:background .25s,color .25s}
+.lnk:hover{background:var(--zc,var(--led));color:#10100f}
+.state{display:flex;font-family:var(--mono);font-size:10px;font-weight:500;letter-spacing:.06em;padding:2px 9px;border-radius:99px;border:1px solid;margin-top:8px;width:max-content}
+.state.falta{color:var(--bad)} .state.parcial{color:var(--warn)} .state.ok{color:var(--ok)}
+.fact .state{margin-top:10px}
+/* técnica: zonas */
+#tec{--zc:var(--led)} #tec[data-z="empresa"]{--zc:var(--glass)} #tec[data-z="equipo"]{--zc:#aab3c0}
+.tbar{flex-wrap:wrap!important;row-gap:10px}
+.zsw{display:flex;flex-direction:row;gap:6px;margin-left:auto;flex-wrap:wrap}
+.zb{cursor:pointer;display:flex;flex-direction:column;align-items:flex-start;gap:1px;background:rgba(255,255,255,.03);border:1px solid var(--line);border-radius:14px;padding:8px 16px;font-family:var(--display);font-weight:600;font-size:12px;letter-spacing:.04em;text-transform:uppercase;color:#c9d0d8;transition:background .25s,border-color .25s,color .25s}
+.zb small{font-family:var(--mono);font-weight:500;font-size:9px;letter-spacing:.2em}
+.zb.zp small{color:var(--led)} .zb.zc small{color:var(--glass)} .zb.zq small{color:#aab3c0}
+.zb:hover{border-color:var(--zc)}
+.zb[aria-pressed="true"]{background:var(--zc);border-color:var(--zc);color:#10100f} .zb[aria-pressed="true"] small{color:#10100f}
+.zband{display:flex;gap:6px 22px;flex-wrap:wrap;align-items:baseline;padding:16px clamp(16px,3vw,38px);border-bottom:1px solid var(--line);background:linear-gradient(90deg,color-mix(in srgb,var(--zc) 14%,transparent),transparent 70%);border-left:4px solid var(--zc)}
+.zband b{font-family:var(--display);font-weight:600;font-size:clamp(14px,1.6vw,19px);text-transform:uppercase;color:var(--zc);letter-spacing:.02em}
+.zband span{font-size:13px;font-weight:300;color:#c9d0d8;max-width:90ch}
+.subtabs{display:flex;gap:6px;padding:14px clamp(16px,3vw,38px) 0;overflow-x:auto;scrollbar-width:none}
+.tb[aria-pressed="true"]{background:var(--zc,var(--glass))!important;color:#10100f!important}
+.phead{display:flex;flex-direction:column;gap:10px;padding:14px 0 6px;max-width:980px}
+.phead h2{font-size:clamp(24px,3.4vw,46px)} .phead h2 em{color:var(--zc)}
+.phead .mono{color:var(--zc)}
+.phead p{color:#c9d0d8;font-weight:300;font-size:14.5px;line-height:1.75;max-width:70ch}
+.sheet h3{font-size:14px;letter-spacing:.01em}
+.sheet h3+.src{margin-top:-4px}
+@media (max-width:760px){.zsw{margin-left:0;width:100%}.zb{flex:1}}
 @media (max-width:1050px){.bench{grid-template-columns:1fr}.rail{flex-direction:row;overflow-x:auto}.rail button{flex:none}.bom{max-height:none}.tri{grid-template-columns:1fr}.mc{aspect-ratio:4/3}.acc .body{padding-left:6px}.acc summary{grid-template-columns:40px 1fr auto}}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.rv{opacity:1;transform:none}}
 </style>
@@ -220,8 +271,8 @@ ul.clean{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:5px;f
 <div id="exp" class="page">
   <header class="bar" id="xbar">
     <button class="logo" data-go="lobby" aria-label="Beta Design, volver al inicio"><span class="brand"><img src="img/beta-mark.png" alt="Beta"><span class="ds" aria-label="Design"><i>D</i><i>E</i><i>S</i><i>I</i><i>G</i><i>N</i></span></span></button>
-    <nav><a href="#" data-sc="cine">Recorrido</a><a href="#" data-sc="puntos">Puntos críticos</a><a href="#" data-sc="trio">Muebles</a></nav>
-    <button class="pillbtn" data-go="tecnica">Información técnica</button>
+    <nav><a href="#" data-sc="cine">Recorrido</a><a href="#" data-sc="apto">Apartamento</a><a href="#" data-sc="trio">Muebles</a><a href="#" data-sc="prod">Producción</a></nav>
+    <button class="pillbtn" data-go="tecnica" data-z="producto" data-t="apto">Información técnica</button>
   </header>
 
   <section id="cine">
@@ -235,42 +286,66 @@ ul.clean{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:5px;f
     </div>
   </section>
 
-  <section class="sec" id="puntos"><div class="wrap">
-    <span class="mono rv" style="color:var(--led)">Lo que hay detrás</span>
-    <h2 class="rv">Puntos <em>críticos</em> del proyecto</h2>
-    <div class="acc rv">
-      <details open><summary><span class="n">01</span><b>La empresa</b><span class="x">+</span></summary><div class="body">
-        <div class="fact"><b>Beta Ensambladora</b><span>Solo produce: fabrica juegos de tres muebles para la obra. No vende ni fija precios.</span></div>
-        <div class="fact"><b>Por lotes</b><span>Tipo de producción declarado. Se compran tableros, herrajes y parte eléctrica; la planta corta y deja las piezas listas para ensamble.</span></div>
-        <div class="fact"><b>2 meses</b><span>Plazo desde la firma del contrato. Volumen, jornada y ritmo requerido: pendientes del grupo.</span></div></div></details>
-      <details><summary><span class="n">02</span><b>El apartamento</b><span class="x">+</span></summary><div class="body">
-        <div class="fact"><b>66 m²</b><span>Construidos, 53 m² privados. Tipo B del proyecto Álamo, nueva etapa de Veramonte.</span></div>
-        <div class="fact"><b>3 espacios</b><span>Cocina abierta en U, sala y vestier. Planos del grupo a escala 1:60 y 1:50.</span></div>
-        <div class="fact"><b>Bogotá</b><span>Colina Campestre, cerca de la avenida Boyacá. Fuente: brochure de la constructora.</span></div></div></details>
-      <details><summary><span class="n">03</span><b>Los muebles</b><span class="x">+</span></summary><div class="body">
-        <div class="fact"><b>Clóset</b><span>2385 mm de alto por 1950 mm de ancho. Melamina 15 mm, puertas corredizas de vidrio, tubos de acero inoxidable, LED cálido.</span></div>
-        <div class="fact"><b>Sala</b><span>38 elementos en el explosionado. Unión con 118 conectores minifix y 97 pasadores.</span></div>
-        <div class="fact"><b>Cocina</b><span>5 módulos superiores y 3 inferiores, mesón en piedra sinterizada de unos 4 m², barra de desayuno.</span></div></div></details>
-      <details><summary><span class="n">04</span><b>La planta</b><span class="x">+</span></summary><div class="body">
-        <div class="fact"><b>297 m²</b><span>Bodega en arriendo en Puente Aranda, Bogotá, con 2 oficinas y 3 baños.</span></div>
-        <div class="fact"><b>Obra al norte</b><span>Los muebles viajan de Puente Aranda a Colina Campestre.</span></div>
-        <div class="fact"><b>En diseño</b><span>Distribución, máquinas, almacenamiento, 5S, GTC 45 y fichas de puesto: pendientes.</span></div></div></details>
-      <details><summary><span class="n">05</span><b>Proveedores y costos</b><span class="x">+</span></summary><div class="body">
-        <div class="fact"><b>3 proveedores</b><span>Madecentro, Homecenter y Häfele comparados para herrajes e iluminación del clóset.</span></div>
-        <div class="fact"><b>$ 3.349.651</b><span>Lista de la cocina cotizada en Madecentro, sin mesón, vidrio ni equipos.</span></div>
-        <div class="fact"><b>Hoja de costos</b><span>Materias primas + mano de obra + indirectos. Lista para llenar en la información técnica.</span></div></div></details>
+  <section class="sec zp" id="apto"><div class="wrap">
+    <div class="zlab rv"><b>Parte 1 · El producto</b><span>Lo que recibe el cliente</span></div>
+    <span class="mono eb rv">01 · El apartamento</span>
+    <h2 class="rv">Un apartamento <em>de</em> 66 m²</h2>
+    <p class="lead rv">Los tres muebles están pensados para un apartamento del proyecto Álamo de Veramonte, de Constructora Bolívar. Estas son las cifras del espacio donde van.</p>
+    <div class="facts rv">
+      <div class="fact"><b>66 m²</b><span>Construidos, con 53 m² privados. Tipo B del proyecto Álamo, nueva etapa de Veramonte.</span></div>
+      <div class="fact"><b>Bogotá</b><span>Colina Campestre, cerca de la avenida Boyacá. Fuente: brochure de la constructora.</span></div>
+      <div class="fact"><b>3 espacios</b><span>Cocina abierta en U, sala y vestier, con un mueble para cada uno. Planos del grupo a escala 1:60 y 1:50.</span></div>
     </div>
   </div></section>
 
-  <section class="sec" id="trio" style="padding-top:0"><div class="wrap">
-    <span class="mono rv" style="color:var(--led)">El conjunto</span>
-    <h2 class="rv">Tres piezas, <em>un</em> hogar</h2>
+  <section class="sec zp" id="trio" style="padding-top:0"><div class="wrap">
+    <span class="mono eb rv" style="color:var(--led)">02 · Los muebles</span>
+    <h2 class="rv">Tus tres <em>muebles</em></h2>
+    <p class="lead rv">Uno por espacio. Toca uno para ver su despiece en vista isométrica, sus materiales y la lista de piezas.</p>
     <div class="tri rv">
-      <button class="mc k1" data-go="tecnica" data-m="closet"><img src="img/closet.jpg" alt="" onerror="this.remove()"><span class="in"><span class="mono" style="color:var(--led)">Vestier</span><b>Clóset corredizo</b><span>Luz cálida que se enciende al abrir.</span></span></button>
-      <button class="mc k2" data-go="tecnica" data-m="sala"><img src="img/sala.jpg" alt="" onerror="this.remove()"><span class="in"><span class="mono" style="color:var(--led)">Sala</span><b>Mueble de sala</b><span>Estantes, cajones y mesa en una sola pieza.</span></span></button>
-      <button class="mc k3" data-go="tecnica" data-m="cocina"><img src="img/cocina.jpg" alt="" onerror="this.remove()"><span class="in"><span class="mono" style="color:var(--led)">Cocina</span><b>Cocina en U</b><span>Piedra clara, melamina avellana y barra.</span></span></button>
+      <button class="mc k1" data-go="tecnica" data-m="closet" data-z="producto" data-t="muebles"><img src="img/closet.jpg" alt="" onerror="this.remove()"><span class="in"><span class="mono" style="color:var(--led)">Vestier</span><b>Clóset corredizo</b><span>2385 × 1950 mm. Melamina, vidrio y acero inoxidable, con luz cálida que se enciende al abrir.</span></span></button>
+      <button class="mc k2" data-go="tecnica" data-m="sala" data-z="producto" data-t="muebles"><img src="img/sala.jpg" alt="" onerror="this.remove()"><span class="in"><span class="mono" style="color:var(--led)">Sala</span><b>Mueble de sala</b><span>Estantes, cajones y mesa en una sola pieza. 38 elementos en el explosionado.</span></span></button>
+      <button class="mc k3" data-go="tecnica" data-m="cocina" data-z="producto" data-t="muebles"><img src="img/cocina.jpg" alt="" onerror="this.remove()"><span class="in"><span class="mono" style="color:var(--led)">Cocina</span><b>Cocina en U</b><span>5 módulos superiores y 3 inferiores, mesón de piedra clara y barra de desayuno.</span></span></button>
     </div>
-    <button class="big rv" data-go="tecnica"><small>Despiece · materiales · proceso · costos</small>Información técnica</button>
+    <button class="big rv" data-go="tecnica" data-z="producto" data-t="apto"><small>Apartamento · medidas · materiales · piezas</small>Información técnica</button>
+  </div></section>
+
+  <section class="divider" id="cambio"><div class="wrap">
+    <span class="mono rv" style="color:var(--glass)">Cambio de sección</span>
+    <h2 class="rv">Ahora, <em>cómo</em> se fabrican</h2>
+    <p class="rv">Hasta aquí fue el producto, lo que recibe el cliente. Lo que sigue no es parte del mueble: es la empresa Beta y la planta que lo produce. Beta solo fabrica; no vende ni fija precios.</p>
+  </div></section>
+
+  <section class="sec zc" id="prod"><div class="wrap">
+    <div class="zlab rv"><b>Parte 2 · La empresa Beta Ensambladora</b><span>Cómo y con qué se fabrica</span></div>
+    <span class="mono eb rv">03 a 07 · De la empresa al costo</span>
+    <h2 class="rv">La producción <em>en</em> Beta</h2>
+    <p class="lead rv">Cinco pasos, en el orden en que se diseñan: primero cuántos juegos se fabrican y en cuánto tiempo, y al final lo que la planta le cambió al mueble.</p>
+    <div class="acc rv">
+      <details open><summary><span class="n">03</span><b>Empresa y volumen</b><span class="x">+</span></summary><div class="body">
+        <div class="fact"><b>Por lotes</b><span>Tipo de producción declarado. Se compran tableros, herrajes y parte eléctrica; la planta corta y deja las piezas listas para ensamble.</span></div>
+        <div class="fact"><b>2 meses</b><span>Plazo desde la firma del contrato, todavía sin justificar.</span></div>
+        <div class="fact"><b>Pendiente</b><span>Volumen de juegos, jornada y ritmo requerido: los define el grupo.</span><span class="state falta">falta</span></div>
+        <button class="lnk" data-go="tecnica" data-z="empresa" data-t="empresa">Ver empresa y ritmo →</button></div></details>
+      <details><summary><span class="n">04</span><b>Proceso y tiempos</b><span class="x">+</span></summary><div class="body">
+        <div class="fact"><b>Pieza por pieza</b><span>Cada pieza del despiece es una fila del cursograma: operaciones, tiempos con su fuente y cuello de botella frente al ritmo.</span></div>
+        <div class="fact"><b>En diseño</b><span>Diagramas de operaciones, cursogramas, bimanual y tiempos: pendientes.</span><span class="state falta">falta</span></div>
+        <button class="lnk" data-go="tecnica" data-z="empresa" data-t="proceso">Ver proceso y tiempos →</button></div></details>
+      <details><summary><span class="n">05</span><b>La planta</b><span class="x">+</span></summary><div class="body">
+        <div class="fact"><b>297 m²</b><span>Bodega en arriendo en Puente Aranda, Bogotá, con 2 oficinas y 3 baños.</span></div>
+        <div class="fact"><b>Obra al norte</b><span>Los muebles viajan de Puente Aranda a Colina Campestre.</span></div>
+        <div class="fact"><b>En diseño</b><span>Distribución, máquinas, almacenamiento, 5S, GTC 45 y fichas de puesto: pendientes.</span><span class="state falta">falta</span></div>
+        <button class="lnk" data-go="tecnica" data-z="empresa" data-t="planta">Ver la planta →</button></div></details>
+      <details><summary><span class="n">06</span><b>Proveedores y costos</b><span class="x">+</span></summary><div class="body">
+        <div class="fact"><b>3 proveedores</b><span>Madecentro, Homecenter y Häfele comparados para herrajes e iluminación del clóset.</span></div>
+        <div class="fact"><b>$ 3.349.651</b><span>Lista de la cocina cotizada en Madecentro, sin mesón, vidrio ni equipos.</span></div>
+        <div class="fact"><b>Hoja de costos</b><span>Materias primas + mano de obra + indirectos, sin precio de venta. Lista para llenar.</span></div>
+        <button class="lnk" data-go="tecnica" data-z="empresa" data-t="costos">Ver proveedores y costos →</button></div></details>
+      <details><summary><span class="n">07</span><b>Lo que la planta cambió</b><span class="x">+</span></summary><div class="body">
+        <div class="fact"><b>Mueble y planta</b><span>Son un solo trabajo: si la planta muestra que una pieza es difícil o cara, se corrige el mueble.</span></div>
+        <div class="fact"><b>1 cambio por confirmar</b><span>El respaldo del clóset (2385 × 1950 mm) no cabe en un tablero de 1,83 m de ancho y hay que partirlo.</span><span class="state parcial">por confirmar</span></div>
+        <button class="lnk" data-go="tecnica" data-z="empresa" data-t="coherencia">Ver coherencia →</button></div></details>
+    </div>
   </div></section>
 
   <footer><div class="wrap">Beta Ensambladora · Ejercicio académico de Diseño VIII Producción, UPTC Duitama, 2026-2. Página armada con apoyo de IA (Claude) a partir de los documentos del grupo; los diseños, planos, medidas y precios son del grupo. El video de recorrido y las imágenes de los muebles en su espacio son ambientación generada con IA (Higgsfield, Seedance 2.5) a partir de los renders y planos del grupo.</div></footer>
@@ -278,15 +353,37 @@ ul.clean{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:5px;f
 
 <!-- ============ INFORMACIÓN TÉCNICA ============ -->
 <div id="tec" class="page">
-  <header class="bar">
+  <header class="bar tbar">
     <button class="logo" data-go="recorrido" aria-label="Volver al recorrido"><span class="arr">←</span><span class="brand"><img src="img/beta-mark.png" alt="Beta"><span class="ds" aria-label="Design"><i>D</i><i>E</i><i>S</i><i>I</i><i>G</i><i>N</i></span></span></button>
-    <nav id="ttabs">
-      <button class="tb" data-t="muebles" aria-pressed="true">Muebles</button><button class="tb" data-t="empresa" aria-pressed="false">Empresa y ritmo</button>
-      <button class="tb" data-t="planta" aria-pressed="false">Proceso y planta</button><button class="tb" data-t="costos" aria-pressed="false">Costos</button><button class="tb" data-t="estado" aria-pressed="false">Estado</button>
-    </nav>
+    <div class="zsw" id="zsw" aria-label="Zonas de la información técnica">
+      <button class="zb zp" data-z="producto" aria-pressed="true"><small>Zona 1</small>El producto</button>
+      <button class="zb zc" data-z="empresa" aria-pressed="false"><small>Zona 2</small>La empresa Beta</button>
+      <button class="zb zq" data-z="equipo" aria-pressed="false"><small>Zona 3 · uso interno</small>Seguimiento del equipo</button>
+    </div>
   </header>
+  <div class="zband" id="zband"><b id="zt"></b><span id="zd"></span></div>
+  <nav class="subtabs" id="ttabs" aria-label="Secciones de la zona">
+    <button class="tb" data-z="producto" data-t="apto" aria-pressed="true">Apartamento</button>
+    <button class="tb" data-z="producto" data-t="muebles" aria-pressed="false">Los tres muebles</button>
+    <button class="tb" data-z="empresa" data-t="empresa" aria-pressed="false" hidden>Empresa y ritmo</button>
+    <button class="tb" data-z="empresa" data-t="proceso" aria-pressed="false" hidden>Proceso y tiempos</button>
+    <button class="tb" data-z="empresa" data-t="planta" aria-pressed="false" hidden>La planta</button>
+    <button class="tb" data-z="empresa" data-t="costos" aria-pressed="false" hidden>Proveedores y costos</button>
+    <button class="tb" data-z="empresa" data-t="coherencia" aria-pressed="false" hidden>Coherencia</button>
+    <button class="tb" data-z="equipo" data-t="estado" aria-pressed="false" hidden>Avance frente a la guía</button>
+  </nav>
 
-  <div class="tpane on" id="p-muebles">
+  <div class="tpane on" id="p-apto">
+    <div class="phead"><span class="mono">Nota 1 · elementos A a C</span><h2>El <em>apartamento</em></h2><p>Dónde van los muebles: el proyecto, el tipo de apartamento y los tres espacios escogidos. Con estas medidas se diseñó cada pieza.</p></div>
+    <div class="grid">
+      <div class="sheet"><h3>Ficha del proyecto</h3><dl class="kv"><dt>Proyecto</dt><dd>Álamo de Veramonte, nueva etapa de Veramonte</dd><dt>Constructora</dt><dd>Constructora Bolívar</dd><dt>Ciudad y sector</dt><dd>Bogotá, Colina Campestre (cerca de la avenida Boyacá)</dd><dt>Tipo</dt><dd>Tipo B</dd><dt>Área construida</dt><dd>66 m²</dd><dt>Área privada</dt><dd>53 m²</dd><dt>Enlace y fecha de consulta</dt><dd><span class="pill parcial">falta</span></dd></dl><p class="src">Fuente: brochure de la constructora, en la carpeta del grupo.</p></div>
+      <div class="sheet"><h3>Los tres espacios</h3><dl class="kv"><dt>Cocina</dt><dd>Abierta, en U, con barra de desayuno</dd><dt>Sala</dt><dd>Mueble de sala con estantes, cajones y mesa</dd><dt>Vestier</dt><dd>Clóset corredizo con puertas de vidrio</dd><dt>Planos</dt><dd>Del grupo, a escala 1:60 y 1:50</dd></dl><div class="note">Falta declarar las dos referencias con que se escaló el plano: el área publicada y una medida estándar, como una puerta.</div></div>
+    </div>
+  </div>
+
+  <div class="tpane" id="p-muebles">
+    <div class="phead"><span class="mono">Nota 1 · elementos E a I</span><h2>Los tres <em>muebles</em></h2><p>Elige un mueble para verlo en vista isométrica explosionada, con su lista de materiales a un lado. Toca una pieza del modelo o una fila de la lista para ver su ficha.</p></div>
+
     <div class="bench">
       <div class="rail" id="rail">
         <button data-m="closet" aria-pressed="true"><svg viewBox="0 0 32 32"><rect x="5" y="3" width="22" height="26"/><path d="M16 3v26M12 15v3M20 15v3"/></svg><span><b>Clóset</b><span>Vestier</span></span></button>
@@ -309,42 +406,59 @@ ul.clean{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:5px;f
     </div>
     <div class="grid" id="x-closet">
       <div class="sheet"><h3>Despiece completo del clóset</h3><div class="tw"><table id="t-closet"></table></div><p class="src">Fuente: documento «Materias primas» y planos 1 a 3. Total melamina 15 mm: 13,751 m² · tableros delgados: 6,907 m².</p></div>
-      <div class="sheet"><h3>Por confirmar antes de costear</h3><div class="note bad">El respaldo de 2385 × 1950 mm no cabe en un tablero comercial de 1,83 m de ancho: hay que partirlo, y ese cambio va a la tabla de rastreo.</div><div class="note bad">Los «fondos» de 2385 × 690 × 6 y 2385 × 400 × 6 tienen las medidas exactas de las dos puertas de vidrio; en la lista figuran como tablero delgado.</div><h3>Planos en Drive</h3><ul class="clean" id="l-closet"></ul></div>
+      <div class="sheet"><h3>Pendientes del clóset antes de costear</h3><div class="note bad">El respaldo de 2385 × 1950 mm no cabe en un tablero comercial de 1,83 m de ancho: hay que partirlo, y ese cambio va a la tabla de rastreo.</div><div class="note bad">Los «fondos» de 2385 × 690 × 6 y 2385 × 400 × 6 tienen las medidas exactas de las dos puertas de vidrio; en la lista figuran como tablero delgado.</div><h3>Planos del grupo (Drive)</h3><ul class="clean" id="l-closet"></ul></div>
     </div>
     <div class="grid" id="x-sala" hidden>
       <div class="sheet"><h3>Lista del explosionado de la sala</h3><div class="filters" id="f-sala"></div><div class="tw"><table id="t-sala"></table></div></div>
-      <div class="sheet"><h3>Para revisar</h3><div class="note">CODRC01 y CODLC01 aparecen dos veces en el explosionado: confirmar si son 3 o 6 piezas de cada una. De 31 piezas fabricadas distintas, 13 tienen plano de pieza.</div><div class="note">La tabla del plano no trae material ni medidas por pieza.</div><h3>Planos en Drive</h3><ul class="clean" id="l-sala"></ul></div>
+      <div class="sheet"><h3>Pendientes de la sala</h3><div class="note">CODRC01 y CODLC01 aparecen dos veces en el explosionado: confirmar si son 3 o 6 piezas de cada una. De 31 piezas fabricadas distintas, 13 tienen plano de pieza.</div><div class="note">La tabla del plano no trae material ni medidas por pieza.</div><h3>Planos del grupo (Drive)</h3><ul class="clean" id="l-sala"></ul></div>
     </div>
     <div class="grid" id="x-cocina" hidden>
       <div class="sheet"><h3>Módulos de la cocina</h3><div class="tw"><table id="t-cocina"></table></div><dl class="kv"><dt>Espacio</dt><dd>Altura libre 2,40 m · ancho máx. 2,25 m · profundidad 2,20 m · tramo posterior 1,90 m</dd></dl></div>
-      <div class="sheet"><h3>Para revisar</h3><div class="note">Los planos están por módulo a escala 1:50. Falta el despiece pieza por pieza, sin el cual no hay plan de corte ni cursograma.</div><h3>Planos en Drive</h3><ul class="clean" id="l-cocina"></ul></div>
+      <div class="sheet"><h3>Pendientes de la cocina</h3><div class="note">Los planos están por módulo a escala 1:50. Falta el despiece pieza por pieza, sin el cual no hay plan de corte ni cursograma.</div><h3>Planos del grupo (Drive)</h3><ul class="clean" id="l-cocina"></ul></div>
     </div>
   </div>
 
   <div class="tpane" id="p-empresa">
+    <div class="phead"><span class="mono">Nota 2 · criterio 1 · elementos J a O</span><h2>Empresa, volumen <em>y</em> ritmo</h2><p>Qué fabrica Beta, cuántos juegos entrega, en cuánto tiempo y cada cuántas horas debe salir un juego terminado.</p></div>
     <div class="grid">
-      <div class="sheet"><h3>Ficha de la empresa</h3><dl class="kv"><dt>Nombre</dt><dd>Beta Ensambladora</dd><dt>Qué fabrica</dt><dd>Juegos de cocina, sala y vestier para el apartamento tipo 66 m²</dd><dt>Para quién</dt><dd>La obra Álamo de Veramonte</dd><dt>Modalidad</dt><dd><span class="pill falta">pendiente</span></dd><dt>Plazo</dt><dd>Dos meses desde la firma <span class="pill parcial">sin justificar</span></dd><dt>Jornada</dt><dd><span class="pill falta">pendiente</span></dd><dt>Volumen</dt><dd><span class="pill falta">pendiente</span></dd><dt>Tipo</dt><dd>Por lotes <span class="pill parcial">falta justificar</span></dd></dl><p class="src">Fuente: documento «EMPRESA Beta Ensambladora»</p></div>
-      <div class="sheet"><h3>Ritmo requerido</h3><p style="font-size:14px">Ritmo = horas disponibles en el plazo ÷ juegos a entregar.</p><div class="calc"><label class="f" for="r-j">Juegos<input type="number" id="r-j" min="1" placeholder="dato del grupo"></label><label class="f" for="r-s">Semanas<input type="number" id="r-s" min="1" step="0.1" placeholder="dato del grupo"></label><label class="f" for="r-h">Horas por semana<input type="number" id="r-h" min="1" placeholder="dato del grupo"></label></div><div class="out" id="r-out"></div></div>
+      <div class="sheet"><h3>Ficha de Beta Ensambladora</h3><dl class="kv"><dt>Nombre</dt><dd>Beta Ensambladora</dd><dt>Qué fabrica</dt><dd>Juegos de cocina, sala y vestier para el apartamento tipo 66 m²</dd><dt>Para quién</dt><dd>La obra Álamo de Veramonte</dd><dt>Modalidad</dt><dd><span class="pill falta">pendiente</span></dd><dt>Plazo</dt><dd>Dos meses desde la firma <span class="pill parcial">sin justificar</span></dd><dt>Jornada</dt><dd><span class="pill falta">pendiente</span></dd><dt>Volumen</dt><dd><span class="pill falta">pendiente</span></dd><dt>Tipo</dt><dd>Por lotes <span class="pill parcial">falta justificar</span></dd></dl><p class="src">Fuente: documento «EMPRESA Beta Ensambladora»</p></div>
+      <div class="sheet"><h3>Calculadora del ritmo requerido</h3><p style="font-size:13px;font-weight:300">Ritmo = horas disponibles en el plazo ÷ juegos a entregar. Se llena con los datos del grupo.</p><div class="calc"><label class="f" for="r-j">Juegos<input type="number" id="r-j" min="1" placeholder="dato del grupo"></label><label class="f" for="r-s">Semanas<input type="number" id="r-s" min="1" step="0.1" placeholder="dato del grupo"></label><label class="f" for="r-h">Horas por semana<input type="number" id="r-h" min="1" placeholder="dato del grupo"></label></div><div class="out" id="r-out"></div></div>
     </div>
+  </div>
+
+  <div class="tpane" id="p-proceso">
+    <div class="phead"><span class="mono">Nota 2 · criterios 2 y 3 · ítems 7 a 11</span><h2>Proceso, métodos <em>y</em> tiempos</h2><p>Cómo se fabrica cada mueble pieza por pieza: operaciones, cursograma, tiempos con su fuente y si la planta alcanza el ritmo que exige la obra.</p></div>
+    <div class="sheet"><h3>Qué se entrega en el proceso y en qué estado está</h3><div class="tw"><table id="t-proc"></table></div></div>
   </div>
 
   <div class="tpane" id="p-planta">
+    <div class="phead"><span class="mono">Nota 2 · criterios 4 y 5 · ítems 3 a 6 y 12 a 16</span><h2>La <em>planta</em></h2><p>Dónde está, cómo se distribuye, qué máquinas lleva, dónde se guarda cada cosa y cómo se cuidan las personas y la calidad.</p></div>
     <div class="grid">
       <div class="sheet"><h3>Localización elegida</h3><dl class="kv"><dt>Inmueble</dt><dd>Bodega en arriendo, 297 m²</dd><dt>Ubicación</dt><dd>Puente Aranda, Bogotá</dd><dt>Dotación</dt><dd>2 oficinas, 3 baños</dd><dt>Canon</dt><dd><span class="pill falta">pendiente</span></dd><dt>Anuncio</dt><dd><a href="https://www.fincaraiz.com.co/bodega-en-arriendo-en-cundinamarca-bogota/194230166">Fincaraíz 194230166</a></dd></dl></div>
-      <div class="sheet"><h3>Hipótesis de producción</h3><p style="font-size:14px"><span class="pill falta">pendiente</span> Una frase escrita antes de calcular: qué operación limitará la planta.</p></div>
     </div>
-    <div class="sheet"><h3>Entregables del proceso</h3><div class="tw"><table id="t-proc"></table></div></div>
-    <div class="sheet"><h3>Entregables de la planta</h3><div class="tw"><table id="t-planta"></table></div></div>
+    <div class="sheet"><h3>Qué se entrega en la planta y en qué estado está</h3><div class="tw"><table id="t-planta"></table></div></div>
+  </div>
+
+  <div class="tpane" id="p-coherencia">
+    <div class="phead"><span class="mono">Nota 2 · criterio 6 · ítems 2 y 17</span><h2>Coherencia: lo que la planta <em>le cambió</em> al mueble</h2><p>Mueble y planta son un solo trabajo. Aquí se compara lo que se esperaba con lo que resultó, y se anota cada cambio hecho al diseño.</p></div>
+    <div class="grid">
+      <div class="sheet"><h3>Hipótesis de producción</h3><p style="font-size:13.5px;font-weight:300"><span class="pill falta">pendiente</span> Una frase escrita antes de calcular: qué operación limitará la planta. Al final se comprueba si el grupo acertó.</p></div>
+    </div>
+    <div class="sheet"><h3>Tabla de rastreo: decisión del mueble → consecuencia en la planta</h3><div class="tw"><table><tr><th>Decisión del mueble</th><th>Consecuencia en la planta</th><th>Cambio al diseño</th><th>Estado</th></tr>
+      <tr><td>Respaldo del clóset de 2385 × 1950 × 15 mm</td><td>No cabe en un tablero comercial de 1,83 m de ancho</td><td>Partir el respaldo en dos piezas</td><td><span class="pill parcial">por confirmar</span></td></tr>
+      <tr><td colspan="4" style="color:var(--mute)">Las demás filas se llenan cuando estén los tiempos, las máquinas y los planes de corte.</td></tr></table></div></div>
   </div>
 
   <div class="tpane" id="p-costos">
+    <div class="phead"><span class="mono">Nota 3 · elementos P a R y costos</span><h2>Proveedores <em>y</em> costos</h2><p>Qué compra Beta, a quién y cuánto cuesta fabricar cada mueble: materias primas + mano de obra + costos indirectos, sin precio de venta.</p></div>
     <div class="sheet"><h3>Clóset · herrajes, puertas e iluminación por proveedor</h3><div class="tabs" id="ptabs"></div><div class="tw"><table id="t-herr"></table></div><div class="note">Precios sin soporte ni referencia exacta, y elección solo por precio. La guía pide cotización real con fecha y cuadro con cinco criterios.</div></div>
     <div class="sheet"><h3>Cocina · lista cotizada en Madecentro</h3><div class="tw"><table id="t-coc"></table></div><p class="src">Sin precio todavía: mesón, vidrio, perfilería, grifería, poceta y electrodomésticos.</p></div>
     <div class="sheet"><h3>Hoja de costos</h3><div class="calc"><label class="f" for="c-sal">Costo hora MOD ($)<input type="number" id="c-sal" min="0" placeholder="con fuente"></label><label class="f" for="c-cif">Indirectos por juego ($)<input type="number" id="c-cif" min="0" placeholder="presupuesto"></label><label class="f" for="c-vol">Volumen (juegos)<input type="number" id="c-vol" min="1" placeholder="elemento K"></label></div><div class="tw"><table id="t-cost"></table></div></div>
   </div>
 
   <div class="tpane" id="p-estado">
-    <div class="sheet"><h3>Estado frente a la lista de chequeo de la guía</h3><div id="summary"></div></div>
+    <div class="phead"><span class="mono">Zona de uso interno · lista de chequeo de la guía</span><h2>Avance frente <em>a</em> la guía</h2><p>Para el equipo y la revisión, no para el cliente: compara lo que hay en la carpeta con lo que pide cada nota.</p></div>
+    <div class="sheet"><h3>Resumen por nota</h3><div id="summary"></div></div>
     <div class="filters" id="f-estado"></div>
     <div class="sheet"><div class="tw"><table id="t-estado"></table></div></div>
   </div>
@@ -583,7 +697,7 @@ function bomRows(m){
 const MU={closet:['Clóset corredizo','Clóset · 1 unidad','Fuente: «Materias primas» y planos del clóset. Costo por pieza pendiente del plan de corte.'],
   sala:['Mueble de sala','Sala · lista del explosionado','Fuente: EXPLOSIONADO CON NÚMERO DE PIEZAS.pdf. Sin material ni medidas por pieza.'],
   cocina:['Cocina en U con barra','Cocina · compras en Madecentro','Fuente: documento «Precios». Total cotizado: '+cop(totC)+'. Faltan mesón, vidrio y equipos.']};
-function mueble(m){ $$('#rail button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.m===m));
+function mueble(m){ curM=m; $$('#rail button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.m===m));
   ['closet','sala','cocina'].forEach(k=>$('#x-'+k).hidden=k!==m);
   $('#sth').textContent=MU[m][0]; $('#bomh').textContent=MU[m][1]; $('#bomf').textContent=MU[m][2]; $('#bom').innerHTML=bomRows(m);
   const c=m==='closet', img=$('#slotimg'), em=$('#empty'); $('#iso').hidden=!c; $('#dock').hidden=!c; $('#pinfo').hidden=!c; em.hidden=true; img.hidden=true;
@@ -592,16 +706,23 @@ function mueble(m){ $$('#rail button').forEach(b=>b.setAttribute('aria-pressed',
 $('#rail').addEventListener('click',e=>{const b=e.target.closest('[data-m]'); if(b) mueble(b.dataset.m);});
 $('#bom').addEventListener('click',e=>{const r=e.target.closest('[data-pz]'); if(r){info(r.dataset.pz);hl(r.dataset.pz);}});
 $('#bom').addEventListener('mouseover',e=>{const r=e.target.closest('[data-pz]'); if(r) hl(r.dataset.pz);});
-$('#ttabs').addEventListener('click',e=>{const b=e.target.closest('[data-t]'); if(!b) return; $$('#ttabs .tb').forEach(x=>x.setAttribute('aria-pressed',x===b)); $$('.tpane').forEach(p=>p.classList.toggle('on',p.id==='p-'+b.dataset.t)); scrollTo(0,0);});
+const ZN={producto:['Zona 1 · El producto','Lo que recibe el cliente: el apartamento y los tres muebles, con sus medidas, materiales y piezas. Corresponde a la Nota 1.','apto'],
+  empresa:['Zona 2 · La empresa Beta Ensambladora','Cómo y con qué se fabrican los muebles: volumen, proceso, planta, proveedores y costos. No es parte del producto. Corresponde a las Notas 2 y 3.','empresa'],
+  equipo:['Zona 3 · Seguimiento del equipo','Uso interno: compara lo que hay en la carpeta con la lista de chequeo de la guía. No es parte de lo que ve el cliente.','estado']};
+let curM='closet', nextTab=null;
+function tab(t){ $$('#ttabs .tb').forEach(x=>x.setAttribute('aria-pressed',x.dataset.t===t)); $$('.tpane').forEach(p=>p.classList.toggle('on',p.id==='p-'+t)); if(t==='muebles') mueble(curM); scrollTo(0,0); }
+function zone(z,t){ $('#tec').dataset.z=z; $$('#zsw .zb').forEach(b=>b.setAttribute('aria-pressed',b.dataset.z===z)); $('#zt').textContent=ZN[z][0]; $('#zd').textContent=ZN[z][1]; $$('#ttabs .tb').forEach(b=>b.hidden=b.dataset.z!==z); tab(t||ZN[z][2]); }
+$('#ttabs').addEventListener('click',e=>{const b=e.target.closest('[data-t]'); if(b) tab(b.dataset.t);});
+$('#zsw').addEventListener('click',e=>{const b=e.target.closest('[data-z]'); if(b) zone(b.dataset.z);});
 
 /* ---------- navegación entre lobby, recorrido y técnica ---------- */
 function go(n,m){ const L=$('#lobby'),X=$('#exp'),T=$('#tec'); L.classList.toggle('on',n==='lobby'); X.classList.toggle('on',n==='recorrido'); T.classList.toggle('on',n==='tecnica');
   cineOn=n==='recorrido'; scrollTo(0,0); try{history.replaceState(null,'','#'+n)}catch(e){location.hash=n}
-  if(n==='recorrido'){ startCine(); cineOn=true; } if(n==='tecnica') mueble(m||'closet'); }
+  if(n==='recorrido'){ startCine(); cineOn=true; } if(n==='tecnica'){ if(m) curM=m; const nt=nextTab; nextTab=null; zone(nt&&nt.z||'producto',nt&&nt.t); } }
 function wipeTo(n,m,el){ const w=$('#wipe'); if(RM){go(n,m);return;} const r=el.getBoundingClientRect(); w.style.setProperty('--x',(r.left+r.width/2)+'px'); w.style.setProperty('--y',(r.top+r.height/2)+'px');
   w.classList.remove('run'); void w.offsetWidth; w.classList.add('run'); setTimeout(()=>go(n,m),620); }
 $('#go').addEventListener('click',e=>wipeTo('recorrido',null,e.currentTarget));
-document.addEventListener('click',e=>{ const b=e.target.closest('[data-go]'); if(b){ wipeTo(b.dataset.go,b.dataset.m,b); return; }
+document.addEventListener('click',e=>{ const b=e.target.closest('[data-go]'); if(b){ nextTab=b.dataset.z?{z:b.dataset.z,t:b.dataset.t}:null; wipeTo(b.dataset.go,b.dataset.m,b); return; }
   const a=e.target.closest('[data-sc]'); if(a){ e.preventDefault(); $('#'+a.dataset.sc).scrollIntoView({behavior:RM?'auto':'smooth'}); } });
 addEventListener('scroll',()=>$('#xbar').classList.toggle('solid',scrollY>40),{passive:true});
 $$('.acc details').forEach(d=>d.addEventListener('toggle',()=>{ if(d.open) $$('.acc details').forEach(o=>{if(o!==d) o.open=false;}); }));
@@ -621,6 +742,7 @@ $$('.rv').forEach(el=>io?io.observe(el):el.classList.add('in'));
       const q=g.createRadialGradient(x,y,0,x,y,R*4); q.addColorStop(0,`rgba(255,200,130,${a})`); q.addColorStop(1,'rgba(255,184,105,0)'); g.fillStyle=q; g.fillRect(x-R*4,y-R*4,R*8,R*8); }); g.globalCompositeOperation='source-over';
   })(0); })();
 
+zone('producto');
 const H0=location.hash.slice(1); if(H0==='recorrido'||H0==='tecnica') go(H0);
 
 </script>
