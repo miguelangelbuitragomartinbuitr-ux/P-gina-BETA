@@ -850,7 +850,7 @@ video::-webkit-media-controls,video::-webkit-media-controls-start-playback-butto
     <div class="sheet wide"><h3>Dónde se guarda cada cosa</h3><p class="lede">Cuánto espacio necesita cada zona, según el lote.</p><div class="tw"><table id="t-zo"></table></div></div>
     <div class="sheet wide"><h3>Maquinaria por estación</h3><p class="lede">Máquinas necesarias por operación. Las fichas de los fabricantes se anexan al elegir cada marca.</p><div class="tw"><table id="t-maq"></table></div></div>
     <div class="sheet wide"><h3>Orden en la planta</h3><p class="lede">Cómo se aplican las cinco S en esta planta.</p><div class="tw"><table id="t-5s"></table></div></div>
-    <div class="sheet wide"><h3>Riesgos de la planta y cómo los controlamos</h3><p class="lede">Peligros por operación y sus controles.</p><div class="tw"><table id="t-gtc"></table></div></div>
+    <div class="sheet wide"><h3>Matriz GTC 45 del proceso de producción</h3><p class="lede">Identificación de peligros y valoración de riesgos de cada estación de la planta con la metodología de la GTC 45, en el mismo orden del flujo de operaciones. Se cumple con el Decreto 1072 de 2015 y la Resolución 0312 de 2019 del Sistema de Gestión de Seguridad y Salud en el Trabajo.</p><div class="tw"><table id="t-gtc"></table></div><h4 style="margin:22px 0 8px">Cómo se valora el riesgo</h4><div class="tw"><table id="t-gtc-esc"></table></div></div>
     <div class="sheet wide"><h3>Cada puesto de trabajo</h3><p class="lede">Los cuatro puestos de trabajo de la planta.</p><div class="tw"><table id="t-pu"></table></div></div>
   </div>
 
@@ -872,6 +872,7 @@ video::-webkit-media-controls,video::-webkit-media-controls-start-playback-butto
     
     <div class="sheet"><h3>Clóset · herrajes, puertas y luz por proveedor</h3><div class="tabs" id="ptabs"></div><div class="tw"><table id="t-herr"></table></div><div class="note">Precios sin soporte ni referencia exacta, y elección solo por precio. La guía pide cotización real con fecha y cuadro con cinco criterios.</div></div>
     <div class="sheet"><h3>Cocina en U · lo cotizado en Madecentro</h3><div class="tw"><table id="t-coc"></table></div></div>
+    <div class="sheet wide"><h3>Tableros que gasta cada juego</h3><p class="lede">Cuántas láminas de 2,44 × 1,83 m consume cada mueble, con 15 % de desperdicio, y cuántas necesita el pedido.</p><div class="tw"><table id="t-tj"></table></div><p class="src" id="tj-note"></p></div>
     <div class="sheet wide"><h3>Compras para los 21 juegos</h3><p class="lede">Las listas por mueble multiplicadas por los juegos del pedido (se actualiza con la calculadora de ritmo).</p><div class="tw"><table id="t-lc"></table></div><p class="src" id="lc-note"></p></div>
     <div class="sheet wide"><h3>Con quién compramos y por qué</h3><p class="lede">Cinco criterios con peso, calificados del 1 al 5.</p><div class="tw"><table id="t-pv"></table></div><p class="src">Proveedor propuesto: <b>Madecentro</b> para tableros y herrajes de entrega rápida; <b>Aglocol</b> cuando el volumen justifique comprar directo al fabricante de tableros.</p></div>
     <div class="sheet"><h3>Lo que cuesta fabricar</h3><div class="calc"><label class="f" for="c-sal">Costo hora MOD ($)<input type="number" id="c-sal" min="0" placeholder="con fuente"></label><label class="f" for="c-cif">Indirectos por juego ($)<input type="number" id="c-cif" min="0" placeholder="presupuesto"></label><label class="f" for="c-vol">Volumen (juegos)<input type="number" id="c-vol" min="1" placeholder="elemento K"></label></div><div class="tw"><table id="t-cost"></table></div><p class="src">Costo hora MOD: salario mínimo 2026 ($ 1.750.905) más auxilio de transporte ($ 249.095), por 1,52 de prestaciones y aportes, entre 192 horas al mes (≈ $ 15.800).</p></div>
@@ -1488,14 +1489,22 @@ $('#t-5s').innerHTML=TB(['S','Qué significa','Cómo se aplica en esta planta'],
 ['Seiso · Limpiar','Limpiar e inspeccionar','Aspirar el polvo de corte y canteado al final de cada turno; revisar la máquina al limpiar.'],
 ['Seiketsu · Estandarizar','Hacer de lo anterior una norma','Fotos del puesto ordenado y lista de chequeo diaria a la vista.'],
 ['Shitsuke · Disciplina','Mantener el hábito','Auditoría semanal del jefe de planta; el puesto más ordenado se reconoce.']]);
-$('#t-gtc').innerHTML=TB(['Operación','Peligro','Riesgo','Nivel','Control'],[
-['Corte en seccionadora','Mecánico, ruido y material particulado','Cortes, atrapamiento, pérdida auditiva, afección respiratoria','Alto','Guardas, protección auditiva, mascarilla, extracción de polvo'],
-['Canteado','Mecánico y térmico','Quemaduras con el pegante, atrapamiento','Medio','Guantes térmicos, guardas, distancia a las partes móviles'],
-['Perforado','Mecánico','Cortes, proyección de partículas','Medio','Gafas, sujeción de la pieza con plantilla'],
-['Armado y prensado','Ergonómico','Postura forzada y manejo de cargas','Medio','Mesas a altura, carros, pausas activas'],
-['Manejo de vidrio','Mecánico','Cortes y caída del vidrio','Alto','Guantes anticorte, caballete, dos personas'],
-['Trabajo eléctrico (luces)','Eléctrico','Descarga eléctrica','Medio','Corte de energía, personal con competencia'],
-['Transporte y obra','Locativo y por carga','Caídas, golpes, sobreesfuerzo','Medio','Equipo de elevación, ayudante, zapatos de seguridad']]);
+
+const GT=[
+['1 · Recepción y almacenaje','Locativo y ergonómico: tableros de 2,44 m y manejo de cargas','Golpes, caídas de tableros, sobreesfuerzo lumbar',6,3,10,'Carros de transporte, estiba segura de tableros, dos personas por tablero, zapatos de seguridad',2],
+['2 · Corte en seccionadora','Mecánico, ruido y material particulado','Cortes, atrapamiento, pérdida auditiva, afección respiratoria',6,3,25,'Guardas fijas, protección auditiva, mascarilla, extracción de polvo, formación en la máquina',2],
+['3 · Canteado','Mecánico y térmico','Quemaduras con el pegante, atrapamiento',6,4,10,'Guantes térmicos, guardas, distancia a las partes móviles',2],
+['4 · Perforado','Mecánico','Cortes, proyección de partículas',6,4,10,'Gafas, sujeción de la pieza con plantilla, protección de la broca',2],
+['5 · Armado y prensado','Biomecánico: postura forzada y manejo de cargas','Lesiones de espalda y manos',6,4,10,'Mesas a altura, carros, pausas activas, rotación de puestos',2],
+['6 · Manejo de vidrio','Mecánico','Cortes y caída del vidrio',6,2,25,'Guantes anticorte, caballete, dos personas, vidrio con borde pulido',2],
+['7 · Instalación de luces','Eléctrico','Descarga eléctrica',2,2,60,'Corte de energía, 12 V en la parte de baja tensión, personal competente',2,1],
+['8 · Transporte y obra','Locativo y por carga','Caídas, golpes, sobreesfuerzo',6,2,25,'Equipo de elevación, ayudante, zapatos de seguridad, ruta despejada',2]];
+const nvl=n=>n>=600?['I','No aceptable']:n>=150?['II','Aceptable con control específico']:n>=40?['III','Mejorable']:['IV','Aceptable'];
+$('#t-gtc').innerHTML=TB(['Operación','Peligro y riesgo','ND','NE','NC','Riesgo inicial (NR)','Controles','Riesgo con controles (NR)'],GT.map(g=>{ const ne2=g[8]||g[4]; const n0=g[3]*g[4]*g[5], n1=g[7]*ne2*g[5], l0=nvl(n0), l1=nvl(n1); return ['<b>'+g[0]+'</b>',g[1]+'<br><small>'+g[2]+'</small>',g[3],g[4],g[5],'<b>'+n0+'</b> · nivel '+l0[0]+'<br><small>'+l0[1]+'</small>',g[6],'<b>'+n1+'</b> · nivel '+l1[0]+'<br><small>'+l1[1]+'</small>']; }),[null,null,'num','num','num',null,null,null]);
+$('#t-gtc-esc').innerHTML=TB(['Elemento','Cómo se calcula','Valores'],[
+['Nivel de probabilidad (NP)','Nivel de deficiencia (ND) × nivel de exposición (NE)','ND: 10 muy alto, 6 alto, 2 medio · NE: 4 continua, 3 frecuente, 2 ocasional, 1 esporádica'],
+['Nivel de riesgo (NR)','Nivel de probabilidad (NP) × nivel de consecuencia (NC)','NC: 100 mortal, 60 muy grave, 25 grave, 10 leve'],
+['Nivel de intervención','Según el valor del NR','I (600 o más): no aceptable · II (150 a 500): aceptable con control específico · III (40 a 120): mejorable · IV (20 o menos): aceptable']]);
 $('#t-pu').innerHTML=TB(['Puesto','Qué hace','Qué usa','Qué cuida','Personas'],[
 ['Corte','Corta las piezas de los tableros según el plano','Seccionadora, flexómetro, escuadra','Medidas y rendimiento del tablero','1'],
 ['Canteado y perforado','Cantea los bordes y perfora según la plantilla','Canteadora, taladro, plantilla','Acabado del canto y posición de los agujeros','1'],
@@ -1577,6 +1586,18 @@ provMatrix(); provDet('closet'); $('#pv-tabs').addEventListener('click',e=>{ con
   ['Mesón con módulos','Piedra sinterizada con melamina','Silicona estructural sobre apoyos','Cerca de 4 m² de mesón','Se asienta el mesón sobre los módulos nivelados y se sella con silicona']]);
 })();
 
+
+function tabJuego(){ const j=+(store.get('r2j')||21), L=2.44*1.83, W=1.15;
+  const sa=SP.filter(p=>!p[7]), a15=sa.filter(p=>p[5]>=15).reduce((a,p)=>a+p[3]*p[4]*p[6],0)/1e6, a6=sa.filter(p=>p[5]<15).reduce((a,p)=>a+p[3]*p[4]*p[6],0)/1e6;
+  const f=v=>v.toLocaleString('es-CO',{maximumFractionDigits:2});
+  const C=[['Clóset',13.751,6.907],['Sala',a15,a6]];
+  const rows=C.map(c=>{ const t=Math.ceil(c[1]*W/L), d=Math.ceil(c[2]*W/L); return [c[0],f(c[1])+' m²',t,f(c[2])+' m²',d,t+d,(t+d)*j]; });
+  rows.push(['Cocina','6 láminas de 2,15 × 2,44 m',6,'1 lámina',1,7,7*j]);
+  const tj=rows.reduce((a,r)=>a+r[5],0);
+  rows.push(['<b>Un juego (tres muebles)</b>','','','','','<b>'+tj+'</b>','<b>'+(tj*j)+'</b>']);
+  $('#t-tj').innerHTML=TB(['Mueble','Melamina de 15 mm (piezas)','Láminas de 15 mm','Fondos de 5 a 6 mm (piezas)','Láminas de fondo','Láminas por mueble','Láminas para '+j+' juegos'],rows,[null,'num','num','num','num','num','num']);
+  $('#tj-note').textContent='Clóset y sala: área de las piezas del despiece más 15 % de desperdicio, dividida entre el área de una lámina (4,47 m²). Cocina: lámina de 2,15 × 2,44 m según la cotización. Las láminas se redondean hacia arriba.'; }
+tabJuego();
 function compras(){ const j=+(store.get('r2j')||21);
   const bM=Math.ceil(j*13.751*1.15/4.465), bF=Math.ceil(j*6.907*1.15/4.465); const bC=j*5, bFC=j*1;
   const H=HERR.map(h=>[h[0]+' · '+h[1],h[2]*j,h[3],h[4+pv]||0]);
