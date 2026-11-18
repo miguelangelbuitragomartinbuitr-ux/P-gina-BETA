@@ -173,7 +173,7 @@ footer{padding:40px 0 60px;border-top:1px solid var(--line);color:var(--mute);fo
 .stage{position:relative;border:1px solid var(--line);border-radius:18px;overflow:hidden;min-height:520px;
   background:radial-gradient(circle at 50% 40%,#16202a,#080c10 75%),repeating-linear-gradient(0deg,transparent 0 39px,rgba(127,227,214,.05) 39px 40px)}
 .stage::before{content:"";position:absolute;inset:0;pointer-events:none;background:repeating-linear-gradient(0deg,transparent 0 39px,rgba(127,227,214,.06) 39px 40px),repeating-linear-gradient(90deg,transparent 0 39px,rgba(127,227,214,.06) 39px 40px)}
-#iso{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:none}
+#iso{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:pan-y}
 .stage .lab{position:absolute;left:18px;top:16px} .stage .lab h3{font-size:20px;margin-top:6px}
 .dock{position:absolute;left:18px;right:18px;bottom:16px;display:flex;gap:10px;align-items:center;flex-wrap:wrap;background:rgba(8,12,16,.72);backdrop-filter:blur(10px);border:1px solid var(--line);border-radius:99px;padding:8px 14px}
 .dock input[type=range]{accent-color:var(--glass);flex:1;min-width:120px}
@@ -403,6 +403,33 @@ video::-webkit-media-controls,video::-webkit-media-controls-start-playback-butto
   .howto{margin:20px 16px 0;padding:18px} .pbtn{min-width:100%} .pbtn.next{margin-left:0}
 }
 [hidden]{display:none!important}
+
+/* visor 3D del apartamento: elegir primero, explorar después */
+.v3w{margin-top:40px;display:flex;flex-direction:column;gap:12px}
+.v3-pick{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.v3-pick button{display:flex;align-items:center;gap:10px;justify-content:center;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.14);border-radius:14px;padding:12px 10px;font:inherit;font-size:14px;font-weight:600;color:#e9e2d6;cursor:pointer;transition:background .25s,border-color .25s,transform .25s}
+.v3-pick button i{font-style:normal;width:24px;height:24px;border-radius:50%;display:grid;place-items:center;background:rgba(255,255,255,.12);font-size:12px}
+.v3-pick button:hover{border-color:var(--led);transform:translateY(-1px)}
+.v3-pick button.on{background:var(--led);border-color:var(--led);color:#1a1209}.v3-pick button.on i{background:rgba(0,0,0,.18)}
+.v3w .v3{margin-top:0}
+.v3 canvas{touch-action:pan-y;cursor:pointer}.v3.active canvas{cursor:grab;touch-action:none}
+.v3-cta{position:absolute;left:50%;bottom:16px;transform:translateX(-50%);display:inline-flex;align-items:center;gap:10px;background:rgba(13,19,24,.82);backdrop-filter:blur(8px);color:#fff;border:1px solid rgba(255,255,255,.3);border-radius:99px;padding:12px 22px;font:inherit;font-size:14px;font-weight:600;cursor:pointer;transition:background .25s,transform .25s}
+.v3-cta svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.v3-cta:hover{background:var(--led);color:#1a1209;transform:translateX(-50%) translateY(-2px)}
+.v3.active .v3-cta{display:none}
+.v3-exit{display:none;position:absolute;left:12px;top:12px;background:rgba(13,19,24,.82);backdrop-filter:blur(8px);color:#fff;border:1px solid rgba(255,255,255,.3);border-radius:99px;padding:8px 16px;font:inherit;font-size:13px;font-weight:600;cursor:pointer}
+.v3.active .v3-exit{display:block}
+.v3-opts{display:flex;justify-content:space-between;align-items:center;gap:10px 20px;flex-wrap:wrap}
+.v3-tip{font-size:12.5px;color:#9aa6b2;line-height:1.5;max-width:60ch}.v3w .t-on{display:none}.v3w.active .t-on{display:inline}.v3w.active .t-off{display:none}
+.v3-sw{display:inline-flex;align-items:center;gap:6px;flex-wrap:wrap}.v3-sw em{font-style:normal;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#7f8a96;margin-right:4px}
+.v3-sw button{background:none;border:1px solid rgba(255,255,255,.18);border-radius:99px;padding:6px 12px;font:inherit;font-size:12px;color:#c9d0d8;cursor:pointer;transition:.2s}
+.v3-sw button.on{background:rgba(255,184,105,.16);border-color:var(--led);color:#ffd9ae}
+.v3-real{top:12px;right:12px}
+@media (max-width:760px){
+  .v3-pick{grid-template-columns:repeat(2,1fr)} .v3-pick button{padding:12px 8px;font-size:13.5px}
+  .v3w .v3{height:clamp(360px,56svh,520px)} .v3-real{width:42%;top:8px;right:8px} .v3-exit{top:8px;left:8px}
+  .v3-cta{bottom:12px;padding:12px 20px}
+}
 </style>
 </head>
 <body>
@@ -447,15 +474,21 @@ video::-webkit-media-controls,video::-webkit-media-controls-start-playback-butto
     <h2 class="rv">Tu apartamento de <em>66 m²</em>, amoblado a la medida</h2>
     <p class="lead rv">En Beta Ensambladora fabricamos tres muebles para el Tipo B del Álamo de Veramonte: el mueble de la sala, la cocina en U con barra y el vestier. Cada uno se diseña sobre los planos reales del apartamento, de modo que llega con las medidas de tu espacio y encaja en su lugar.</p>
 
-    <div class="v3 rv" id="v3">
-      <canvas aria-label="Modelo 3D del apartamento Tipo B con los tres muebles de Beta"></canvas>
-      <div class="v3-load">Cargando el apartamento…</div>
-      <div class="v3-bar">
-        <div class="v3-g"><button data-v="aerea" class="on">Vista general</button><button data-v="sala">Sala</button><button data-v="cocina">Cocina</button><button data-v="vestier">Vestier</button></div>
-        <div class="v3-g"><button data-t="muebles" class="on">Muebles Beta</button><button data-t="corte">Muros bajos</button><button data-t="etiq" class="on">Nombres</button></div>
+    <div class="v3w rv">
+      <div class="v3-pick" role="group" aria-label="Elige qué parte del apartamento ver">
+        <button data-v="aerea" class="on"><i>1</i><span>Vista general</span></button><button data-v="sala"><i>2</i><span>Sala</span></button><button data-v="cocina"><i>3</i><span>Cocina</span></button><button data-v="vestier"><i>4</i><span>Vestier</span></button>
       </div>
-      <figure class="v3-real" id="v3real"><img alt="" loading="lazy"><figcaption>Vista fotorrealista de este espacio · toca para ver completa</figcaption></figure>
-      <div class="v3-hint">Arrastra de lado para girar · pellizca para acercar</div>
+      <div class="v3" id="v3">
+        <canvas aria-label="Modelo 3D del apartamento Tipo B con los tres muebles de Beta"></canvas>
+        <div class="v3-load">Cargando el apartamento…</div>
+        <figure class="v3-real" id="v3real"><img alt="" loading="lazy"><figcaption>Así se ve este espacio · toca para ampliar</figcaption></figure>
+        <button class="v3-cta" data-act type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v18M3 12h18M7 7l-3 5 3 5M17 7l3 5-3 5"/></svg>Explorar en 3D</button>
+        <button class="v3-exit" data-exit type="button">✕ Salir del 3D</button>
+      </div>
+      <div class="v3-opts">
+        <span class="v3-tip"><span class="t-off">Elige un espacio arriba. Toca «Explorar en 3D» cuando quieras moverlo.</span><span class="t-on">Arrastra para girar · pellizca o rueda para acercar · «Salir» para seguir bajando.</span></span>
+        <span class="v3-sw"><em>Mostrar</em><button data-t="muebles" class="on">Muebles</button><button data-t="corte">Muros bajos</button><button data-t="etiq" class="on">Nombres</button></span>
+      </div>
     </div>
     <p class="v3note rv">Modelo 3D construido a partir de los planos del Tipo B (distribución 1:50 y acotado 1:60); los muebles se modelan según sus renders y planos de detalle, en la ubicación indicada en los planos. Las imágenes fotorrealistas de cada espacio se generaron con IA (Higgsfield) tomando como referencia los renders del grupo; el fondo urbano es referencial.</p>
 
@@ -585,7 +618,7 @@ video::-webkit-media-controls,video::-webkit-media-controls-start-playback-butto
         <img class="slotimg" id="slotimg" alt="" hidden>
         <div class="empty" id="empty" hidden></div>
         <div class="lab"><span class="mono" style="color:var(--glass)" id="stk">Isométrico · medidas en mm</span><h3 id="sth">Clóset corredizo</h3></div>
-        <div class="dock" id="dock"><button class="btn primary" id="bplay">Explosionar</button><input type="range" id="ex" min="0" max="100" value="0" aria-label="Despiece"><button class="btn" id="bdo">Puertas: visibles</button><button class="btn primary" id="bled">Luces: encendidas</button></div>
+        <div class="dock" id="dock"><button class="btn primary" id="bplay">Explosionar</button><input type="range" id="ex" min="0" max="100" value="0" aria-label="Despiece"><button class="btn" id="bmove" aria-pressed="false">Mover modelo</button><button class="btn" id="bdo">Puertas: visibles</button><button class="btn primary" id="bled">Luces: encendidas</button></div>
       </div>
       <aside class="bom">
         <header><span class="mono" style="color:var(--glass)">Lista de materiales</span><h3 id="bomh">Clóset · 1 unidad</h3></header>
@@ -839,7 +872,8 @@ function iso3d(){
   const cv=$('#iso'), cam=new THREE.OrthographicCamera(-1,1,1,-1,.1,60), ren=new THREE.WebGLRenderer({canvas:cv,antialias:true,alpha:true});
   ren.setPixelRatio(Math.min(devicePixelRatio||1,2)); ren.toneMapping=THREE.ACESFilmicToneMapping; ren.toneMappingExposure=.9; ren.outputEncoding=THREE.sRGBEncoding;
   const ctl=new THREE.OrbitControls(cam,cv); ctl.enableDamping=true; ctl.minZoom=.4; ctl.maxZoom=4; ctl.touches={ONE:THREE.TOUCH.ROTATE,TWO:THREE.TOUCH.DOLLY_PAN};
-  ISO={cv,ren,cam,ctl,models:{},m:null,lv:1,lT:1,OFF:OFFC(),ON:ONC()};
+  ISO={cv,ren,cam,ctl,models:{},m:null,lv:1,lT:1,OFF:OFFC(),ON:ONC()}; ctl.enabled=false; cv.style.touchAction='pan-y';
+  $('#bmove').onclick=function(){ const on=!ctl.enabled; ctl.enabled=on; cv.style.touchAction=on?'none':'pan-y'; this.classList.toggle('primary',on); this.textContent=on?'Listo':'Mover modelo'; };
   const I=ISO, bi=p=>p.userData.i??(p.userData.i=p.intensity);
   I.rsz=()=>{ const w=cv.clientWidth,h=cv.clientHeight,md=I.m; if(!w||!md) return; ren.setSize(w,h,false); const ar=w/h, s=md.size*(ar<1?.8:1)*(1+md.cur*md.grow), k=ar<1?1/ar:1; cam.left=-s*ar*k; cam.right=s*ar*k; cam.top=s*k; cam.bottom=-s*k; cam.updateProjectionMatrix(); };
   I.applyLight=()=>{ const md=I.m; if(!md) return; const v=I.lv; lightMix(md.sc,v); md.C.leds.forEach(l=>{ l.material.color.copy(I.OFF).lerp(I.ON,v); if(l.userData.pl) l.userData.pl.intensity=bi(l.userData.pl)*v; if(l.userData.gl) l.userData.gl.forEach(s=>s.material.opacity=.9*v); }); md.C.LG.visible=v>.02; };

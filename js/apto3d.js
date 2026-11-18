@@ -178,22 +178,32 @@ function init(host){
   let labOn=true;function fly(k){const v=V[k];if(!v)return;labs.visible=labOn&&k==='aerea';host.dispatchEvent(new CustomEvent('view',{detail:k}));curK=k;anim={t0s:performance.now(),t:0,p0:C.position.clone(),t0:OC.target.clone(),p1:new THREE.Vector3(...v.p),t1:new THREE.Vector3(...v.t)};}
   C.position.set(...V.aerea.p); OC.target.set(...V.aerea.t);
   /* controles */
-  host.querySelectorAll('[data-v]').forEach(b=>b.addEventListener('click',()=>{host.querySelectorAll('[data-v]').forEach(x=>x.classList.toggle('on',x===b));fly(b.dataset.v);}));
-  const tg=(sel,fn)=>{const b=host.querySelector(sel);b&&b.addEventListener('click',()=>{b.classList.toggle('on');fn(b.classList.contains('on'));});};
+  const scope=host.closest('.v3w')||host;
+  scope.querySelectorAll('[data-v]').forEach(b=>b.addEventListener('click',()=>{scope.querySelectorAll('[data-v]').forEach(x=>x.classList.toggle('on',x===b));fly(b.dataset.v);}));
+  const tg=(sel,fn)=>{const b=scope.querySelector(sel);b&&b.addEventListener('click',()=>{b.classList.toggle('on');fn(b.classList.contains('on'));});};
   tg('[data-t=muebles]',on=>{FUR.visible=on;});
   tg('[data-t=corte]',on=>{wallsG.scale.y=on?1.2/HW:1;});
   tg('[data-t=etiq]',on=>{labOn=on;labs.visible=on&&!(anim&&anim.k!=='aerea')&&curK==='aerea';});
 
+  /* modo explorar: el visor no captura el gesto de la página hasta que el usuario lo activa */
+  let act=false;
+  function setAct(a){act=a;OC.enabled=a;host.classList.toggle('active',a);scope.classList.toggle('active',a);cv.style.touchAction=a?'none':'pan-y';}
+  setAct(false);
+  const goA=e=>{e&&e.stopPropagation();setAct(true);};
+  host.querySelector('[data-act]')&&host.querySelector('[data-act]').addEventListener('click',goA);
+  cv.addEventListener('click',()=>{if(!act)setAct(true);});
+  host.querySelector('[data-exit]')&&host.querySelector('[data-exit]').addEventListener('click',()=>setAct(false));
+  addEventListener('keydown',e=>{if(e.key==='Escape')setAct(false);});
   /* bucle */
   function size(){const w=host.clientWidth,h=host.clientHeight;R.setSize(w,h,false);C.aspect=w/h;C.updateProjectionMatrix();}
   size(); new ResizeObserver(size).observe(host);
-  let vis=true; new IntersectionObserver(e=>{vis=e[0].isIntersecting;}).observe(host);
+  let vis=true; new IntersectionObserver(e=>{vis=e[0].isIntersecting; if(!vis) setAct(false);}).observe(host);
   let idle=0; OC.addEventListener('start',()=>{idle=-1;});
   function loop(){requestAnimationFrame(loop); if(!vis) return;
     if(anim){anim.t=Math.min(1,(performance.now()-anim.t0s)/1500);const e=anim.t<.5?2*anim.t*anim.t:1-Math.pow(-2*anim.t+2,2)/2;
       C.position.lerpVectors(anim.p0,anim.p1,e);OC.target.lerpVectors(anim.t0,anim.t1,e);if(anim.t>=1)anim=null;}
     OC.update(); R.render(S,C);}
-  loop(); host.classList.add('live'); window.__apto3d={fly,S,C,OC,R};
+  loop(); host.classList.add('live'); window.__apto3d={fly,S,C,OC,R,setAct};
 }
 window.initApto3D=init;
 })();
