@@ -284,7 +284,7 @@ ul.clean{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:5px;f
 /* ---------- QUIÉNES SOMOS ---------- */
 #nos{background:var(--night)}
 .nos-hero{position:absolute;left:0;right:0;top:0;height:100svh;overflow:hidden;-webkit-mask-image:linear-gradient(to bottom,#000 0,#000 75%,transparent 100%);mask-image:linear-gradient(to bottom,#000 0,#000 75%,transparent 100%);background:radial-gradient(90% 70% at 70% 30%,rgba(255,184,105,.22),transparent 60%),linear-gradient(160deg,#1a222c,#0c1016 70%)}
-.nos-hero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 30%}
+.nos-hero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:52% 18%}
 .nos-hero::after{content:"";position:absolute;inset:0;background:linear-gradient(to bottom,rgba(6,8,11,.6),rgba(6,8,11,0) 22%),linear-gradient(to top,rgba(6,8,11,.55),rgba(6,8,11,0) 38%)}
 .nos-in .eb{color:#efe7d8;text-shadow:0 1px 14px rgba(6,8,11,.9)}
 .nos-body{position:relative;z-index:2;padding:74svh clamp(20px,5vw,64px) 40px}
@@ -309,7 +309,7 @@ ul.clean{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:5px;f
 .nos-cta a{display:inline-block;padding:14px 24px;border-radius:99px;border:1px solid var(--led);color:var(--led);text-decoration:none;font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;transition:.25s}
 .nos-cta a.p{background:var(--led);color:#1b1107}.nos-cta a:hover{background:var(--led2);color:#1b1107;border-color:var(--led2)}
 .nos-foot{max-width:1040px;margin:70px auto 0;padding-top:22px;border-top:1px solid var(--line);font-size:12px;color:var(--mute)}
-@media (max-width:760px){.nos-stats div{padding:16px 6px}.nos-stats span{font-size:11px}.nos-h{margin-top:56px}.nos-body{padding-top:70svh}}
+@media (max-width:760px){.nos-stats div{padding:16px 6px}.nos-stats span{font-size:11px}.nos-h{margin-top:56px}.nos-body{padding-top:calc(100vw*.56 + 56px)}.nos-hero{height:calc(100vw*.56 + 130px);-webkit-mask-image:linear-gradient(to bottom,#000 0,#000 72%,transparent 100%);mask-image:linear-gradient(to bottom,#000 0,#000 72%,transparent 100%)}.nos-hero img{inset:auto;left:0;top:96px;height:auto;width:100%}}
 
 /* ---------- MÓVIL ---------- */
 @media (max-width:760px){
@@ -609,34 +609,40 @@ video::-webkit-media-controls,video::-webkit-media-controls-start-playback-butto
     <div class="bleft"><button class="backbtn" data-back type="button" aria-label="Volver a la página anterior"><span aria-hidden="true">←</span><em>Atrás</em></button><span class="bsep" aria-hidden="true"></span><button class="logo" data-go="lobby" aria-label="Beta Design, ir al inicio"><span class="brand"><img src="img/beta-mark.png" alt="Beta"><span class="ds" aria-label="Design"><i>D</i><i>E</i><i>S</i><i>I</i><i>G</i><i>N</i></span></span></button></div>
     <nav><a href="#" data-go="nosotros">¿Quiénes somos?</a><a href="#" data-sc="apto">Apartamento</a><a href="#" data-sc="trio">Muebles</a><a href="#" data-sc="prod">Nuestra producción</a></nav>
   </header>
-  <div class="nos-hero"><img src="img/nosotros.jpg" alt="El equipo de Beta Ensambladora" onerror="this.remove()"></div>
+  <div class="nos-hero"><img src="img/nosotros.jpg" alt="El equipo de Beta Design" onerror="this.remove()"></div>
   <main class="nos-body"><div class="nos-in">
-    <span class="mono eb rv">Beta Ensambladora · ¿Quiénes somos?</span>
-    <h1 class="rv" style="margin-top:14px">Muebles a la medida, <em>fabricados con rigor</em></h1>
-    <p class="nos-lead rv">En Beta Ensambladora diseñamos y fabricamos mobiliario a la medida para apartamentos. Cada pieza nace del plano real de su espacio y llega lista para instalar: medidas exactas, acabados consistentes y un proceso que usted puede ver y revisar antes de que se corte la primera pieza.</p>
+    <span class="mono eb rv">Beta Design · ¿Quiénes somos?</span>
+    <h1 class="rv" style="margin-top:14px">Diseño industrial con <em>criterio y oficio</em></h1>
+    <p class="nos-lead rv">Somos profesionales en diseño industrial. Convertimos una necesidad en un producto que se puede fabricar, usar y mantener: lo investigamos, lo dibujamos, lo validamos y acompañamos su producción. Trabajamos con método y con la claridad que un cliente necesita para decidir con seguridad.</p>
 
     <div class="nos-stats rv">
-      <div><b>3</b><span>muebles a la medida por apartamento</span></div>
-      <div><b>66 m²</b><span>amoblados sobre planos reales</span></div>
-      <div><b>1 planta</b><span>en Bogotá, para todo el proceso</span></div>
+      <div><b>3</b><span>diseñadores industriales en un solo equipo</span></div>
+      <div><b>360°</b><span>del concepto a la fabricación</span></div>
+      <div><b>UPTC</b><span>formación universitaria en diseño industrial</span></div>
     </div>
 
-    <div class="nos-h rv"><span class="mono eb">Lo que nos define</span><h2 style="margin-top:12px">Cuatro razones para confiar en Beta</h2></div>
+    <div class="nos-h rv"><span class="mono eb">Nuestra experiencia</span><h2 style="margin-top:12px">Lo que sabemos hacer</h2></div>
+    <p class="nos-lead rv" style="margin-top:20px">Nuestra formación y nuestra práctica cubren todo el ciclo de vida de un producto. No entregamos una idea bonita: entregamos un diseño resuelto, con planos, materiales y proceso definidos, listo para pasar a manos de quien lo fabrica.</p>
     <div class="nos-cards rv">
-      <article class="nos-card"><i>01</i><h3>Diseño sobre el plano real</h3><p>Dibujamos cada mueble sobre la distribución y el acotado de su apartamento. No trabajamos con medidas genéricas ni con supuestos.</p></article>
-      <article class="nos-card"><i>02</i><h3>Lo que ve es lo que recibe</h3><p>Renders, vistas en 3D y despiece le permiten aprobar cada mueble en su espacio antes de fabricarlo. Sin sorpresas al instalar.</p></article>
-      <article class="nos-card"><i>03</i><h3>Fabricación bajo un solo estándar</h3><p>Producimos los tres muebles en una misma planta en Puente Aranda, Bogotá. El diseño ya considera cómo se corta, se arma y se instala cada pieza.</p></article>
-      <article class="nos-card"><i>04</i><h3>Materiales duraderos, lenguaje común</h3><p>Melamina, vidrio, acero inoxidable e iluminación LED, con madera cálida y gris grafito. Los muebles se sienten como un solo conjunto.</p></article>
+      <article class="nos-card"><i>01</i><h3>Diseño de producto</h3><p>Partimos del usuario y del uso real. Definimos forma, función, ergonomía y materiales con una lógica clara, no por moda.</p></article>
+      <article class="nos-card"><i>02</i><h3>Desarrollo técnico</h3><p>Modelado 3D, despieces, planos de fabricación y listas de materiales. Cada decisión queda documentada y se puede revisar.</p></article>
+      <article class="nos-card"><i>03</i><h3>Visualización y prototipos</h3><p>Renders, animaciones y modelos para ver el producto antes de fabricarlo, de modo que el cliente aprueba con certeza.</p></article>
+      <article class="nos-card"><i>04</i><h3>Producción y costos</h3><p>Pensamos cómo se corta, se arma y se instala cada pieza, y la costeamos. Un buen diseño también tiene que ser viable de producir.</p></article>
     </div>
 
-    <div class="nos-promise rv"><p>Nuestro compromiso es entregar mobiliario que funcione desde el primer día: medido con precisión, bien construido y documentado de principio a fin.</p><small>Beta Ensambladora · Diseño, planta e instalación</small></div>
+    <div class="nos-h rv"><span class="mono eb">Cómo trabajamos</span><h2 style="margin-top:12px">Un método, cuatro etapas</h2></div>
+    <div class="nos-cards rv">
+      <article class="nos-card"><i>I</i><h3>Investigar</h3><p>Entendemos el problema, el espacio, el usuario y las restricciones antes de dibujar.</p></article>
+      <article class="nos-card"><i>II</i><h3>Diseñar</h3><p>Proponemos soluciones y las desarrollamos hasta el detalle constructivo.</p></article>
+      <article class="nos-card"><i>III</i><h3>Validar</h3><p>Verificamos medidas, materiales y funcionamiento sobre planos y modelos.</p></article>
+      <article class="nos-card"><i>IV</i><h3>Producir</h3><p>Entregamos documentación clara para fabricar con calidad y sin improvisar.</p></article>
+    </div>
 
-    <div class="nos-h rv"><span class="mono eb">Quién está detrás</span><h2 style="margin-top:12px">Un equipo de diseño industrial</h2></div>
-    <p class="nos-lead rv" style="margin-top:20px">Somos un equipo de diseñadores industriales. Pensamos el mueble desde cómo se usa y lo resolvemos hasta cómo se fabrica, porque un buen diseño también tiene que ser construible, instalable y sostenible en costo. Esa visión conjunta entre producto y planta es lo que nos permite darle claridad y seguridad a cada cliente.</p>
+    <div class="nos-promise rv"><p>Nuestro compromiso es darle claridad y seguridad a cada cliente: saber qué se va a hacer, cómo y con qué, desde el primer día.</p><small>Beta Design · Diseño industrial</small></div>
 
-    <div class="nos-cta rv"><a class="p" href="#" data-sc="apto">Conocer el apartamento →</a><a href="#" data-sc="trio">Ver los muebles</a><a href="#" data-sc="prod">Nuestra producción</a></div>
+    <div class="nos-cta rv"><a class="p" href="#" data-sc="apto">Ver nuestro trabajo →</a><a href="#" data-sc="prod">Nuestra producción</a></div>
   </div>
-  <div class="nos-foot">Beta Ensambladora · Bogotá, Colombia</div></main>
+  <div class="nos-foot">Beta Design · Diseño industrial · Colombia</div></main>
 </div>
 
 <!-- ============ INFORMACIÓN TÉCNICA ============ -->
