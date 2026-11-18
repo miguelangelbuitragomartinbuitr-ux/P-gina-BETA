@@ -363,6 +363,35 @@ ul.clean{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:5px;f
 .rc-rate{margin:18px 0 6px;padding:16px 20px;border-left:4px solid var(--zc);background:#fff3dc;border-radius:0 12px 12px 0;font-size:15.5px;line-height:1.6;color:var(--ink)}
 .rc-empty{color:var(--mute)}
 
+
+/* diagrama de operaciones */
+.dop-lede{font-size:16px;line-height:1.7;color:var(--mute);max-width:78ch;margin:6px 0 16px}
+.dop-leg{display:flex;flex-wrap:wrap;gap:8px 22px;padding:14px 18px;border:1px solid var(--line);border-radius:14px;background:#fffdf6}
+.dop-leg span{display:inline-flex;align-items:center;gap:10px;font-size:14px;font-weight:600;color:var(--ink)}
+.dsy{width:30px;height:30px;flex:none;fill:#fff;stroke:#1d1710;stroke-width:2.2;stroke-linejoin:round}
+.dsy.O{fill:#fff3dc}.dsy.I{fill:#e3f1ee}.dsy.T{fill:#e8ecf4}.dsy.D{fill:#fde8df}.dsy.A{fill:#efe5f4}
+.dop-tabs[role]{display:flex;gap:10px;flex-wrap:wrap;margin:18px 0}#tec .dop-tabs .btn[aria-pressed="true"]{background:var(--zc);color:#fff;border-color:var(--zc)}.dop-tabs .btn{font-size:16px;padding:12px 26px}
+.dhead h4{font-family:var(--display);font-size:clamp(20px,2.4vw,28px);text-transform:uppercase;color:var(--ink);margin:0}.dhead p{margin:6px 0 0;color:var(--mute);font-size:15px}
+.dsum{display:flex;flex-wrap:wrap;gap:12px;margin:18px 0 8px}
+.dsm{display:flex;align-items:center;gap:10px;padding:10px 16px;border:1px solid var(--line);border-radius:14px;background:#fffdf6}
+.dsm b{font-family:var(--display);font-size:24px;color:var(--ink)}.dsm span{font-size:12.5px;color:var(--mute);font-weight:600}
+.dsm.tot{background:var(--ink);border-color:var(--ink)}.dsm.tot b{color:#ffb869}.dsm.tot span{color:#ddd}
+.dwho{margin:6px 0 22px;font-size:14.5px;color:var(--mute)}.dwho b{color:var(--ink)}
+.dflow{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,440px),1fr));gap:16px;align-items:start}
+.dph{border:1px solid var(--line);border-radius:16px;background:#fffdf6;overflow:hidden}
+.dph header{display:flex;align-items:center;gap:12px;padding:14px 18px;background:#f3ece0;border-bottom:1px solid var(--line)}
+.dpn{display:grid;place-items:center;width:28px;height:28px;border-radius:50%;background:var(--ink);color:#fff;font-weight:700;font-size:13px}
+.dph h4{margin:0;font-size:14px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink)}
+.dph ol{list-style:none;margin:0;padding:6px 14px 10px;position:relative}
+.dph ol::before{content:"";position:absolute;left:58px;top:18px;bottom:18px;border-left:2px dashed #c9bda5}
+.dst{display:grid;grid-template-columns:22px 32px 1fr auto;gap:12px;align-items:center;padding:9px 0;position:relative}
+.dst .dsy{background:#fffdf6;position:relative;z-index:1}
+.dnum{font-size:11px;font-weight:700;color:var(--mute);text-align:right}
+.dtx{font-size:14px;line-height:1.5;color:var(--ink)}.dtx em{display:block;font-style:normal;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--mute);margin-top:1px}
+.dpl{font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:4px 9px;border-radius:99px;border:1px solid var(--line);color:var(--mute);white-space:nowrap}
+.dpl.E{background:#e8ecf4;color:#33415c}.dpl.S{background:#e8f5ec;color:#1c6b3b}.dpl.P{background:#fff3dc;color:#8a4a07}
+@media (max-width:760px){.dst{grid-template-columns:20px 30px 1fr}.dpl{grid-column:3;justify-self:start;margin-top:-4px}.dph ol::before{left:52px}.dsm{padding:8px 12px}}
+
 /* ---------- MÓVIL ---------- */
 @media (max-width:760px){
   .bar:not(.tbar){flex-wrap:wrap;row-gap:8px;column-gap:10px;padding:10px 14px}
@@ -633,7 +662,7 @@ video::-webkit-media-controls,video::-webkit-media-controls-start-playback-butto
         <button class="lnk" data-go="tecnica" data-z="empresa" data-t="empresa">Ver empresa y ritmo →</button></div></details>
       <details><summary><span class="n">04</span><b>Proceso y tiempos</b><span class="x">+</span></summary><div class="body">
         <div class="fact"><b>Pieza por pieza</b><span>Cada pieza del despiece es una fila del cursograma: operaciones, tiempos con su fuente y cuello de botella frente al ritmo.</span></div>
-        <div class="fact"><b>En diseño</b><span>Diagramas de operaciones, cursogramas, bimanual y tiempos: pendientes.</span><span class="state falta">falta</span></div>
+        <div class="fact"><b>Diagramas listos</b><span>Diagrama de operaciones de los tres muebles, con sus símbolos. Cursograma con tiempos, bimanual y medición: pendientes.</span><span class="state parcial">parcial</span></div>
         <button class="lnk" data-go="tecnica" data-z="empresa" data-t="proceso">Ver proceso y tiempos →</button></div></details>
       <details><summary><span class="n">05</span><b>La planta</b><span class="x">+</span></summary><div class="body">
         <div class="fact"><b>297 m²</b><span>Bodega en arriendo en Puente Aranda, Bogotá, con 2 oficinas y 3 baños.</span></div>
@@ -796,6 +825,12 @@ video::-webkit-media-controls,video::-webkit-media-controls-start-playback-butto
 
   <div class="tpane" id="p-proceso">
     <div class="phead"><span class="mono">Nota 2 · criterios 2 y 3 · ítems 7 a 11</span><h2>Proceso, métodos <em>y</em> tiempos</h2><p>Cómo se fabrica cada mueble pieza por pieza: operaciones, cursograma, tiempos con su fuente y si la planta alcanza el ritmo que exige la obra.</p></div>
+    <div class="sheet wide dop"><h3>Diagrama de operaciones de cada mueble</h3>
+      <p class="dop-lede">El recorrido completo de cada mueble, desde que llega el material hasta que se entrega instalado. Cada paso lleva el símbolo que corresponde y dice dónde ocurre: en la planta, con un proveedor o en la obra.</p>
+      <div class="dop-leg" id="dop-leg" aria-label="Símbolos usados"></div>
+      <div class="dop-tabs" id="dop-tabs" role="group" aria-label="Elegir mueble"><button class="btn" data-k="closet" aria-pressed="true">Clóset</button><button class="btn" data-k="sala" aria-pressed="false">Sala</button><button class="btn" data-k="cocina" aria-pressed="false">Cocina</button></div>
+      <div id="dop-out"></div>
+      <p class="src">Secuencia propuesta con base en las piezas, materiales y herrajes de cada mueble. Los tiempos y distancias se agregan al cursograma cuando el grupo los mida.</p></div>
     <div class="sheet"><h3>Qué se entrega en el proceso y en qué estado está</h3><div class="tw"><table id="t-proc"></table></div></div>
   </div>
 
@@ -862,7 +897,7 @@ const AUD=[
 ['Nota 2','Matriz de relaciones, plano propuesto y los dos recorridos','falta','','Matriz entre áreas, plano a escala de la bodega con máquinas, recorridos de material y operario, tabla de distancias.'],
 ['Nota 2','Máquinas con su ficha','falta','','Inventario por operación y ficha del fabricante de cada máquina.'],
 ['Nota 2','Tabla de piezas, análisis del valor y planes de corte','falta','El apartado existe sin texto.','Las tres cosas. Los planes de corte dependen del despiece completo.'],
-['Nota 2','Diagramas de operaciones y de flujo de los tres muebles','sinver','El documento tiene títulos para clóset y sala; el contenido sería imagen.','Confirmar clóset y sala; hacer cocina; incluir ensamble, instalación eléctrica y empaque.'],
+['Nota 2','Diagramas de operaciones y de flujo de los tres muebles','parcial','Diagrama de clóset, sala y cocina en la página, con ensamble, luz, empaque e instalación.','Que el grupo los confirme y les agregue tiempos y distancias.'],
 ['Nota 2','Cursogramas con totales y tabla VA/NVA','falta','','Cursograma por mueble con transportes y esperas, totales, VA/NVA y examen crítico.'],
 ['Nota 2','Bimanual y dispositivos de sujeción','falta','','Bimanual de la operación más repetitiva y diseño de la plantilla.'],
 ['Nota 2','Tiempos con fuente y cuello de botella frente al ritmo','falta','El apartado existe sin texto.','Tabla de tiempos con experto, comparación o dato publicado; comparación con el ritmo.'],
@@ -1107,6 +1142,179 @@ $('#l-sala').innerHTML=links([['Plano de conjunto «Mueble de sala», escala 1:2
 /* ---------- cocina ---------- */
 $('#t-cocina').innerHTML='<tr><th>Módulo</th><th>Plano</th><th>Despiece</th></tr>'+[['Superior 1','08'],['Superior 2','09'],['Superior 3','10'],['Superior 4','11'],['Superior 5','12'],['Inferior 1','13'],['Inferior 2','14'],['Inferior 3','15'],['Mesón piedra sinterizada','06']].map(m=>`<tr><td>${m[0]}</td><td>Hoja ${m[1]} de Planos.pdf</td><td><span class="pill falta">falta</span></td></tr>`).join('');
 $('#l-cocina').innerHTML=links([['Planos de la cocina (15 hojas)','1mEOFfbLEpeN43Hxl73GynkEh-RKBT-T3'],['Plano de la cocina','1PFIbWSwtf05l1YmEgX06tE_qqblXfwDR'],['Propuestas','1vo83euxU4QNDFYlW7mveccZ_aji99Ssb'],['Propuesta final','1kRn0GcI9dsvan-WDiHxcnlUEMrMHN58-'],['Acabados','1rG-rmBmyMtHyi4NTJce-kV_6lTX6oMrX'],['Requerimientos y matriz de selección','1hhwhCERAdCeB2Lj7igeVL_ORfGlqUp7T']]);
+
+/* ---------- diagramas de operaciones (ASME) ---------- */
+const DSYM={O:['Operación','<circle cx="16" cy="16" r="11"/>'],I:['Inspección','<rect x="5" y="5" width="22" height="22"/>'],T:['Transporte','<path d="M3 11h14V5l12 11-12 11v-6H3z"/>'],D:['Demora','<path d="M6 5h10a11 11 0 0 1 0 22H6z"/>'],A:['Almacenaje','<path d="M4 6h24L16 28z"/>']};
+const DPL={P:'Planta',E:'Proveedor',S:'Obra'};
+const sy=t=>`<svg class="dsy ${t}" viewBox="0 0 32 32" role="img" aria-label="${DSYM[t][0]}">${DSYM[t][1]}</svg>`;
+const DOP={
+closet:{n:'Clóset corredizo',sub:'Melamina de 15 mm, tableros delgados, vidrio, acero inoxidable y luz LED',f:[
+['Compra y recepción',[
+ ['T','E','Transportar tableros, vidrio, tubos, rieles y perfil LED desde los proveedores hasta la planta'],
+ ['I','P','Recibir y verificar contra la orden de compra: cantidad, medidas y estado de cada material'],
+ ['A','P','Almacenar tableros planos en bodega, el vidrio vertical en caballete y los herrajes rotulados en estantería']]],
+['Corte',[
+ ['T','P','Llevar los tableros de la bodega a la seccionadora'],
+ ['O','P','Partir el respaldo de 2385 × 1950 mm en tramos (no cabe en un tablero de 1,83 m de ancho)'],
+ ['O','P','Cortar laterales exteriores 2385 × 500 (2) y divisores verticales 2385 × 485 (2)'],
+ ['O','P','Cortar repisas 485 × 400 (5) y la repisa sobre los cajones 800 × 485'],
+ ['O','P','Cortar piezas de cajones: frentes 800 × 170 (6), laterales 485 × 150 (12) y frentes y traseras 740 × 150 (12)'],
+ ['O','P','Cortar en tablero delgado: tapas 1950 × 530 (2) y fondos de cajón 770 × 485 (6)'],
+ ['O','P','Cortar los tubos colgadores de acero inoxidable a 705 mm (2)'],
+ ['I','P','Controlar medidas y escuadra de cada pieza con la lista de piezas del plano'],
+ ['D','P','Piezas en espera de turno en la canteadora']]],
+['Canteado',[
+ ['T','P','Llevar las piezas cortadas a la canteadora'],
+ ['O','P','Aplicar canto en los bordes visibles de laterales, divisores, repisas y frentes'],
+ ['O','P','Refilar y pulir el canto'],
+ ['I','P','Revisar adherencia, esquinas y acabado del canto']]],
+['Perforado',[
+ ['T','P','Llevar las piezas al banco de perforado'],
+ ['O','P','Perforar para tarugos (21) y tornillos avellanados (58) según plano'],
+ ['O','P','Perforar apoyos de repisas, rieles de cajón y soportes de los tubos'],
+ ['O','P','Abrir paso de cableado y alojamiento del perfil de aluminio para la luz LED'],
+ ['I','P','Verificar posición y diámetro de las perforaciones con plantilla']]],
+['Preensamble',[
+ ['O','P','Armar las 6 cajas de cajón con tarugos y pegante'],
+ ['D','P','Esperar el secado del pegante bajo prensa'],
+ ['O','P','Instalar rieles de cierre lento en las cajas y montar los frentes de cajón'],
+ ['O','P','Preensamblar la estructura: laterales, divisores, repisas y tapas, con tarugos y tornillos'],
+ ['O','P','Fijar el respaldo e instalar los tubos colgadores'],
+ ['I','P','Verificar escuadra, holguras y funcionamiento de los cajones']]],
+['Vidrio e iluminación',[
+ ['T','P','Llevar el vidrio de 6 mm desde el caballete al puesto de montaje'],
+ ['I','P','Inspeccionar las dos puertas de vidrio (2385 × 690 y 2385 × 400): bordes, rayones y medidas'],
+ ['O','P','Instalar las guías superior e inferior de las puertas corredizas'],
+ ['O','P','Instalar el perfil de aluminio con cinta LED de 12 V; conectar fuente y sensor'],
+ ['I','P','Probar que la luz se enciende al abrir la puerta']]],
+['Calidad final y empaque',[
+ ['I','P','Inspección final: aspecto, escuadra, cajones, puertas, luz y herrajes completos'],
+ ['O','P','Desarmar en módulos transportables y proteger con esquineros y película'],
+ ['O','P','Rotular cada módulo y empacar los herrajes con el instructivo de armado'],
+ ['A','P','Almacenar en la zona de despacho'],
+ ['D','P','Esperar el vehículo de despacho']]],
+['Entrega e instalación',[
+ ['T','E','Transportar los módulos de la planta al apartamento'],
+ ['T','S','Subir los módulos al apartamento'],
+ ['I','S','Verificar las medidas del vestier en obra, incluida la altura libre'],
+ ['O','S','Armar la estructura, nivelarla y anclarla a la pared'],
+ ['O','S','Montar cajones, tubos colgadores y puertas corredizas; ajustar'],
+ ['O','S','Conectar la iluminación a la alimentación'],
+ ['I','S','Prueba final con el cliente y firma del acta de entrega']]]]},
+sala:{n:'Mueble de sala',sub:'Estantes, cajones, mesa y luz LED en una sola pieza; cortes rectos y esquina curva',f:[
+['Compra y recepción',[
+ ['T','E','Transportar tableros, rieles, herrajes de ensamble y perfiles LED hasta la planta'],
+ ['I','P','Recibir y verificar contra la orden de compra: cantidad, espesor y estado del tablero y de los herrajes'],
+ ['A','P','Almacenar tableros planos y herrajes rotulados']]],
+['Corte',[
+ ['T','P','Llevar los tableros a la seccionadora'],
+ ['O','P','Cortar piezas largas de 2,10 m: tapa de mesa 2100 × 530 y bases (ninguna pasa de 2,10 m, cabe en el largo del tablero)'],
+ ['O','P','Cortar laterales, divisores y respaldos de la columna y del cuerpo principal'],
+ ['O','P','Cortar repisas y estantes (los de la columna vertical según el espesor que se defina)'],
+ ['O','P','Cortar piezas de cajones: frentes, laterales, traseras y fondos'],
+ ['O','P','Cortar zócalos y listones de apoyo'],
+ ['O','P','Cortar la curva de R120 mm del estante esquinero con plantilla'],
+ ['I','P','Controlar medidas y escuadra con el plano de conjunto y la lista del explosionado'],
+ ['D','P','Piezas en espera de turno en la canteadora']]],
+['Canteado',[
+ ['T','P','Llevar las piezas a la canteadora'],
+ ['O','P','Aplicar canto en los bordes visibles de las piezas rectas'],
+ ['O','P','Canteado de la curva del estante esquinero'],
+ ['O','P','Refilar y pulir el canto'],
+ ['I','P','Revisar adherencia y acabado, especialmente en la curva']]],
+['Perforado',[
+ ['T','P','Llevar las piezas al banco de perforado'],
+ ['O','P','Perforar para los herrajes de ensamble (minifix y pasadores) según el plano'],
+ ['O','P','Perforar apoyos de repisas y fijaciones de los rieles de cajón'],
+ ['O','P','Abrir canal y paso de cableado para los perfiles LED de las repisas'],
+ ['I','P','Verificar posición y diámetro con plantilla']]],
+['Preensamble',[
+ ['O','P','Armar las cajas de los cajones y colocar los rieles'],
+ ['O','P','Preensamblar el cuerpo principal: bases, laterales, respaldos y zócalo'],
+ ['O','P','Montar la columna vertical con sus repisas y el estante esquinero'],
+ ['O','P','Instalar los perfiles LED con difusor y pre-cablear'],
+ ['I','P','Probar encendido de las luces y revisar escuadra y holguras'],
+ ['D','P','Esperar la disponibilidad del frente en la zona de acabado']]],
+['Frentes y calidad final',[
+ ['O','P','Montar los frentes de cajón en gris y alinear'],
+ ['O','P','Instalar la tapa de la mesa'],
+ ['I','P','Inspección final: aspecto, escuadra, cajones, luz y herrajes completos']]],
+['Empaque y despacho',[
+ ['O','P','Desarmar en módulos transportables y proteger con esquineros y película'],
+ ['O','P','Rotular los módulos y empacar los herrajes con el instructivo'],
+ ['A','P','Almacenar en la zona de despacho'],
+ ['D','P','Esperar el vehículo de despacho']]],
+['Entrega e instalación',[
+ ['T','E','Transportar los módulos de la planta al apartamento'],
+ ['T','S','Subir los módulos al apartamento'],
+ ['I','S','Verificar en obra el espacio de la sala, la pared y las salidas eléctricas'],
+ ['O','S','Armar el mueble, nivelarlo y anclarlo a la pared'],
+ ['O','S','Instalar cajones, frentes y tapa; ajustar'],
+ ['O','S','Conectar la iluminación a la alimentación'],
+ ['I','S','Prueba final con el cliente y firma del acta de entrega']]]]},
+cocina:{n:'Cocina en U con barra',sub:'5 módulos superiores y 3 inferiores en melamina RH, barra de desayuno y mesón de piedra sinterizada',f:[
+['Compra y recepción',[
+ ['T','E','Transportar tableros, bisagras, rieles, manijas, brazo neumático y perfiles LED hasta la planta'],
+ ['I','P','Recibir y verificar contra la orden de compra: melamina RH de 15 mm, fondo de 6 mm y herrajes'],
+ ['A','P','Almacenar tableros planos y herrajes rotulados por módulo']]],
+['Corte',[
+ ['T','P','Llevar los tableros de la bodega a la seccionadora'],
+ ['O','P','Cortar laterales, bases y tapas de los 5 módulos superiores'],
+ ['O','P','Cortar laterales, bases y travesaños de los 3 módulos inferiores'],
+ ['O','P','Cortar puertas y frentes de cajón de todos los módulos'],
+ ['O','P','Cortar entrepaños y la estructura de la barra de desayuno'],
+ ['O','P','Cortar los fondos de 6 mm de cada módulo'],
+ ['I','P','Controlar medidas y escuadra con la hoja de plano de cada módulo'],
+ ['D','P','Piezas en espera de turno en la canteadora']]],
+['Canteado',[
+ ['T','P','Llevar las piezas a la canteadora'],
+ ['O','P','Aplicar canto en los bordes visibles de puertas, frentes y laterales'],
+ ['O','P','Refilar y pulir el canto'],
+ ['I','P','Revisar adherencia y sellado del canto, importante por la humedad de la cocina']]],
+['Perforado',[
+ ['T','P','Llevar las piezas al banco de perforado'],
+ ['O','P','Perforar las tazas de las bisagras de 90° con cierre lento (10 pares)'],
+ ['O','P','Perforar apoyos de entrepaños, fijaciones de rieles (4 pares) y herrajes de unión'],
+ ['O','P','Perforar para las manijas cilíndricas de acero (14) y el brazo neumático'],
+ ['O','P','Abrir alojamientos y paso de cableado del perfil de aluminio con LED (3 de 3 m)'],
+ ['I','P','Verificar posición y diámetro con plantilla']]],
+['Preensamble de módulos',[
+ ['O','P','Armar la caja de cada módulo (8) con tornillos de ensamble de 6 × 2" y fijar el fondo'],
+ ['O','P','Instalar rieles de cierre lento y montar frentes de cajón'],
+ ['O','P','Colgar las puertas con sus bisagras y ajustar holguras'],
+ ['O','P','Instalar el brazo neumático en el módulo superior que lo lleva'],
+ ['O','P','Instalar manijas de acero'],
+ ['O','P','Armar la barra de desayuno'],
+ ['O','P','Instalar los perfiles LED bajo los módulos superiores; conectar'],
+ ['I','P','Revisar cada módulo: escuadra, holguras, cierre de puertas y cajones, luz']]],
+['Empaque y despacho',[
+ ['O','P','Desarmar en módulos transportables y proteger con esquineros y película'],
+ ['O','P','Rotular cada módulo con su número de plano y empacar los herrajes'],
+ ['A','P','Almacenar en la zona de despacho'],
+ ['D','P','Esperar el vehículo de despacho']]],
+['Mesón de piedra y vidrio (proveedor)',[
+ ['I','S','Tomar medidas y plantilla del mesón en obra sobre los módulos inferiores ya instalados'],
+ ['T','E','Enviar la plantilla al proveedor de la piedra sinterizada y del vidrio'],
+ ['D','E','Esperar la fabricación del mesón y del vidrio'],
+ ['T','E','Transportar el mesón y el vidrio hasta el apartamento']]],
+['Entrega e instalación',[
+ ['T','E','Transportar los módulos de la planta al apartamento'],
+ ['T','S','Subir los módulos al apartamento'],
+ ['I','S','Verificar medidas, plomos, nivel de piso y salidas de agua, gas y electricidad'],
+ ['O','S','Instalar y nivelar los módulos inferiores y fijarlos a la pared'],
+ ['O','S','Instalar y fijar los módulos superiores'],
+ ['O','S','Instalar el mesón de piedra sinterizada y la barra'],
+ ['O','S','Instalar el vidrio y conectar la iluminación'],
+ ['O','S','Ajustar puertas y cajones; limpieza final'],
+ ['I','S','Prueba final con el cliente y firma del acta de entrega']]]]}
+};
+function drawDop(k){ const d=DOP[k]; let n=0; const cnt={O:0,I:0,T:0,D:0,A:0}, pl={P:0,E:0,S:0};
+  const body=d.f.map((ph,i)=>`<section class="dph"><header><span class="dpn">${i+1}</span><h4>${ph[0]}</h4></header><ol>${ph[1].map(s=>{ n++; cnt[s[0]]++; pl[s[1]]++; return `<li class="dst ${s[0]}"><span class="dnum">${n}</span>${sy(s[0])}<span class="dtx">${s[2]}<em>${DSYM[s[0]][0]}</em></span><span class="dpl ${s[1]}">${DPL[s[1]]}</span></li>`; }).join('')}</ol></section>`).join('');
+  const sum=Object.keys(cnt).map(t=>`<div class="dsm">${sy(t)}<b>${cnt[t]}</b><span>${DSYM[t][0]}</span></div>`).join('');
+  $('#dop-out').innerHTML=`<div class="dhead"><h4>${d.n}</h4><p>${d.sub}</p></div><div class="dsum">${sum}<div class="dsm tot"><b>${n}</b><span>pasos en total</span></div></div><p class="dwho"><b>${pl.P}</b> en planta · <b>${pl.E}</b> con proveedor o transporte · <b>${pl.S}</b> en obra</p><div class="dflow">${body}</div>`;
+  $$('#dop-tabs button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.k===k)); }
+$('#dop-leg').innerHTML=Object.keys(DSYM).map(t=>`<span>${sy(t)}${DSYM[t][0]}</span>`).join('');
+$('#dop-tabs').addEventListener('click',e=>{ const b=e.target.closest('[data-k]'); if(b) drawDop(b.dataset.k); }); drawDop('closet');
 
 /* ---------- ritmo ---------- */
 const RI=['sa','co','ve','op','hd','ds','j','pl'];
