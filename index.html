@@ -405,6 +405,10 @@ ul.clean{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:5px;f
 .logos figcaption{padding:10px 12px;background:#f3ece0;font-weight:700;font-size:14px;color:var(--ink)}.logos figcaption span{display:block;font-weight:400;font-size:12.5px;color:var(--mute);margin-top:2px}
 .clogo{display:block;height:70px;width:auto;margin-top:12px;background:#fff;border-radius:10px;padding:6px}
 
+
+.pmt td,.pmt th{vertical-align:top}.pvc{white-space:nowrap}.pvc b{display:block;margin-top:6px}.pvl{display:block;height:34px;width:auto;max-width:140px;object-fit:contain;background:#fff;border:1px solid var(--line);border-radius:8px;padding:4px 8px}
+#tec .dop-tabs .btn[aria-pressed="true"]{background:var(--zc);color:#fff;border-color:var(--zc)}
+
 /* ---------- MÓVIL ---------- */
 @media (max-width:760px){
   .bar:not(.tbar){flex-wrap:wrap;row-gap:8px;column-gap:10px;padding:10px 14px}
@@ -684,7 +688,7 @@ video::-webkit-media-controls,video::-webkit-media-controls-start-playback-butto
         <button class="lnk" data-go="tecnica" data-z="empresa" data-t="planta">Ver la planta →</button></div></details>
       <details><summary><span class="n">06</span><b>Proveedores y costos</b><span class="x">+</span></summary><div class="body">
         <div class="fact"><b>3 proveedores</b><span>Madecentro, Homecenter y Häfele comparados para herrajes e iluminación del clóset.</span></div>
-        <div class="fact"><b>$ 3.349.651</b><span>Lista de la cocina cotizada en Madecentro, sin mesón, vidrio ni equipos.</span></div>
+        <div class="fact"><b>$ 3.968.392</b><span>Lista de la cocina cotizada en Madecentro, sin mesón, vidrio ni equipos.</span></div>
         <div class="fact"><b>Hoja de costos</b><span>Materias primas + mano de obra + indirectos, sin precio de venta. Lista para llenar.</span></div>
         <button class="lnk" data-go="tecnica" data-z="empresa" data-t="costos">Ver proveedores y costos →</button></div></details>
       <details><summary><span class="n">07</span><b>Lo que la planta cambió</b><span class="x">+</span></summary><div class="body">
@@ -881,7 +885,9 @@ video::-webkit-media-controls,video::-webkit-media-controls-start-playback-butto
 
   <div class="tpane" id="p-costos">
     <div class="phead"><span class="mono">Nota 3 · elementos P a R y costos</span><h2>Proveedores <em>y</em> costos</h2><p>Qué compra Beta, a quién y cuánto cuesta fabricar cada mueble: materias primas + mano de obra + costos indirectos, sin precio de venta.</p></div>
-    <div class="sheet wide"><h3>Nuestros proveedores</h3><p class="lede">Con quién se compra cada cosa.</p><div class="logos"><figure><div><img src="img/prov-aglocol.png" alt="Aglocol"></div><figcaption>Aglocol<span>Tableros de melamina</span></figcaption></figure><figure><div><img src="img/prov-madecentro.png" alt="Madecentro"></div><figcaption>Madecentro<span>Tableros y herrajes</span></figcaption></figure><figure><div><img src="img/prov-homecenter.png" alt="Sodimac Homecenter"></div><figcaption>Homecenter<span>Herrajes y tornillería</span></figcaption></figure><figure><div><img src="img/prov-mercadolibre.png" alt="Mercado Libre"></div><figcaption>Mercado Libre<span>Compras pequeñas</span></figcaption></figure></div></div>
+    <div class="sheet wide"><h3>Quién aporta qué: proveedores por mueble</h3><p class="lede">Cada proveedor participó de forma distinta en cada mueble: no se compra lo mismo ni al mismo precio. Esta matriz resume lo que cada uno cotizó o aportó.</p><div class="tw"><table id="t-pm" class="pmt"></table></div><p class="src">Fuente: documentos «Materias primas» (clóset) y «Lista de Materias Primas y Precios» (cocina). Donde dice «por confirmar», la participación no figura en los documentos del grupo.</p></div>
+    <div class="sheet wide"><h3>Detalle por mueble y por materia prima</h3><div class="dop-tabs" id="pv-tabs" role="group" aria-label="Elegir mueble"><button class="btn" data-k="closet" aria-pressed="true">Clóset</button><button class="btn" data-k="sala" aria-pressed="false">Sala</button><button class="btn" data-k="cocina" aria-pressed="false">Cocina</button></div><div id="pv-out"></div></div>
+    
     
     <div class="sheet"><h3>Clóset · herrajes, puertas e iluminación por proveedor</h3><div class="tabs" id="ptabs"></div><div class="tw"><table id="t-herr"></table></div><div class="note">Precios sin soporte ni referencia exacta, y elección solo por precio. La guía pide cotización real con fecha y cuadro con cinco criterios.</div></div>
     <div class="sheet"><h3>Cocina · lista cotizada en Madecentro</h3><div class="tw"><table id="t-coc"></table></div><p class="src">Sin precio todavía: mesón, vidrio, perfilería, grifería, poceta y electrodomésticos.</p></div>
@@ -1371,7 +1377,7 @@ const totH=i=>HERR.reduce((a,h)=>a+h[2]*h[4+i],0);
 function drawHerr(){ $('#ptabs').innerHTML=PROV.map((p,i)=>`<button data-pv="${i}" aria-pressed="${i===pv}">${p} · ${cop(totH(i))}</button>`).join('');
   $('#t-herr').innerHTML='<tr><th>Grupo</th><th>Ítem</th><th class="num">Cant.</th><th>Und.</th><th class="num">Precio unit.</th><th class="num">Subtotal</th></tr>'+HERR.map(h=>`<tr><td>${h[0]}</td><td>${h[1]}</td><td class="num">${h[2]}</td><td>${h[3]}</td><td class="num">${cop(h[4+pv])}</td><td class="num">${cop(h[2]*h[4+pv])}</td></tr>`).join('')+`<tr class="tot"><td colspan="5">Total ${PROV[pv]}</td><td class="num">${cop(totH(pv))}</td></tr>`; costos();}
 $('#ptabs').addEventListener('click',e=>{const b=e.target.closest('[data-pv]');if(b){pv=+b.dataset.pv;store.set('pv',pv);drawHerr();}});
-const COC=[['Manija acero 201 cilíndrica 160 mm',14,'und',2800],['Bisagra 90° cierre lento',10,'par',4182],['Brazo neumático hidráulico estándar negro',1,'und',12168],['Riel corredera cierre lento, extensión total, 30 kg',4,'par',38572],['Perfil de aluminio con LED empotrable, 3 m',3,'und',59778],['Tablero aglomerado melamina Avellana RH Pelíkano 15 mm',5,'tablero',515750],['Fondo aglomerado melamina RH Avellana Pelíkano 6 mm',1,'tablero',326975],['Tornillo de ensamble 6 × 2" zincado, caja ×100',2,'caja',8558]];
+const COC=[['Tablero aglomerado melamina Avellana RH Pelíkano 15 mm (2150 × 2440 mm)',6,'tablero',406679],['Fondo aglomerado melamina RH Avellana Pelíkano 6 mm',1,'tablero',326975],['Canto para tablero flexible Avellana 19 mm (rollo de 200 m, se usan 165 m)',1,'rollo',285600],['Cantonera de 19 × 12 mm',50,'und',296],['Panel decorativo WPC Dekowall Warhol roble chic (2,14 m²)',1,'und',350141],['Pata para mueble redonda con nivelador',22,'und',4858],['Manija acero 201 cilíndrica 160 mm',14,'und',2800],['Bisagra 90° cierre lento',10,'par',4182],['Brazo neumático hidráulico estándar negro',1,'und',12168],['Riel corredera cierre lento, extensión total, 30 kg',4,'par',38572],['Perfil de aluminio con LED empotrable, 3 m',3,'und',59778],['Tornillo de ensamble 6 × 2" zincado, caja ×100',2,'caja',8558]];
 const totC=COC.reduce((a,c)=>a+c[1]*c[3],0);
 $('#t-coc').innerHTML='<tr><th>Ítem</th><th class="num">Cant.</th><th>Und.</th><th class="num">Precio unit.</th><th class="num">Subtotal</th></tr>'+COC.map(c=>`<tr><td>${c[0]}</td><td class="num">${c[1]}</td><td>${c[2]}</td><td class="num">${cop(c[3])}</td><td class="num">${cop(c[1]*c[3])}</td></tr>`).join('')+`<tr class="tot"><td colspan="4">Total cotizado</td><td class="num">${cop(totC)}</td></tr>`;
 function costos(){const sal=+$('#c-sal').value||0,cif=+$('#c-cif').value||0,vol=+$('#c-vol').value||0;
@@ -1510,12 +1516,51 @@ $('#t-pu').innerHTML=TB(['Puesto','Qué hace','Qué usa','Qué cuida','Personas'
 ['Armado','Arma cajones, estructura y puertas; instala herrajes y luz','Prensa, atornilladores, correderas','Escuadra y holguras','1 a 2'],
 ['Calidad y despacho','Inspecciona, empaca y carga','Lista de chequeo, esquineros, película','Que salga completo','1']]);
 /* --- compras para el volumen --- */
+
+/* ---------- proveedores por mueble y materia prima ---------- */
+const LG={Madecentro:'prov-madecentro.png',Homecenter:'prov-homecenter.png','Häfele':null,Aglocol:'prov-aglocol.png','Mercado Libre':'prov-mercadolibre.png'};
+const hg=(g,k)=>HERR.filter(h=>h[0]===g).reduce((a,h)=>a+h[2]*h[4+k],0);
+const coc=(re)=>COC.filter(c=>re.test(c[0])).reduce((a,c)=>a+c[1]*c[3],0);
+const PM_M=coc(/./);
+const PD={
+closet:[
+ ['Tableros de melamina 15 mm (13,751 m²)','Sin cotización propia del clóset','Se usa de referencia la melamina de la cocina: Madecentro (Pelíkano), Homecenter (Arauco Vesto) y un tercer proveedor sin nombre en el documento','—','falta'],
+ ['Fondos y tableros delgados 5–6 mm (6,907 m²)','Sin cotización propia del clóset','Misma referencia que la melamina','—','falta'],
+ ['Herrajes de cajones (correderas, push, tornillos)','Madecentro · Homecenter · Häfele','Se cotizó en los tres; elegido por precio: Homecenter',()=>PROV.map((p,i)=>p+' '+cop(hg('Cajones',i))).join(' · '),'parcial'],
+ ['Herrajes de puertas corredizas de vidrio (riel, carros, mordazas, guías)','Madecentro · Homecenter · Häfele','Se cotizó en los tres',()=>PROV.map((p,i)=>p+' '+cop(hg('Puertas de vidrio',i))).join(' · '),'parcial'],
+ ['Iluminación LED (cinta, perfil, fuente, sensor, cable)','Madecentro · Homecenter · Häfele','Se cotizó en los tres',()=>PROV.map((p,i)=>p+' '+cop(hg('Iluminación',i))).join(' · '),'parcial'],
+ ['Vidrio de las dos puertas (6 mm)','Por confirmar','Sin cotización','—','falta'],
+ ['Tubos de acero inoxidable, tarugos y tornillos','Por confirmar','Sin cotización','—','falta']],
+sala:[
+ ['Tableros de melamina','Por confirmar','El material y el espesor de la sala siguen sin definir','—','falta'],
+ ['Herrajes: rieles de cajón, minifix y pasadores','Por confirmar','Sin cotización','—','falta'],
+ ['Iluminación LED','Por confirmar','Sin cotización','—','falta']],
+cocina:[
+ ['Tableros y fondo de melamina RH 15 y 6 mm','Madecentro (cotizado) · Homecenter (referencia)','Madecentro: Pelíkano Avellana, 6 tableros de 15 mm a $ 406.679 y 1 fondo de 6 mm. Homecenter: Arauco Vesto de 15 y 6 mm, sin precio. Hay un tercer proveedor sin nombre.',()=>cop(coc(/Tablero aglomerado|Fondo aglomerado/)),'parcial'],
+ ['Canto, cantoneras y panel decorativo','Madecentro','Canto flexible Avellana, cantoneras y panel WPC Dekowall',()=>cop(coc(/Canto|Cantonera|Panel/)),'parcial'],
+ ['Herrajes: manijas, bisagras, brazo neumático, rieles y patas','Madecentro','14 manijas, 10 pares de bisagras, 1 brazo, 4 pares de rieles y 22 patas',()=>cop(coc(/Manija|Bisagra|Brazo|Riel|Pata/)),'parcial'],
+ ['Iluminación: perfil de aluminio con LED','Madecentro','3 perfiles de 3 m',()=>cop(coc(/Perfil/)),'parcial'],
+ ['Tornillería','Madecentro','Tornillo de ensamble ×2 cajas; el autoperforante de 6 × 5/8" no tiene precio',()=>cop(coc(/Tornillo/)),'parcial'],
+ ['Mesón de piedra sinterizada (≈ 4 m²) y vidrio','Por confirmar','Sin cotización',"—",'falta'],
+ ['Grifería, poceta y equipos (estufa, horno, extractor)','Por confirmar','Sin cotización','—','falta']]};
+const PMX=[
+ ['Madecentro','Herrajes de cajones y puertas, e iluminación: '+cop(706600),'Sin cotización','Lista completa: tableros, fondo, canto, panel, herrajes, LED y tornillería: '+cop(PM_M)],
+ ['Homecenter','Herrajes de cajones y puertas, e iluminación: '+cop(648780),'Sin cotización','Referencia de tableros RH Arauco Vesto de 15 y 6 mm, sin precio'],
+ ['Häfele','Herrajes de cajones y puertas, e iluminación: '+cop(1608200),'Sin cotización','Sin cotización'],
+ ['Aglocol','Por confirmar','Por confirmar','Por confirmar'],
+ ['Mercado Libre','Por confirmar','Por confirmar','Por confirmar']];
+function provMatrix(){ const lg=n=>LG[n]?`<img class="pvl" src="img/${LG[n]}" alt="${n}">`:'';
+  $('#t-pm').innerHTML='<tr><th>Proveedor</th><th>Clóset</th><th>Sala</th><th>Cocina</th></tr>'+PMX.map(r=>'<tr><td class="pvc">'+lg(r[0])+'<b>'+r[0]+'</b></td>'+r.slice(1).map(c=>`<td>${/^(Por confirmar|Sin cotización)$/.test(c)?`<span class="pill ${c==='Por confirmar'?'parcial':'falta'}">${c.toLowerCase()}</span>`:c}</td>`).join('')+'</tr>').join(''); }
+function provDet(k){ $$('#pv-tabs button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.k===k));
+  const R=PD[k]; $('#pv-out').innerHTML='<div class="tw"><table><tr><th>Materia prima o insumo</th><th>Proveedor</th><th>Qué se cotizó</th><th>Valor cotizado</th><th>Estado</th></tr>'+R.map(r=>`<tr><td><b>${r[0]}</b></td><td>${r[1]}</td><td>${r[2]}</td><td>${typeof r[3]==='function'?r[3]():r[3]}</td><td><span class="pill ${r[4]}">${r[4]==='falta'?'sin cotizar':'cotizado en parte'}</span></td></tr>`).join('')+'</table></div>'; }
+provMatrix(); provDet('closet'); $('#pv-tabs').addEventListener('click',e=>{ const b=e.target.closest('[data-k]'); if(b) provDet(b.dataset.k); });
+
 function compras(){ const j=+(store.get('r2j')||21);
   const bM=Math.ceil(j*13.751*1.15/4.465), bF=Math.ceil(j*6.907*1.15/4.465); const bC=j*5, bFC=j*1;
   const H=HERR.map(h=>[h[0]+' · '+h[1],h[2]*j,h[3],h[4+pv]||0]);
-  const rows=[['Tablero melamina 15 mm · clóset (13,751 m² por mueble + 15 % de desperdicio)',bM,'tablero',515750],['Tablero delgado 5–6 mm · clóset (6,907 m² por mueble + 15 %)',bF,'tablero',326975]].concat(COC.map(c=>[c[0]+' · cocina',c[1]*j,c[2],c[3]])).concat(H.map(h=>[h[0]+' · clóset ('+PROV[pv]+')',h[1],h[2],h[3]]));
+  const rows=[['Tablero melamina 15 mm · clóset (13,751 m² por mueble + 15 % de desperdicio)',bM,'tablero',406679],['Tablero delgado 5–6 mm · clóset (6,907 m² por mueble + 15 %)',bF,'tablero',326975]].concat(COC.map(c=>[c[0]+' · cocina',c[1]*j,c[2],c[3]])).concat(H.map(h=>[h[0]+' · clóset ('+PROV[pv]+')',h[1],h[2],h[3]]));
   let tot=0; $('#t-lc').innerHTML=TB(['Ítem','Cantidad para '+j+' juegos','Unidad','Precio unitario','Subtotal'],rows.map(r=>{ tot+=r[1]*r[3]; return [r[0],r[1].toLocaleString('es-CO'),r[2],r[3]?cop(r[3]):'<span class="pill falta">sin precio</span>',r[3]?cop(r[1]*r[3]):'—']; }).concat([['<b>Total con precio</b>','','','','<b>'+cop(tot)+'</b>']]),[null,'num',null,'num','num']);
-  $('#lc-note').textContent='Precios de referencia de Madecentro: el tablero de 15 mm de la cocina y el fondo de 6 mm se usaron también para el clóset. Para el mueble de sala no hay lista de compras: faltan material y espesor. Insumos como lija, pegante, discos y canto se suman cuando el grupo los cotice.'; }
+  $('#lc-note').textContent='Precios de referencia de Madecentro: el tablero de 15 mm Pelíkano de la cocina y el fondo de 6 mm se usaron también para el clóset. Para el mueble de sala no hay lista de compras: faltan material y espesor. Insumos como lija, pegante, discos y canto se suman cuando el grupo los cotice.'; }
 compras();
 /* --- criterios de proveedor --- */
 const PC=[['Costo',.35],['Capacidad',.2],['Plazo',.2],['Ubicación',.1],['Especificación',.15]];
