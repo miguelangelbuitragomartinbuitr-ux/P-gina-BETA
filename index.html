@@ -392,6 +392,19 @@ ul.clean{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:5px;f
 .dpl.E{background:#e8ecf4;color:#33415c}.dpl.S{background:#e8f5ec;color:#1c6b3b}.dpl.P{background:#fff3dc;color:#8a4a07}
 @media (max-width:760px){.dst{grid-template-columns:20px 30px 1fr}.dpl{grid-column:3;justify-self:start;margin-top:-4px}.dph ol::before{left:52px}.dsm{padding:8px 12px}}
 
+
+/* notas 2 y 3 */
+.sh4{margin:26px 0 10px;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--zc)}
+.fc{display:inline-block;padding:3px 10px;border-radius:99px;font-size:12px;white-space:nowrap}.fc.F{background:#fff3dc;color:#8a4a07}.fc.C{background:#e8ecf4;color:#33415c}.fc.A{background:#e3f1ee;color:#0a6a60}
+.planow{border:1px solid var(--line);border-radius:14px;background:#fffdf6;padding:12px;overflow-x:auto}.bz{width:100%;min-width:640px;height:auto;display:block}
+.mxt td.mx,.mxt th{text-align:center;font-weight:700;padding:6px 8px;font-size:13px}.mxt th.rl{text-align:left;white-space:nowrap}
+.mx.A{background:#cfeedd;color:#14532d}.mx.E{background:#e3f1ee;color:#0a6a60}.mx.I{background:#fff3dc;color:#8a4a07}.mx.O{background:#f3ece0}.mx.U{color:#aaa}.mx.X{background:#fdeceb;color:#a32a1d}.mx.d{background:#eceae4}
+.logos{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:14px;margin-top:14px}
+.logos figure{margin:0;border:1px solid var(--line);border-radius:16px;overflow:hidden;background:#fff;text-align:center}
+.logos figure>div{height:104px;display:grid;place-items:center;padding:14px;background:#fff}.logos img{max-width:100%;max-height:76px;object-fit:contain}
+.logos figcaption{padding:10px 12px;background:#f3ece0;font-weight:700;font-size:14px;color:var(--ink)}.logos figcaption span{display:block;font-weight:400;font-size:12.5px;color:var(--mute);margin-top:2px}
+.clogo{display:block;height:70px;width:auto;margin-top:12px;background:#fff;border-radius:10px;padding:6px}
+
 /* ---------- MÓVIL ---------- */
 @media (max-width:760px){
   .bar:not(.tbar){flex-wrap:wrap;row-gap:8px;column-gap:10px;padding:10px 14px}
@@ -605,7 +618,7 @@ video::-webkit-media-controls,video::-webkit-media-controls-start-playback-butto
 
     <div class="facts rv">
       <div class="fact"><b>66 m²</b><span>Construidos, con 53 m² privados. Tipo B del proyecto Álamo, nueva etapa de Veramonte.</span></div>
-      <div class="fact"><b>Bogotá</b><span>Colina Campestre, cerca de la avenida Boyacá. Proyecto de Constructora Bolívar.</span></div>
+      <div class="fact"><b>Bogotá</b><span>Colina Campestre, cerca de la avenida Boyacá. Proyecto de Constructora Bolívar.</span><img class="clogo" src="img/prov-bolivar.png" alt="Constructora Bolívar"></div>
       <div class="fact"><b>9 espacios</b><span>Sala–comedor, cocina, vestier, estudio, dos habitaciones, dos baños, lavado y balcón.</span></div>
     </div>
 
@@ -820,6 +833,8 @@ video::-webkit-media-controls,video::-webkit-media-controls-start-playback-butto
         </div>
         <div class="rc-out" id="r-out"></div>
         <p class="src">Las horas por mueble y la jornada son <b>valores iniciales de trabajo</b>, sin fuente todavía: se reemplazan con los tiempos del cursograma. Plazo: dos meses desde la firma del contrato (≈ 8,7 semanas).</p></div>
+    <div class="sheet wide"><h3>Tabla de fabricar o comprar</h3><p class="lede">Qué se hace dentro de la planta y qué se compra, con la razón de cada decisión. <span class="pill parcial">borrador del grupo</span></p><div class="tw"><table id="t-fc"></table></div></div>
+    <div class="sheet wide"><h3>Tipo de producción: por lotes</h3><p class="lede">Beta produce <b>por lotes</b>: tres muebles distintos (clóset, sala y cocina) que comparten la misma secuencia de corte, canteado, perforado y armado, para 21 juegos en dos meses.</p><ul class="clean"><li><b>No es línea continua:</b> el volumen es bajo y cada mueble tiene piezas diferentes.</li><li><b>No es por pedido unitario:</b> el trabajo se repite 21 veces, así que conviene cortar y cantear por tipo de pieza.</li><li><b>Lote propuesto:</b> un mueble completo por vez (7 juegos de cada tipo por lote, tres lotes), para cambiar de plantilla pocas veces.</li></ul></div>
     </div>
   </div>
 
@@ -831,6 +846,10 @@ video::-webkit-media-controls,video::-webkit-media-controls-start-playback-butto
       <div class="dop-tabs" id="dop-tabs" role="group" aria-label="Elegir mueble"><button class="btn" data-k="closet" aria-pressed="true">Clóset</button><button class="btn" data-k="sala" aria-pressed="false">Sala</button><button class="btn" data-k="cocina" aria-pressed="false">Cocina</button></div>
       <div id="dop-out"></div>
       <p class="src">Secuencia propuesta con base en las piezas, materiales y herrajes de cada mueble. Los tiempos y distancias se agregan al cursograma cuando el grupo los mida.</p></div>
+    <div class="sheet wide"><h3>Cursograma: cuántos pasos agregan valor</h3><p class="lede">Se cuentan los pasos de los diagramas anteriores: solo las operaciones transforman el mueble; inspecciones, transportes, demoras y almacenajes no le agregan valor, aunque algunas son necesarias.</p><div class="tw"><table id="t-va"></table></div><p class="lede" style="margin-top:22px">Lo mismo, medido en horas por mueble (valores estimados, ver la tabla de tiempos):</p><div class="tw"><table id="t-vah"></table></div><h4 class="sh4">Examen crítico de los pasos sin valor</h4><div class="tw"><table id="t-ec"></table></div></div>
+    <div class="sheet wide"><h3>Tiempos por etapa y cuello de botella</h3><p class="lede">Horas-hombre por etapa para fabricar un mueble en la planta. <span class="pill parcial">estimación del grupo</span> Fuente pendiente: juicio de un carpintero o comparación con muebles similares; se reemplaza al medirlos.</p><div class="tw"><table id="t-tm"></table></div><p class="rc-rate" id="r-cuello"></p></div>
+    <div class="sheet wide"><h3>Plan de inspección</h3><p class="lede">Ocho puntos de control: dónde se revisa, qué se revisa, con qué criterio y qué queda registrado. Son los cuadrados de los diagramas de operaciones. <span class="pill parcial">criterios propuestos</span></p><div class="tw"><table id="t-pi"></table></div></div>
+    <div class="sheet wide"><h3>Método bimanual y dispositivo de sujeción</h3><p class="lede"><b>Operación más repetida: armar la caja del cajón</b> (6 en el clóset y varios en la sala y la cocina por juego, o sea más de 100 repeticiones en los 21 juegos).</p><div class="tw"><table id="t-bi"></table></div><h4 class="sh4">Dispositivo de sujeción: plantilla de perforado</h4><p class="lede">Una plantilla de tablero con casquillos metálicos guía las brocas para los tarugos de las cajas y las tazas de las bisagras. Así todas las piezas quedan perforadas en el mismo lugar, sin medir cada vez, y el operario trabaja con una sola mano libre. Ahorra tiempo de trazado y reduce errores de posición.</p></div>
     <div class="sheet"><h3>Qué se entrega en el proceso y en qué estado está</h3><div class="tw"><table id="t-proc"></table></div></div>
   </div>
 
@@ -839,24 +858,36 @@ video::-webkit-media-controls,video::-webkit-media-controls-start-playback-butto
     <div class="grid">
       <div class="sheet"><h3>Localización elegida</h3><dl class="kv"><dt>Inmueble</dt><dd>Bodega en arriendo, 297 m²</dd><dt>Ubicación</dt><dd>Puente Aranda, Bogotá</dd><dt>Dotación</dt><dd>2 oficinas, 3 baños</dd><dt>Canon</dt><dd><span class="pill falta">pendiente</span></dd><dt>Anuncio</dt><dd><a href="https://www.fincaraiz.com.co/bodega-en-arriendo-en-cundinamarca-bogota/194230166">Fincaraíz 194230166</a></dd></dl></div>
     </div>
+    <div class="sheet wide"><h3>Localización: factores con peso y calificación</h3><p class="lede">La bodega de Puente Aranda se calificó contra seis factores. <span class="pill parcial">por comparar con otras bodegas</span></p><div class="tw"><table id="t-loc"></table></div></div>
+    <div class="sheet wide"><h3>Matriz de relaciones entre áreas</h3><p class="lede">A: absolutamente necesaria · E: especialmente importante · I: importante · O: ordinaria · U: sin importancia · X: no deseable.</p><div class="tw"><table id="t-mx" class="mxt"></table></div><h4 class="sh4">Razón de cada relación</h4><div class="tw"><table id="t-rel"></table></div></div>
+    <div class="sheet wide"><h3>Plano propuesto de la planta</h3><p class="lede">Distribución esquemática de 297 m² (27 × 11 m, medidas supuestas hasta tener el plano del inmueble), con el recorrido del material y el del operario.</p><div id="plano" class="planow"></div><div class="grid" style="margin-top:20px"><div class="sheet" style="box-shadow:none"><div class="tw"><table id="t-dm"></table></div></div><div class="sheet" style="box-shadow:none"><div class="tw"><table id="t-do"></table></div></div></div></div>
+    <div class="sheet wide"><h3>Zonas de almacenamiento</h3><p class="lede">Cuánto espacio necesita cada zona, según el lote. <span class="pill parcial">borrador</span></p><div class="tw"><table id="t-zo"></table></div></div>
+    <div class="sheet wide"><h3>Máquinas</h3><p class="lede">Máquinas necesarias por operación. Las fichas de los fabricantes se anexan al elegir cada marca.</p><div class="tw"><table id="t-maq"></table></div></div>
+    <div class="sheet wide"><h3>Estándar 5S</h3><p class="lede">Cómo se aplican las cinco S en esta planta.</p><div class="tw"><table id="t-5s"></table></div></div>
+    <div class="sheet wide"><h3>Matriz de peligros y riesgos (GTC 45)</h3><p class="lede">Peligros por operación y sus controles. <span class="pill parcial">borrador</span></p><div class="tw"><table id="t-gtc"></table></div></div>
+    <div class="sheet wide"><h3>Fichas de puesto</h3><p class="lede">Los cuatro puestos de trabajo de la planta.</p><div class="tw"><table id="t-pu"></table></div></div>
     <div class="sheet"><h3>Qué se entrega en la planta y en qué estado está</h3><div class="tw"><table id="t-planta"></table></div></div>
   </div>
 
   <div class="tpane" id="p-coherencia">
     <div class="phead"><span class="mono">Nota 2 · criterio 6 · ítems 2 y 17</span><h2>Coherencia: lo que la planta <em>le cambió</em> al mueble</h2><p>Mueble y planta son un solo trabajo. Aquí se compara lo que se esperaba con lo que resultó, y se anota cada cambio hecho al diseño.</p></div>
     <div class="grid">
-      <div class="sheet"><h3>Hipótesis de producción</h3><p style="font-size:13.5px;font-weight:300"><span class="pill falta">pendiente</span> Una frase escrita antes de calcular: qué operación limitará la planta. Al final se comprueba si el grupo acertó.</p></div>
+      <div class="sheet wide"><h3>Hipótesis de producción</h3><p class="lede"><span class="pill parcial">escrita antes de calcular</span> <b>«La operación que limitará a la planta será el preensamble de los muebles, sobre todo los 8 módulos de la cocina con sus bisagras, rieles y manijas, y no el corte.»</b></p><p class="rc-rate" id="r-hip"></p></div>
     </div>
     <div class="sheet"><h3>Tabla de rastreo: decisión del mueble → consecuencia en la planta</h3><div class="tw"><table><tr><th>Decisión del mueble</th><th>Consecuencia en la planta</th><th>Cambio al diseño</th><th>Estado</th></tr>
       <tr><td>Respaldo del clóset de 2385 × 1950 × 15 mm</td><td>No cabe en un tablero comercial de 1,83 m de ancho</td><td>Partir el respaldo en dos piezas</td><td><span class="pill parcial">por confirmar</span></td></tr>
-      <tr><td colspan="4" style="color:var(--mute)">Las demás filas se llenan cuando estén los tiempos, las máquinas y los planes de corte.</td></tr></table></div></div>
+      <tr><td colspan="4" style="color:var(--mute)">Las demás filas se llenan cuando estén los tiempos, las máquinas y los planes de corte.</td></tr><tr><td>Sala: piezas de 17 y 18 mm, clóset de 15 mm</td><td>Dos espesores obligan a dos ajustes de máquina y dos compras</td><td>Definir un solo espesor y material para el conjunto</td><td><span class="pill parcial">por definir</span></td></tr><tr><td>Cocina: mesón de piedra y vidrio superior</td><td>No se fabrican en la planta; los hace un proveedor con plantilla de obra</td><td>Agregar una etapa de espera y pedirlos al firmar el contrato</td><td><span class="pill parcial">por confirmar</span></td></tr><tr><td>Estante esquinero con curva de R120 mm</td><td>Hace falta router con plantilla y canteado curvo</td><td>Incluir la máquina y un punto de inspección en la curva</td><td><span class="pill parcial">por confirmar</span></td></tr><tr><td>Puertas corredizas de vidrio de 2385 mm</td><td>Se compran a medida y tienen plazo propio</td><td>Ordenarlas con anticipación y revisarlas al recibir</td><td><span class="pill parcial">por confirmar</span></td></tr><tr><td>Luz LED con sensor en clóset y sala</td><td>Hay que pre-cablear y probar en la planta</td><td>Agregar punto de inspección 6: vidrio y luz</td><td><span class="pill parcial">por confirmar</span></td></tr><tr><td>8 módulos de cocina con bisagras y rieles</td><td>Mucho perforado repetido de tazas y rieles</td><td>Usar plantilla de perforado y puesto de armado propio</td><td><span class="pill parcial">por confirmar</span></td></tr><tr><td>Plazo de dos meses para 21 juegos</td><td>Un juego cada 16,6 h de jornada; con 4 operarios alcanza</td><td>Planta con 4 puestos y lotes por tipo de pieza</td><td><span class="pill parcial">por confirmar</span></td></tr></table></div></div>
   </div>
 
   <div class="tpane" id="p-costos">
     <div class="phead"><span class="mono">Nota 3 · elementos P a R y costos</span><h2>Proveedores <em>y</em> costos</h2><p>Qué compra Beta, a quién y cuánto cuesta fabricar cada mueble: materias primas + mano de obra + costos indirectos, sin precio de venta.</p></div>
+    <div class="sheet wide"><h3>Nuestros proveedores</h3><p class="lede">Con quién se compra cada cosa.</p><div class="logos"><figure><div><img src="img/prov-aglocol.png" alt="Aglocol"></div><figcaption>Aglocol<span>Tableros de melamina</span></figcaption></figure><figure><div><img src="img/prov-madecentro.png" alt="Madecentro"></div><figcaption>Madecentro<span>Tableros y herrajes</span></figcaption></figure><figure><div><img src="img/prov-homecenter.png" alt="Sodimac Homecenter"></div><figcaption>Homecenter<span>Herrajes y tornillería</span></figcaption></figure><figure><div><img src="img/prov-mercadolibre.png" alt="Mercado Libre"></div><figcaption>Mercado Libre<span>Compras pequeñas</span></figcaption></figure></div></div>
+    
     <div class="sheet"><h3>Clóset · herrajes, puertas e iluminación por proveedor</h3><div class="tabs" id="ptabs"></div><div class="tw"><table id="t-herr"></table></div><div class="note">Precios sin soporte ni referencia exacta, y elección solo por precio. La guía pide cotización real con fecha y cuadro con cinco criterios.</div></div>
     <div class="sheet"><h3>Cocina · lista cotizada en Madecentro</h3><div class="tw"><table id="t-coc"></table></div><p class="src">Sin precio todavía: mesón, vidrio, perfilería, grifería, poceta y electrodomésticos.</p></div>
-    <div class="sheet"><h3>Hoja de costos</h3><div class="calc"><label class="f" for="c-sal">Costo hora MOD ($)<input type="number" id="c-sal" min="0" placeholder="con fuente"></label><label class="f" for="c-cif">Indirectos por juego ($)<input type="number" id="c-cif" min="0" placeholder="presupuesto"></label><label class="f" for="c-vol">Volumen (juegos)<input type="number" id="c-vol" min="1" placeholder="elemento K"></label></div><div class="tw"><table id="t-cost"></table></div></div>
+    <div class="sheet wide"><h3>Lista de compras para todo el volumen</h3><p class="lede">Las listas por mueble multiplicadas por los juegos del pedido (se actualiza con la calculadora de ritmo). <span class="pill parcial">borrador</span></p><div class="tw"><table id="t-lc"></table></div><p class="src" id="lc-note"></p></div>
+    <div class="sheet wide"><h3>Cuadro comparativo de proveedores</h3><p class="lede">Cinco criterios con peso, calificados del 1 al 5. <span class="pill parcial">calificación propuesta, por confirmar con cotizaciones</span></p><div class="tw"><table id="t-pv"></table></div><p class="src">Proveedor propuesto: <b>Madecentro</b> para tableros y herrajes de entrega rápida; <b>Aglocol</b> cuando el volumen justifique comprar directo al fabricante de tableros.</p></div>
+    <div class="sheet"><h3>Hoja de costos</h3><div class="calc"><label class="f" for="c-sal">Costo hora MOD ($)<input type="number" id="c-sal" min="0" placeholder="con fuente"></label><label class="f" for="c-cif">Indirectos por juego ($)<input type="number" id="c-cif" min="0" placeholder="presupuesto"></label><label class="f" for="c-vol">Volumen (juegos)<input type="number" id="c-vol" min="1" placeholder="elemento K"></label></div><div class="tw"><table id="t-cost"></table></div><p class="src">Costo hora MOD: salario mínimo 2026 ($ 1.750.905) más auxilio de transporte ($ 249.095), por 1,52 de prestaciones y aportes, entre 192 horas al mes (≈ $ 15.800). Estimación del grupo. Falta sumar el canon de la bodega a los indirectos.</p></div>
   </div>
 
   <div class="tpane" id="p-estado">
@@ -891,25 +922,25 @@ const AUD=[
 ['Nota 1','Fichas de la luminaria y del equipo; alojamiento y cableado','falta','LED genérico (12 V, 2700 a 3000 K); vidrio inteligente de Vittrum descrito en texto.','Referencia exacta y ficha técnica de luminaria y equipo; recorrido del cable, ventilación y acceso de mantenimiento.'],
 ['Nota 1','Renders de cada mueble en su espacio','sinver','Hay renders de los tres muebles en la carpeta.','Confirmar que muestran el espacio escalado alrededor, con luz y equipo.'],
 ['Nota 2','Ficha de la empresa, volumen, plazo y ritmo requerido','parcial','Nombre, bodega, plazo de dos meses, volumen de 21 juegos (63 muebles) y calculadora del ritmo en la página.','Justificar volumen y jornada con fuente y cambiar las horas por mueble (hoy valores iniciales) por tiempos medidos.'],
-['Nota 2','Tabla de fabricar o comprar y tipo de producción','parcial','Tres frases generales; tipo por lotes.','Tabla pieza por pieza con razón; justificar el tipo con volumen y ritmo.'],
-['Nota 2','Hipótesis de producción, escrita antes de calcular','falta','','Una frase.'],
-['Nota 2','Localización con proveedores y obra','parcial','Bodega elegida en Puente Aranda.','Tabla de factores con peso y calificación; mapa con proveedores y obra.'],
-['Nota 2','Matriz de relaciones, plano propuesto y los dos recorridos','falta','','Matriz entre áreas, plano a escala de la bodega con máquinas, recorridos de material y operario, tabla de distancias.'],
-['Nota 2','Máquinas con su ficha','falta','','Inventario por operación y ficha del fabricante de cada máquina.'],
-['Nota 2','Tabla de piezas, análisis del valor y planes de corte','falta','El apartado existe sin texto.','Las tres cosas. Los planes de corte dependen del despiece completo.'],
+['Nota 2','Tabla de fabricar o comprar y tipo de producción','parcial','Tabla de fabricar o comprar con razón por cada decisión y tipo por lotes justificado con el volumen.','Que el grupo la revise y confirme.'],
+['Nota 2','Hipótesis de producción, escrita antes de calcular','parcial','Hipótesis escrita (el preensamble limita) y contrastada con los tiempos estimados.','Contrastar con tiempos medidos.'],
+['Nota 2','Localización con proveedores y obra','parcial','Bodega en Puente Aranda con tabla de factores, pesos y calificación.','Compararla con otras bodegas y poner el mapa con proveedores y obra.'],
+['Nota 2','Matriz de relaciones, plano propuesto y los dos recorridos','parcial','Matriz de relaciones, plano esquemático de 297 m² y recorridos de material y operario con distancias.','Medidas reales de la bodega para dibujar el plano a escala.'],
+['Nota 2','Máquinas con su ficha','parcial','Inventario de máquinas por operación y capacidad mínima.','Fichas de los fabricantes.'],
+['Nota 2','Tabla de piezas, análisis del valor y planes de corte','parcial','Lista de compras para el volumen con tableros calculados.','Análisis del valor y planes de corte con el despiece completo de sala y cocina.'],
 ['Nota 2','Diagramas de operaciones y de flujo de los tres muebles','parcial','Diagrama de clóset, sala y cocina en la página, con ensamble, luz, empaque e instalación.','Que el grupo los confirme y les agregue tiempos y distancias.'],
-['Nota 2','Cursogramas con totales y tabla VA/NVA','falta','','Cursograma por mueble con transportes y esperas, totales, VA/NVA y examen crítico.'],
-['Nota 2','Bimanual y dispositivos de sujeción','falta','','Bimanual de la operación más repetitiva y diseño de la plantilla.'],
-['Nota 2','Tiempos con fuente y cuello de botella frente al ritmo','falta','El apartado existe sin texto.','Tabla de tiempos con experto, comparación o dato publicado; comparación con el ritmo.'],
-['Nota 2','Zonas de almacenamiento','falta','','Zonas sobre el plano y tabla de áreas según el lote.'],
-['Nota 2','Estándar 5S, matriz GTC 45 y fichas de puesto','falta','','Las tres, propias de esta planta.'],
-['Nota 2','Plan de inspección','falta','','Puntos en el cursograma, criterios por pieza y hoja de verificación.'],
-['Nota 2','Hipótesis contrastada y tabla de rastreo','falta','','Contraste de la hipótesis y tabla decisión del mueble → consecuencia en la planta.'],
-['Nota 3','Lista de compras para todo el volumen','falta','Listas por un mueble (clóset y cocina).','Multiplicar por el volumen, agregar sala e insumos (lija, pegante, discos, canto).'],
+['Nota 2','Cursogramas con totales y tabla VA/NVA','parcial','Tabla VA/NVA por mueble (pasos y horas) y examen crítico, a partir de los diagramas.','Medir tiempos y distancias reales.'],
+['Nota 2','Bimanual y dispositivos de sujeción','parcial','Bimanual del armado de cajón y plantilla de perforado.','Cronometrar la operación.'],
+['Nota 2','Tiempos con fuente y cuello de botella frente al ritmo','parcial','Tiempos por etapa (estimados) y cuello de botella frente al ritmo requerido.','Fuente: experto, comparación o dato publicado.'],
+['Nota 2','Zonas de almacenamiento','parcial','Zonas y áreas según el lote.','Ubicarlas sobre el plano a escala.'],
+['Nota 2','Estándar 5S, matriz GTC 45 y fichas de puesto','parcial','Las tres, en borrador para esta planta.','Ajustarlas a la planta real y a las máquinas elegidas.'],
+['Nota 2','Plan de inspección','parcial','Ocho puntos de control con criterio, instrumento y registro.','Validar tolerancias con un experto.'],
+['Nota 2','Hipótesis contrastada y tabla de rastreo','parcial','Hipótesis contrastada y tabla con ocho decisiones y su efecto en la planta.','Confirmar cada fila con el grupo.'],
+['Nota 3','Lista de compras para todo el volumen','parcial','Compras multiplicadas por los 21 juegos para clóset y cocina.','Sala (sin material definido) e insumos como lija, pegante y canto.'],
 ['Nota 3','Cotizaciones exigidas, con soporte','parcial','Herrajes del clóset en tres proveedores; cocina en Madecentro; tornillos en dos tiendas.','Tres por cada materia prima (melamina, vidrio, piedra, aluminio), tres de iluminación, tres del equipo; soporte y fecha de todas.'],
-['Nota 3','Cuadro comparativo y proveedor elegido','parcial','Comparación de herrajes solo por precio.','Criterios: costo, capacidad, plazo, ubicación y especificación.'],
-['Nota 3','Hoja de costos de cada mueble','falta','','Materias primas + mano de obra + indirectos, con el cálculo a la vista.'],
-['Nota 3','Costo del conjunto y del volumen','falta','','Depende de la hoja de costos y del volumen.']
+['Nota 3','Cuadro comparativo y proveedor elegido','parcial','Cuadro con cinco criterios, pesos y puntaje por proveedor; propuesta: Madecentro.','Confirmar las calificaciones con cotizaciones.'],
+['Nota 3','Hoja de costos de cada mueble','parcial','Materias primas + mano de obra (costo hora con fuente) + indirectos, con el cálculo a la vista.','Canon de la bodega y materia prima de la sala.'],
+['Nota 3','Costo del conjunto y del volumen','parcial','Total parcial del conjunto y de los 21 juegos.','Completar las materias primas que faltan.']
 ];
 function sumHtml(){const g={};AUD.forEach(a=>{(g[a[0]]=g[a[0]]||{ok:0,parcial:0,sinver:0,falta:0,n:0})[a[2]]++;g[a[0]].n++});
   const T={'Nota 1':'Diseño del mobiliario','Nota 2':'Sistema de producción','Nota 3':'Proveedores y costos'};
@@ -1345,12 +1376,152 @@ const totC=COC.reduce((a,c)=>a+c[1]*c[3],0);
 $('#t-coc').innerHTML='<tr><th>Ítem</th><th class="num">Cant.</th><th>Und.</th><th class="num">Precio unit.</th><th class="num">Subtotal</th></tr>'+COC.map(c=>`<tr><td>${c[0]}</td><td class="num">${c[1]}</td><td>${c[2]}</td><td class="num">${cop(c[3])}</td><td class="num">${cop(c[1]*c[3])}</td></tr>`).join('')+`<tr class="tot"><td colspan="4">Total cotizado</td><td class="num">${cop(totC)}</td></tr>`;
 function costos(){const sal=+$('#c-sal').value||0,cif=+$('#c-cif').value||0,vol=+$('#c-vol').value||0;
   const MU=[['Vestier · clóset',totH(pv),'herrajes e iluminación en '+PROV[pv]+'; faltan tableros y vidrio'],['Sala',0,'sin cotizaciones'],['Cocina',totC,'Madecentro; faltan mesón, vidrio, aluminio y equipos']];
-  const hrs=MU.map((m,i)=>+(store.get('h'+i)||0)), H=hrs.reduce((a,b)=>a+b,0); let T=0;
+  const DH=[+(store.get('r2ve')||14),+(store.get('r2sa')||16),+(store.get('r2co')||24)], hrs=MU.map((m,i)=>+(store.get('h'+i)||DH[i])), H=hrs.reduce((a,b)=>a+b,0); let T=0;
   $('#t-cost').innerHTML='<tr><th>Mueble</th><th class="num">Materias primas cotizadas</th><th class="num">Horas MOD</th><th class="num">Mano de obra</th><th class="num">Indirectos</th><th class="num">Total parcial</th></tr>'+MU.map((m,i)=>{const mo=hrs[i]*sal, ci=H?cif*hrs[i]/H:0, t=m[1]+mo+ci; T+=t;
     return `<tr><td>${m[0]}<br><span class="src">${m[2]}</span></td><td class="num">${cop(m[1])}</td><td class="num"><input type="number" min="0" step="0.5" id="ch${i}" value="${hrs[i]||''}" style="width:80px" aria-label="Horas de mano de obra ${m[0]}"></td><td class="num">${cop(mo)}</td><td class="num">${cop(ci)}</td><td class="num">${cop(t)}</td></tr>`}).join('')+`<tr class="tot"><td colspan="5">Conjunto (parcial, materias primas incompletas)</td><td class="num">${cop(T)}</td></tr>`+(vol?`<tr><td colspan="5">Todo el volumen: ${vol} juegos × ${cop(T)}</td><td class="num">${cop(T*vol)}</td></tr>`:'');
   MU.forEach((m,i)=>$('#ch'+i).addEventListener('change',e=>{store.set('h'+i,e.target.value);costos();}));}
+if(!store.get('csal')) $('#c-sal').value=15800; if(!store.get('cvol')) $('#c-vol').value=21;
 ['sal','cif','vol'].forEach(k=>{const v=store.get('c'+k); if(v) $('#c-'+k).value=v; $('#c-'+k).addEventListener('input',e=>{store.set('c'+k,e.target.value);costos();});});
 drawHerr();
+/* ====== Notas 2 y 3: borradores del grupo ====== */
+const TB=(h,r,cls)=>'<tr>'+h.map(x=>`<th>${x}</th>`).join('')+'</tr>'+r.map(f=>'<tr>'+f.map((c,i)=>`<td${cls&&cls[i]?` class="${cls[i]}"`:''}>${c}</td>`).join('')+'</tr>').join('');
+const BOR='<span class="pill parcial">borrador</span>';
+/* --- fabricar o comprar --- */
+$('#t-fc').innerHTML=TB(['Pieza o insumo','Muebles','Decisión','Por qué'],[
+['Piezas de melamina: laterales, divisores, repisas, frentes, cajas de cajón','Los tres','<b class="fc F">Fabricar</b>','Es el corazón del mueble: se corta a la medida del plano, se cantea y se perfora en la planta. Define la calidad y el ajuste.'],
+['Tableros de melamina de 15 mm (RH en cocina) y fondos de 5 a 6 mm','Los tres','<b class="fc C">Comprar</b>','Material normalizado que producen otros (Aglocol, Madecentro). Fabricarlo no tiene sentido a este volumen.'],
+['Correderas de cierre lento, bisagras de 90°, manijas, brazo neumático, minifix y pasadores','Los tres','<b class="fc C">Comprar</b>','Herrajes normalizados, de bajo costo unitario y con garantía del fabricante.'],
+['Tarugos y tornillería','Los tres','<b class="fc C">Comprar</b>','Se compran por caja; el costo de fabricarlos supera el de comprarlos.'],
+['Puertas corredizas de vidrio de 6 mm y guías','Clóset','<b class="fc C">Comprar a medida</b>','El vidrio exige corte y canto con equipo especializado que la planta no tiene.'],
+['Tubos colgadores de acero inoxidable','Clóset','<b class="fc A">Comprar y cortar</b>','Se compra el tubo y se corta a 705 mm en la planta.'],
+['Perfil de aluminio, cinta LED, fuente y sensor','Los tres','<b class="fc C">Comprar</b>','Componentes eléctricos con ficha técnica; la planta solo los instala.'],
+['Mesón de piedra sinterizada y vidrio del módulo superior','Cocina','<b class="fc C">Comprar a medida</b>','Lo fabrica un proveedor con una plantilla tomada en obra sobre los módulos ya instalados.'],
+['Frente listonado de la barra y estructura','Cocina','<b class="fc F">Fabricar</b>','Es una pieza de diseño propia; se hace con el mismo equipo de corte y canteado.'],
+['Empaque: esquineros y película','Los tres','<b class="fc C">Comprar</b>','Insumo de bajo valor.'],
+['Armado final e instalación en el apartamento','Los tres','<b class="fc F">Hacer con personal propio</b>','Del ajuste en obra depende que el cliente quede satisfecho.']],[null,null,null,null]);
+/* --- tiempos estimados por etapa --- */
+const ET=['Recepción y almacenaje','Corte','Canteado','Perforado','Preensamble','Calidad y empaque'];
+const TM={'Vestier · clóset':[1,3,3,2.5,3.5,1],'Sala':[1,3,3.5,3,4,1.5],'Cocina':[1,4,5,4,7,3]};
+const TMsum=ET.map((_,i)=>Object.values(TM).reduce((a,r)=>a+r[i],0)), TMtot=TMsum.reduce((a,b)=>a+b,0);
+const F1=n=>n.toLocaleString('es-CO',{maximumFractionDigits:1});
+function tiempos(){ const tk=(()=>{ const pl=+(store.get('r2pl')||8.7),ds=+(store.get('r2ds')||5),hd=+(store.get('r2hd')||8),j=+(store.get('r2j')||21); return pl*ds*hd/j; })();
+  const mx=Math.max(...TMsum), ib=TMsum.indexOf(mx);
+  $('#t-tm').innerHTML=TB(['Etapa',...Object.keys(TM),'Total por juego','% del juego','Frente al ritmo'],ET.map((e,i)=>[e,...Object.values(TM).map(r=>F1(r[i])+' h'),'<b>'+F1(TMsum[i])+' h</b>',Math.round(TMsum[i]/TMtot*100)+' %',`<span class="pill ${TMsum[i]>=tk*.85?'parcial':'ok'}">${TMsum[i]>=tk*.85?'cerca del ritmo':'holgado'}</span>`]).concat([['<b>Total</b>',...Object.values(TM).map(r=>'<b>'+F1(r.reduce((a,b)=>a+b,0))+' h</b>'),'<b>'+F1(TMtot)+' h</b>','100 %','']]),[null,'num','num','num','num','num',null]);
+  $('#r-cuello').innerHTML=`<b>Ritmo requerido:</b> un juego cada ${F1(tk)} horas de jornada. <b>Cuello de botella estimado: ${ET[ib].toLowerCase()}</b>, con ${F1(mx)} h por juego (${Math.round(mx/TMtot*100)} % del total). Es la etapa que más se acerca al ritmo; si el puesto es uno solo, deja ${F1(tk-mx)} h de margen por juego.`;
+  $('#r-hip').innerHTML=`<b>Contraste:</b> ${ib===4?'la hipótesis se confirma con estos tiempos estimados: el preensamble es la etapa más larga.':'la hipótesis no se confirma: la etapa más larga resultó ser '+ET[ib].toLowerCase()+', y se ajusta el diseño del puesto.'} Debe verificarse cuando se midan los tiempos reales.`; }
+tiempos(); ['r2pl','r2ds','r2hd','r2j'].forEach(()=>{}); document.addEventListener('input',e=>{ if(e.target.closest('.rcalc')) tiempos(); });
+/* --- VA / NVA desde los diagramas --- */
+function vanva(){ const rows=Object.keys(DOP).map(k=>{ const c={O:0,I:0,T:0,D:0,A:0}; DOP[k].f.forEach(f=>f[1].forEach(s=>c[s[0]]++)); const n=c.O+c.I+c.T+c.D+c.A; return [DOP[k].n,c.O,c.I,c.T,c.D,c.A,n,Math.round(c.O/n*100)+' %',Math.round((n-c.O)/n*100)+' %']; });
+  $('#t-va').innerHTML=TB(['Mueble','Operaciones (valor agregado)','Inspecciones','Transportes','Demoras','Almacenajes','Pasos','% con valor','% sin valor'],rows,[null,'num','num','num','num','num','num','num','num']);
+  const VAh={'Vestier · clóset':[12,2],'Sala':[13.5,2.5],'Cocina':[20,4]};
+  $('#t-vah').innerHTML=TB(['Mueble','Horas con valor (corte, canteado, perforado, preensamble)','Horas sin valor (recepción, calidad, empaque)','% de horas con valor'],Object.entries(VAh).map(([k,v])=>[k,F1(v[0])+' h',F1(v[1])+' h',Math.round(v[0]/(v[0]+v[1])*100)+' %']),[null,'num','num','num']); }
+vanva();
+$('#t-ec').innerHTML=TB(['Paso sin valor','Pregunta crítica','Mejora propuesta'],[
+['Transportes entre estaciones (7 en el clóset)','¿Hace falta mover la pieza tantas veces?','Distribuir la planta en línea (corte → canteado → perforado → armado) y mover por lotes en carros.'],
+['Demora antes de la canteadora','¿Por qué esperan las piezas?','Cortar y cantear por tipo de pieza en lotes, para que la canteadora no reciba todo a la vez.'],
+['Demora por secado del pegante','¿Se puede hacer en paralelo?','Armar la siguiente caja mientras la anterior seca en prensa.'],
+['Inspecciones repetidas','¿Se puede revisar una sola vez bien?','Concentrar la revisión en cuatro puntos: recepción, corte, preensamble y final.'],
+['Almacenaje en zona de despacho','¿Se puede despachar directo?','Programar el vehículo para que llegue cuando el juego esté listo.']]);
+/* --- plan de inspección --- */
+$('#t-pi').innerHTML=TB(['Punto','Qué se revisa','Criterio de aceptación','Instrumento','Registro'],[
+['1 · Recepción','Cantidad, espesor, estado del tablero y herrajes contra la orden','Sin golpes ni humedad; espesor de 15 mm ± 0,5 mm','Calibrador, flexómetro','Hoja de recepción'],
+['2 · Corte','Medidas y escuadra de cada pieza','± 1 mm en largo y ancho; escuadra con diferencia de diagonales ≤ 1 mm','Flexómetro, escuadra','Hoja de verificación por pieza'],
+['3 · Canteado','Adherencia y acabado del canto','Sin despegues, sin sobrante; esquinas limpias','Visual y táctil','Lista de chequeo'],
+['4 · Perforado','Posición y diámetro de perforaciones','Coincide con la plantilla; ± 0,5 mm','Plantilla, calibrador','Lista de chequeo'],
+['5 · Preensamble','Escuadra, holguras, cajones y puertas','Holgura uniforme de 2 a 3 mm; cajones corren sin trabarse','Escuadra, galga','Hoja de verificación por mueble'],
+['6 · Vidrio y luz','Bordes y medidas del vidrio; encendido de la luz','Sin rayones ni astillas; luz enciende al abrir','Visual, flexómetro, prueba','Lista de chequeo'],
+['7 · Final y empaque','Aspecto, funcionamiento y herrajes completos','Cumple todos los puntos anteriores; faltantes: 0','Lista final','Acta de salida'],
+['8 · Entrega en obra','Nivel, anclaje, ajuste y prueba con el cliente','Nivelado, sin holguras; cliente conforme','Nivel, prueba','Acta de entrega']]);
+/* --- bimanual --- */
+$('#t-bi').innerHTML=TB(['Mano izquierda','Símbolo','Mano derecha'],[
+['Toma el lateral del cajón','Operación','Toma la trasera del cajón'],
+['Sostiene el lateral en posición','Sostiene','Aplica pegante en los tarugos'],
+['Sostiene el lateral','Sostiene','Inserta los tarugos en la trasera'],
+['Acerca la trasera al lateral','Operación','Sostiene el lateral'],
+['Sostiene las dos piezas unidas','Sostiene','Toma el frente y lo ubica'],
+['Sostiene el conjunto','Sostiene','Repite con el otro lateral'],
+['Lleva la caja a la prensa','Transporte','Aprieta la prensa']]);
+/* --- localización --- */
+$('#t-loc').innerHTML=TB(['Factor','Peso','Calificación (1 a 5)','Puntaje','Razón'],[
+['Cercanía a los proveedores','25 %',5,'','Madecentro, Homecenter y Aglocol atienden en Bogotá.'],
+['Cercanía a la obra (Colina Campestre)','20 %',3,'','Está al sur-occidente de la ciudad; hay que cruzarla para llegar a la obra.'],
+['Costo del arriendo','20 %',4,'','Zona industrial con oferta de bodegas de este tamaño.'],
+['Acceso y cargue de vehículos','15 %',4,'','Vías de acceso para camión; falta confirmar el muelle.'],
+['Área y distribución','15 %',4,'','297 m² con 2 oficinas y 3 baños alcanzan para la línea.'],
+['Servicios y seguridad','5 %',4,'','Zona con servicios industriales.']].map(r=>{ const p=parseFloat(r[1])/100; r[3]=F1(p*r[2]*1); return r; }).concat([['<b>Total</b>','100 %','','<b>'+F1([[25,5],[20,3],[20,4],[15,4],[15,4],[5,4]].reduce((a,x)=>a+x[0]*x[1]/100,0))+' de 5</b>','Calificaciones propuestas por el grupo; falta compararlas con otras bodegas.']]),[null,'num','num','num',null]);
+/* --- relaciones --- */
+const RA=['Recepción','Almacén tableros','Corte','Canteado','Perforado','Preensamble','Inspección','Empaque y despacho','Herrajes y vidrio','Oficinas'];
+const RP={'0-1':['A','Se descarga y se almacena de inmediato'],'1-2':['A','Los tableros salen directo a la seccionadora'],'2-3':['A','Las piezas cortadas pasan a canteado'],'3-4':['A','Siguen en línea al perforado'],'4-5':['A','Las piezas perforadas se arman'],'5-6':['E','Se revisa el mueble preensamblado'],'6-7':['E','Después de la revisión se empaca'],'8-5':['A','Los herrajes se instalan en el armado'],'8-0':['I','Se reciben junto con el material'],'2-4':['I','Se comparte personal entre ambos puestos'],'9-0':['O','Control de entradas'],'9-6':['I','El jefe de planta supervisa la calidad'],'2-9':['X','El ruido y el polvo del corte molestan a la oficina'],'3-9':['X','El polvo del canteado afecta la oficina']};
+function matriz(){ const n=RA.length; let h='<tr><th></th>'+RA.map((a,i)=>`<th class="rot">${i+1}</th>`).join('')+'</tr>'; for(let i=0;i<n;i++){ h+=`<tr><th class="rl">${i+1} · ${RA[i]}</th>`+RA.map((_,j)=>{ if(i===j) return '<td class="mx d">·</td>'; const v=RP[Math.min(i,j)+'-'+Math.max(i,j)]||RP[i+'-'+j]||RP[j+'-'+i]; return `<td class="mx ${v?v[0]:'U'}">${v?v[0]:'U'}</td>`; }).join('')+'</tr>'; } $('#t-mx').innerHTML=h;
+  $('#t-rel').innerHTML=TB(['Par de áreas','Valor','Razón'],Object.entries(RP).map(([k,v])=>{ const [a,b]=k.split('-').map(Number); return [RA[a]+' ↔ '+RA[b],`<b class="mx ${v[0]}" style="display:inline-block;padding:2px 10px;border-radius:99px">${v[0]}</b>`,v[1]]; })); }
+matriz();
+/* --- plano propuesto y recorridos --- */
+const BZ=[['Recepción',0,0,4,5,'#e8ecf4'],['Almacén tableros',0,5,4,6,'#efe5f4'],['Corte',4,0,5,6,'#fff3dc'],['Oficinas y baños',4,6,5,5,'#eceae4'],['Canteado',9,0,4,5,'#fff3dc'],['Perforado',13,0,4,5,'#fff3dc'],['Preensamble',9,5,8,6,'#fde8df'],['Inspección',17,5,4,6,'#e3f1ee'],['Empaque y despacho',21,5,6,6,'#e8f5ec'],['Herrajes y vidrio',17,0,10,5,'#efe5f4']];
+const BC=Object.fromEntries(BZ.map(z=>[z[0],[z[1]+z[3]/2,z[2]+z[4]/2+.9]]));
+const RUTA_M=['Recepción','Almacén tableros','Corte','Canteado','Perforado','Preensamble','Inspección','Empaque y despacho'];
+const RUTA_O=['Corte','Canteado','Perforado','Preensamble','Herrajes y vidrio','Preensamble','Inspección'];
+const dist=(a,b)=>Math.abs(BC[a][0]-BC[b][0])+Math.abs(BC[a][1]-BC[b][1]);
+function plano(){ const S=28; let svg=`<svg viewBox="-20 -20 ${27*S+40} ${11*S+70}" class="bz" role="img" aria-label="Plano esquemático de la bodega"><defs><marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#1d4ed8"/></marker><marker id="ao" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#b3500a"/></marker></defs><rect x="0" y="0" width="${27*S}" height="${11*S}" fill="#fffdf6" stroke="#1d1710" stroke-width="3"/>`;
+  BZ.forEach(z=>{ svg+=`<g><rect x="${z[1]*S}" y="${z[2]*S}" width="${z[3]*S}" height="${z[4]*S}" fill="${z[5]}" stroke="#1d1710" stroke-width="1.4"/><text x="${z[1]*S+8}" y="${z[2]*S+18}" font-size="12" font-weight="700" fill="#1d1710">${z[0]}</text><text x="${z[1]*S+8}" y="${z[2]*S+33}" font-size="10.5" fill="#6b625a">${z[3]*z[4]} m²</text></g>`; });
+  const line=(r,c,m,dy)=>r.slice(1).map((n,i)=>{ const a=BC[r[i]],b=BC[n]; return `<path d="M${a[0]*S} ${a[1]*S+dy}H${b[0]*S}V${b[1]*S+dy}" fill="none" stroke="${c}" stroke-opacity=".85" stroke-width="2.4" stroke-dasharray="${m}" marker-end="url(#${c==='#1d4ed8'?'ah':'ao'})"/>`; }).join('');
+  svg+=line(RUTA_M,'#1d4ed8','0',-8)+line(RUTA_O,'#b3500a','6 4',8);
+  svg+=`<g transform="translate(0 ${11*S+26})"><rect x="0" y="0" width="${5*S}" height="8" fill="#1d1710"/><text x="${5*S+10}" y="9" font-size="12" fill="#1d1710">5 m</text><path d="M200 4H236" stroke="#1d4ed8" stroke-width="2.4" marker-end="url(#ah)"/><text x="246" y="9" font-size="12" fill="#1d1710">Recorrido del material</text><path d="M400 4H436" stroke="#b3500a" stroke-width="2.4" stroke-dasharray="6 4" marker-end="url(#ao)"/><text x="446" y="9" font-size="12" fill="#1d1710">Recorrido del operario</text></g></svg>`;
+  $('#plano').innerHTML=svg;
+  const dm=RUTA_M.slice(1).map((n,i)=>[RUTA_M[i]+' → '+n,dist(RUTA_M[i],n)]), dop=RUTA_O.slice(1).map((n,i)=>[RUTA_O[i]+' → '+n,dist(RUTA_O[i],n)]);
+  const sm=dm.reduce((a,b)=>a+b[1],0), so=dop.reduce((a,b)=>a+b[1],0);
+  $('#t-dm').innerHTML=TB(['Recorrido del material','Distancia'],dm.map(r=>[r[0],F1(r[1])+' m']).concat([['<b>Total por mueble</b>','<b>'+F1(sm)+' m</b>']]),[null,'num']);
+  $('#t-do').innerHTML=TB(['Recorrido del operario','Distancia'],dop.map(r=>[r[0],F1(r[1])+' m']).concat([['<b>Total por ciclo</b>','<b>'+F1(so)+' m</b>']]),[null,'num']); }
+plano();
+/* --- zonas de almacenamiento --- */
+function zonas(){ const j=+(store.get('r2j')||21); const T=Math.ceil(j*(13.751*1.15/4.465)+j*(6.907*1.15/4.465)+j*5+j*1), est=Math.ceil(T/40);
+  $('#t-zo').innerHTML=TB(['Zona','Qué guarda','Cálculo','Área'],[
+['Almacén tableros','Melamina de 15 mm y fondos delgados','~'+T+' tableros para '+j+' juegos, en estibas de 40 tableros: '+est+' estibas de 2,6 × 2,0 m','~'+F1(est*5.2*1.4)+' m² con pasillo'],
+['Herrajes y vidrio','Correderas, bisagras, manijas, perfiles; vidrio en caballete','Estantería de 4 niveles y caballete de 2,4 m','~ 30 m²'],
+['Producto en proceso','Piezas cortadas y canteadas por lote','Carros entre estaciones: 4 carros de 1,2 × 0,8 m','~ 12 m²'],
+['Producto terminado','Muebles empacados esperando despacho','Un juego completo ocupa ~ 6 m²; se guardan 2 juegos','~ 14 m²']],[null,null,null,'num']); }
+zonas();
+/* --- máquinas --- */
+$('#t-maq').innerHTML=TB(['Operación','Máquina','Para qué sirve','Capacidad mínima','Ficha del fabricante'],[
+['Corte','Seccionadora de tableros','Corta tableros de melamina a medida en línea recta','Tablero de 2,44 m × 1,83 m, espesor hasta 18 mm','por anexar'],
+['Corte curvo','Router de mano con plantilla','Corta la curva de R120 mm del estante esquinero','Fresa recta de 12 mm','por anexar'],
+['Canteado','Canteadora de bordes','Pega y refila el canto sobre el borde recto','Canto de 0,45 a 2 mm','por anexar'],
+['Perforado','Taladro múltiple o taladro de columna con plantilla','Perfora tarugos, minifix, apoyos de repisa y tazas de bisagra','Brocas de 5 a 35 mm','por anexar'],
+['Armado','Prensa de cajones y atornilladores eléctricos','Arma las cajas y fija los herrajes','Prensa de 800 mm','por anexar'],
+['Corte de tubo','Tronzadora o sierra de corte','Corta los tubos de acero inoxidable','Tubo de Ø 25 mm','por anexar'],
+['Limpieza','Aspiradora industrial y compresor','Retira el polvo y limpia las piezas','Aspiradora de 20 L','por anexar']]);
+/* --- 5S, GTC 45, puestos --- */
+$('#t-5s').innerHTML=TB(['S','Qué significa','Cómo se aplica en esta planta'],[
+['Seiri · Clasificar','Separar lo necesario de lo innecesario','Retirar retales y herrajes sobrantes de cada puesto; zona de rechazo marcada.'],
+['Seiton · Ordenar','Cada cosa en su lugar','Piezas por mueble en carros rotulados; herrajes en estantería por referencia; sombras de herramientas.'],
+['Seiso · Limpiar','Limpiar e inspeccionar','Aspirar el polvo de corte y canteado al final de cada turno; revisar la máquina al limpiar.'],
+['Seiketsu · Estandarizar','Hacer de lo anterior una norma','Fotos del puesto ordenado y lista de chequeo diaria a la vista.'],
+['Shitsuke · Disciplina','Mantener el hábito','Auditoría semanal del jefe de planta; el puesto más ordenado se reconoce.']]);
+$('#t-gtc').innerHTML=TB(['Operación','Peligro','Riesgo','Nivel','Control'],[
+['Corte en seccionadora','Mecánico, ruido y material particulado','Cortes, atrapamiento, pérdida auditiva, afección respiratoria','Alto','Guardas, protección auditiva, mascarilla, extracción de polvo'],
+['Canteado','Mecánico y térmico','Quemaduras con el pegante, atrapamiento','Medio','Guantes térmicos, guardas, distancia a las partes móviles'],
+['Perforado','Mecánico','Cortes, proyección de partículas','Medio','Gafas, sujeción de la pieza con plantilla'],
+['Armado y prensado','Ergonómico','Postura forzada y manejo de cargas','Medio','Mesas a altura, carros, pausas activas'],
+['Manejo de vidrio','Mecánico','Cortes y caída del vidrio','Alto','Guantes anticorte, caballete, dos personas'],
+['Trabajo eléctrico (luces)','Eléctrico','Descarga eléctrica','Medio','Corte de energía, personal con competencia'],
+['Transporte y obra','Locativo y por carga','Caídas, golpes, sobreesfuerzo','Medio','Equipo de elevación, ayudante, zapatos de seguridad']]);
+$('#t-pu').innerHTML=TB(['Puesto','Qué hace','Qué usa','Qué cuida','Personas'],[
+['Corte','Corta las piezas de los tableros según el plano','Seccionadora, flexómetro, escuadra','Medidas y rendimiento del tablero','1'],
+['Canteado y perforado','Cantea los bordes y perfora según la plantilla','Canteadora, taladro, plantilla','Acabado del canto y posición de los agujeros','1'],
+['Armado','Arma cajones, estructura y puertas; instala herrajes y luz','Prensa, atornilladores, correderas','Escuadra y holguras','1 a 2'],
+['Calidad y despacho','Inspecciona, empaca y carga','Lista de chequeo, esquineros, película','Que salga completo','1']]);
+/* --- compras para el volumen --- */
+function compras(){ const j=+(store.get('r2j')||21);
+  const bM=Math.ceil(j*13.751*1.15/4.465), bF=Math.ceil(j*6.907*1.15/4.465); const bC=j*5, bFC=j*1;
+  const H=HERR.map(h=>[h[0]+' · '+h[1],h[2]*j,h[3],h[4+pv]||0]);
+  const rows=[['Tablero melamina 15 mm · clóset (13,751 m² por mueble + 15 % de desperdicio)',bM,'tablero',515750],['Tablero delgado 5–6 mm · clóset (6,907 m² por mueble + 15 %)',bF,'tablero',326975]].concat(COC.map(c=>[c[0]+' · cocina',c[1]*j,c[2],c[3]])).concat(H.map(h=>[h[0]+' · clóset ('+PROV[pv]+')',h[1],h[2],h[3]]));
+  let tot=0; $('#t-lc').innerHTML=TB(['Ítem','Cantidad para '+j+' juegos','Unidad','Precio unitario','Subtotal'],rows.map(r=>{ tot+=r[1]*r[3]; return [r[0],r[1].toLocaleString('es-CO'),r[2],r[3]?cop(r[3]):'<span class="pill falta">sin precio</span>',r[3]?cop(r[1]*r[3]):'—']; }).concat([['<b>Total con precio</b>','','','','<b>'+cop(tot)+'</b>']]),[null,'num',null,'num','num']);
+  $('#lc-note').textContent='Precios de referencia de Madecentro: el tablero de 15 mm de la cocina y el fondo de 6 mm se usaron también para el clóset. Para el mueble de sala no hay lista de compras: faltan material y espesor. Insumos como lija, pegante, discos y canto se suman cuando el grupo los cotice.'; }
+compras();
+/* --- criterios de proveedor --- */
+const PC=[['Costo',.35],['Capacidad',.2],['Plazo',.2],['Ubicación',.1],['Especificación',.15]];
+const PS={'Aglocol':[4,5,3,3,5,'Tableros'],'Madecentro':[4,4,5,5,4,'Tableros y herrajes'],'Homecenter':[3,4,5,5,3,'Herrajes y tornillería'],'Häfele':[2,4,3,4,5,'Herrajes de alta gama'],'Mercado Libre':[3,2,3,3,2,'Compras pequeñas']};
+$('#t-pv').innerHTML=TB(['Proveedor','Qué suministra',...PC.map(c=>c[0]+' ('+Math.round(c[1]*100)+' %)'),'Puntaje'],Object.entries(PS).map(([k,v])=>{ const s=PC.reduce((a,c,i)=>a+c[1]*v[i],0); return [k,v[5],...v.slice(0,5),'<b>'+s.toFixed(2)+'</b>']; }),[null,null,'num','num','num','num','num','num']);
+
 
 /* ---------- página técnica: selección de mueble y lista lateral ---------- */
 function bomRows(m){
