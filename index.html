@@ -867,6 +867,7 @@ video::-webkit-media-controls,video::-webkit-media-controls-start-playback-butto
   <div class="tpane" id="p-costos">
     <div class="phead"><span class="mono">Nota 3 · elementos P a R y costos</span><h2>Proveedores <em>y</em> costos</h2><p>Qué compra Beta, a quién y cuánto cuesta fabricar cada mueble: materias primas + mano de obra + costos indirectos, sin precio de venta.</p></div>
     <div class="sheet wide"><h3>Cada proveedor, su aporte</h3><p class="lede">Cada proveedor participó de forma distinta en cada mueble: no se compra lo mismo ni al mismo precio. Esta matriz resume lo que cada uno cotizó o aportó.</p><div class="tw"><table id="t-pm" class="pmt"></table></div><p class="src">Fuente: documentos «Materias primas» (clóset) y «Lista de Materias Primas y Precios» (cocina).</p></div>
+    <div class="sheet wide"><h3>Tableros de cada mueble, con el precio de cada proveedor</h3><p class="lede">Las láminas que consume cada mueble y lo que cuestan en cada proveedor. Los fondos de 6 mm solo tienen precio en Madecentro.</p><div class="tw"><table id="t-tp"></table></div><p class="src" id="tp-note"></p></div>
     <div class="sheet wide"><h3>Qué compra cada mueble</h3><div class="dop-tabs" id="pv-tabs" role="group" aria-label="Elegir mueble"><button class="btn" data-k="closet" aria-pressed="true">Clóset</button><button class="btn" data-k="sala" aria-pressed="false">Sala</button><button class="btn" data-k="cocina" aria-pressed="false">Cocina</button></div><div id="pv-out"></div></div>
     
     
@@ -1598,6 +1599,19 @@ function tabJuego(){ const j=+(store.get('r2j')||21), L=2.44*1.83, W=1.15;
   $('#t-tj').innerHTML=TB(['Mueble','Melamina de 15 mm (piezas)','Láminas de 15 mm','Fondos de 5 a 6 mm (piezas)','Láminas de fondo','Láminas por mueble','Láminas para '+j+' juegos'],rows,[null,'num','num','num','num','num','num']);
   $('#tj-note').textContent='Clóset y sala: área de las piezas del despiece más 15 % de desperdicio, dividida entre el área de una lámina (4,47 m²). Cocina: lámina de 2,15 × 2,44 m según la cotización. Las láminas se redondean hacia arriba.'; }
 tabJuego();
+
+function tabProv(){ const L=2.44*1.83, W=1.15, MD15=406679, MD6=326975, HC15=279900;
+  const sa=SP.filter(p=>!p[7]), a15=sa.filter(p=>p[5]>=15).reduce((a,p)=>a+p[3]*p[4]*p[6],0)/1e6, a6=sa.filter(p=>p[5]<15).reduce((a,p)=>a+p[3]*p[4]*p[6],0)/1e6;
+  const M=[['Clóset',Math.ceil(13.751*W/L),Math.ceil(6.907*W/L)],['Sala',Math.ceil(a15*W/L),Math.ceil(a6*W/L)],['Cocina',6,1]];
+  const rows=[]; let t15=[0,0], t6=0;
+  M.forEach(m=>{ rows.push([m[0],'Melamina RH de 15 mm',m[1],cop(MD15)+' c/u<br><b>'+cop(m[1]*MD15)+'</b>',cop(HC15)+' c/u<br><b>'+cop(m[1]*HC15)+'</b>']);
+    rows.push(['','Fondo RH de 6 mm',m[2],cop(MD6)+' c/u<br><b>'+cop(m[2]*MD6)+'</b>','—']);
+    t15[0]+=m[1]*MD15; t15[1]+=m[1]*HC15; t6+=m[2]*MD6; });
+  rows.push(['<b>Un juego</b>','Melamina de 15 mm',M.reduce((a,m)=>a+m[1],0),'<b>'+cop(t15[0])+'</b>','<b>'+cop(t15[1])+'</b>']);
+  rows.push(['','Fondos de 6 mm',M.reduce((a,m)=>a+m[2],0),'<b>'+cop(t6)+'</b>','—']);
+  $('#t-tp').innerHTML=TB(['Mueble','Tablero','Láminas por mueble','Madecentro','Homecenter'],rows,[null,null,'num','num','num']);
+  $('#tp-note').innerHTML='Madecentro: tablero Pelíkano Avellana RH de 2150 × 2440 mm y fondo de 6 mm, según la cotización del grupo. Homecenter: referencia del tablero MDP RH Vesto de 15 mm y 2150 × 2440 mm (color Roble Cava), consultado el 18 de noviembre de 2026; el precio puede cambiar. <a href="https://www.homecenter.com.co/homecenter-co/product/884268/tablero-aglomerado-melaminico-mdp-roble-cava-15mm-215x244cm-vesto/884269/" target="_blank" rel="noopener">Ver el producto</a>.'; }
+tabProv();
 function compras(){ const j=+(store.get('r2j')||21);
   const bM=Math.ceil(j*13.751*1.15/4.465), bF=Math.ceil(j*6.907*1.15/4.465); const bC=j*5, bFC=j*1;
   const H=HERR.map(h=>[h[0]+' · '+h[1],h[2]*j,h[3],h[4+pv]||0]);
