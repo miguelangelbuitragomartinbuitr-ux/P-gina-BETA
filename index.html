@@ -311,6 +311,37 @@ ul.clean{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:5px;f
 .nos-foot{max-width:1040px;margin:70px auto 0;padding-top:22px;border-top:1px solid var(--line);font-size:12px;color:var(--mute)}
 @media (max-width:760px){.nos-stats div{padding:16px 6px}.nos-stats span{font-size:11px}.nos-h{margin-top:56px}.nos-body{padding-top:calc(100vw*.56 + 56px)}.nos-hero{height:calc(100vw*.56 + 130px);-webkit-mask-image:linear-gradient(to bottom,#000 0,#000 72%,transparent 100%);mask-image:linear-gradient(to bottom,#000 0,#000 72%,transparent 100%)}.nos-hero img{inset:auto;left:0;top:96px;height:auto;width:100%}}
 
+
+/* ---------- MUEBLES: modelo primero, controles fuera, piezas bajo demanda ---------- */
+#tec .mz{display:flex;flex-direction:column;gap:16px}
+#tec .mz .rail{flex-direction:row;gap:12px;overflow-x:auto}
+#tec .mz .rail button{flex:1 1 0;min-width:170px;justify-content:flex-start}
+#tec .mz .rail button:hover{transform:translateY(-2px)}
+#tec .mz .stage{min-height:0;height:clamp(440px,68vh,760px);scroll-margin-top:96px}
+#tec .mz #iso{height:100%}
+#tec .mz .stage .lab{left:22px;top:18px;pointer-events:none}
+.ctl{display:flex;flex-wrap:wrap;align-items:center;gap:14px;padding:20px 24px;border:1px solid var(--line);border-radius:20px;background:#fffdf6;box-shadow:0 18px 40px -30px rgba(70,48,14,.5)}
+#tec .ctl .btn{font-size:16px;padding:15px 28px;min-height:52px}
+.ctl .sl{display:flex;flex-direction:column;gap:6px;flex:1 1 280px;min-width:220px}
+.ctl .sl>span{font-size:11px;letter-spacing:.16em;text-transform:uppercase;font-weight:700;color:var(--mute)}
+.ctl .sl input[type=range]{width:100%;height:34px;accent-color:var(--zc);margin:0;cursor:pointer}
+.ctl .sl em{display:flex;justify-content:space-between;font-style:normal;font-size:12px;color:var(--mute)}.ctl .sl em i{font-style:normal}
+.pfi{padding:18px 24px;border:1px dashed var(--line);border-radius:16px;background:rgba(255,253,246,.6)}
+.pfi h3{font-size:14px;color:var(--ink)}.pfi p{margin:6px 0 0;font-size:14px;color:var(--mute)}
+.allbtn{all:unset;box-sizing:border-box;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:16px;width:100%;padding:22px 28px;border-radius:18px;background:var(--ink);color:#fff;font-family:var(--display);font-weight:800;font-size:clamp(14px,1.6vw,18px);letter-spacing:.06em;transition:transform .3s var(--ease),background .3s}
+.allbtn i{font-style:normal;font-size:28px;line-height:1;color:#ffb869;transition:transform .3s}
+.allbtn:hover{background:#2a2118;transform:translateY(-2px)}.allbtn[aria-expanded="true"] i{transform:rotate(45deg)}
+.allbtn:focus-visible{outline:3px solid var(--zc);outline-offset:3px}
+#tec .parts{display:flex;flex-direction:column;gap:24px;margin-top:8px;scroll-margin-top:90px}
+#tec .parts .bom{max-height:none}#tec .parts .bom .list{max-height:460px}
+@media (max-width:760px){
+  #tec .mz .stage{height:clamp(380px,58svh,560px);min-height:0}
+  #tec .mz .rail button{min-width:150px}
+  .ctl{padding:16px;gap:10px}.ctl .btn{flex:1 1 calc(50% - 10px)}.ctl .sl{flex:1 1 100%}
+  #tec .ctl .btn{padding:14px 10px;font-size:15px}
+  .allbtn{padding:20px}
+}
+
 /* ---------- MÓVIL ---------- */
 @media (max-width:760px){
   .bar:not(.tbar){flex-wrap:wrap;row-gap:8px;column-gap:10px;padding:10px 14px}
@@ -677,9 +708,9 @@ video::-webkit-media-controls,video::-webkit-media-controls-start-playback-butto
   </div>
 
   <div class="tpane" id="p-muebles">
-    <div class="phead"><span class="mono">Nota 1 · elementos E a I</span><h2>Los tres <em>muebles</em></h2><ol class="how"><li><b>Elige</b> un mueble en la columna de la izquierda.</li><li><b>Despiécalo</b> con el botón o la barra de abajo.</li><li><b>Toca</b> una pieza para ver su ficha.</li></ol></div>
+    <div class="phead"><span class="mono">Nuestros muebles</span><h2>Los tres <em>muebles</em></h2><ol class="how"><li><b>Elige</b> un mueble arriba del modelo.</li><li><b>Explosiónalo</b> con los controles de debajo.</li><li><b>Toca</b> una pieza para ver su ficha.</li></ol></div>
 
-    <div class="bench">
+    <div class="mz">
       <div class="rail" id="rail">
         <button data-m="closet" aria-pressed="true"><svg viewBox="0 0 32 32"><rect x="5" y="3" width="22" height="26"/><path d="M16 3v26M12 15v3M20 15v3"/></svg><span><b>Clóset</b><span>Vestier</span></span></button>
         <button data-m="sala" aria-pressed="false"><svg viewBox="0 0 32 32"><path d="M3 26h26M5 26V10h9v16M14 18h13v8M18 6h8v8h-8z"/></svg><span><b>Sala</b><span>Mueble de sala</span></span></button>
@@ -690,15 +721,17 @@ video::-webkit-media-controls,video::-webkit-media-controls-start-playback-butto
         <img class="slotimg" id="slotimg" alt="" hidden>
         <div class="empty" id="empty" hidden></div>
         <div class="lab"><span class="mono" style="color:var(--glass)" id="stk">Isométrico · medidas en mm</span><h3 id="sth">Clóset corredizo</h3></div>
-        <div class="dock" id="dock"><button class="btn primary" id="bplay">Explosionar</button><input type="range" id="ex" min="0" max="100" value="0" aria-label="Despiece"><button class="btn" id="bmove" aria-pressed="false">Mover modelo</button><button class="btn" id="bdo">Puertas: visibles</button><button class="btn primary" id="bled">Luces: encendidas</button></div>
       </div>
+      <div class="ctl" id="dock"><button class="btn primary" id="bplay">Explosionar</button><label class="sl"><span>Despiece</span><input type="range" id="ex" min="0" max="100" value="0" aria-label="Despiece"><em><i>Armado</i><i>Explosionado</i></em></label><button class="btn" id="bmove" aria-pressed="false">Mover modelo</button><button class="btn" id="bdo">Puertas: visibles</button><button class="btn primary" id="bled">Luces: encendidas</button></div>
+      <div id="pinfo" class="pfi"><h3>Ficha de pieza</h3><p>Toca una pieza del modelo para ver su ficha.</p></div>
+      <button class="allbtn" id="ballp" type="button" aria-expanded="false" aria-controls="parts"><span id="ballt">VER TODAS LAS PIEZAS</span><i aria-hidden="true">+</i></button>
+    </div>
+    <div class="parts" id="parts" hidden>
       <aside class="bom">
         <header><span class="mono" style="color:var(--glass)">Lista de materiales</span><h3 id="bomh">Clóset · 1 unidad</h3></header>
         <div class="list" id="bom"></div>
-        <div id="pinfo"><h3>Ficha de pieza</h3><p style="font-size:13.5px;color:var(--mute)">Toque una pieza del modelo o una fila de la lista.</p></div>
         <div class="foot" id="bomf"></div>
       </aside>
-    </div>
     <div class="grid" id="x-closet">
       <div class="sheet"><h3>Despiece completo del clóset</h3><div class="tw"><table id="t-closet"></table></div><p class="src">Fuente: documento «Materias primas» y planos 1 a 3. Total melamina 15 mm: 13,751 m² · tableros delgados: 6,907 m².</p></div>
       <div class="sheet"><h3>Pendientes del clóset antes de costear</h3><div class="note bad">El respaldo de 2385 × 1950 mm no cabe en un tablero comercial de 1,83 m de ancho: hay que partirlo, y ese cambio va a la tabla de rastreo.</div><div class="note bad">Los «fondos» de 2385 × 690 × 6 y 2385 × 400 × 6 tienen las medidas exactas de las dos puertas de vidrio; en la lista figuran como tablero delgado.</div><h3>Planos del grupo (Drive)</h3><ul class="clean" id="l-closet"></ul></div>
@@ -712,6 +745,7 @@ video::-webkit-media-controls,video::-webkit-media-controls-start-playback-butto
     <div class="grid" id="x-cocina" hidden>
       <div class="sheet"><h3>Módulos de la cocina</h3><div class="tw"><table id="t-cocina"></table></div><dl class="kv"><dt>Espacio</dt><dd>Altura libre 2,40 m · ancho máx. 2,25 m · profundidad 2,20 m · tramo posterior 1,90 m</dd></dl></div>
       <div class="sheet"><h3>Pendientes de la cocina</h3><div class="note">Los planos están por módulo a escala 1:50. Falta el despiece pieza por pieza, sin el cual no hay plan de corte ni cursograma.</div><h3>Planos del grupo (Drive)</h3><ul class="clean" id="l-cocina"></ul></div>
+    </div>
     </div>
   </div>
 
@@ -934,10 +968,10 @@ function isoModel(name){ const I=ISO; if(I.models[name]) return I.models[name];
   C.parts.forEach(m=>{ if(m.userData.k==='led') return; const e=new THREE.LineSegments(new THREE.EdgesGeometry(m.geometry,25),new THREE.LineBasicMaterial({color:sala?0xf4e9d6:0x7fe3d6,transparent:true,opacity:sala?.28:.35})); m.add(e); });
   const md={sc,C,sala,cur:0,tgt:0,seen:false,doorsOn:true,tg:sala?new THREE.Vector3(-.05,.95,-.05):new THREE.Vector3(-.1,1.15,.3),size:sala?1.55:1.75,grow:sala?.6:.75,doorLabel:sala?'Frentes':'Puertas'};
   return I.models[name]=md; }
-function isoSet(name){ const I=ISO, md=isoModel(name); I.m=md; I.ctl.target.copy(md.tg); I.cam.position.copy(md.tg).add(new THREE.Vector3(6,6,6)); I.ctl.update();
+function isoSet(name){ const I=ISO, md=isoModel(name); md.tgt=0; md.cur=0; I.m=md; I.ctl.target.copy(md.tg); I.cam.position.copy(md.tg).add(new THREE.Vector3(6,6,6)); I.ctl.update();
   $('#ex').value=md.tgt*100; $('#bplay').textContent=md.tgt?'Armar':'Explosionar'; $('#bdo').textContent=md.doorLabel+(md.doorsOn?': visibles':': ocultos'); $('#bled').textContent='Luces: '+(I.lT?'encendidas':'apagadas'); $('#bled').classList.toggle('primary',!!I.lT);
   I.applyLight(); I.rsz(); md.C.setEx(md.cur);
-  if(!md.seen){ md.seen=true; setTimeout(()=>{ if(ISO.m===md&&md.tgt===0&&!RM) $('#bplay').click(); },900); } }
+}
 function iso3d(){
   if(!window.THREE||!THREE.OrbitControls){ $('#empty').hidden=false; $('#empty').textContent='El visor 3D no cargó. Use la lista de materiales de la derecha.'; return; }
   if(isoInit){ isoSet(curM); return; } isoInit=true;
@@ -1075,9 +1109,12 @@ function mueble(m){ curM=m; $$('#rail button').forEach(b=>b.setAttribute('aria-p
   $('#sth').textContent=MU[m][0]; $('#bomh').textContent=MU[m][1]; $('#bomf').textContent=MU[m][2]; $('#bom').innerHTML=bomRows(m);
   const c=m!=='cocina', img=$('#slotimg'), em=$('#empty'); $('#iso').hidden=!c; $('#dock').hidden=!c; $('#pinfo').hidden=!c; em.hidden=true; img.hidden=true;
   $('#stk').textContent=c?'Isométrico · medidas en mm':'Explosionado del grupo';
-  if(c){ $('#pinfo').innerHTML=PINFO0; iso3d(); } else { img.onload=()=>img.hidden=false; img.onerror=()=>{em.hidden=false; em.innerHTML='<div><span class="mono" style="color:var(--glass)">Falta la imagen</span><p style="margin-top:10px">El explosionado de '+(m==='sala'?'la sala':'la cocina')+' está en la carpeta solo como PDF o no existe. Con la imagen exportada, o el modelo en STEP o GLB, se monta aquí.</p></div>';}; img.src='img/'+m+'-explosionado.jpg'; } }
+  if(c){ $('#pinfo').innerHTML=PINFO0; iso3d(); } else { img.onload=()=>img.hidden=false; img.onerror=()=>{em.hidden=false; em.innerHTML='<div><span class="mono" style="color:var(--glass)">Modelo en preparación</span><p style="margin-top:10px">El modelo 3D explosionado de la cocina se está incorporando.</p></div>';}; img.src='img/cocina.jpg'; $('#stk').textContent='Modelo 3D explosionado · en preparación'; }
+  partsToggle(false); }
+function partsToggle(on){ const P=$('#parts'), B=$('#ballp'); P.hidden=!on; B.setAttribute('aria-expanded',on); $('#ballt').textContent=on?'OCULTAR LAS PIEZAS':'VER TODAS LAS PIEZAS'; }
+$('#ballp').addEventListener('click',()=>{ const on=$('#parts').hidden; partsToggle(on); if(on) requestAnimationFrame(()=>$('#parts').scrollIntoView({behavior:RM?'auto':'smooth',block:'start'})); });
 $('#rail').addEventListener('click',e=>{const b=e.target.closest('[data-m]'); if(b) mueble(b.dataset.m);});
-$('#bom').addEventListener('click',e=>{const r=e.target.closest('[data-pz]'); if(r){info(r.dataset.pz);hl(r.dataset.pz);}});
+$('#bom').addEventListener('click',e=>{const r=e.target.closest('[data-pz]'); if(r){info(r.dataset.pz);hl(r.dataset.pz); $('#iso').closest('.stage').scrollIntoView({behavior:RM?'auto':'smooth',block:'start'});}});
 $('#bom').addEventListener('mouseover',e=>{const r=e.target.closest('[data-pz]'); if(r) hl(r.dataset.pz);});
 const ZN={producto:['Zona 1 · El producto','Lo que recibe el cliente: el apartamento y los tres muebles, con sus medidas, materiales y piezas. Corresponde a la Nota 1.','apto'],
   empresa:['Zona 2 · La empresa Beta Ensambladora','Cómo y con qué se fabrican los muebles: volumen, proceso, planta, proveedores y costos. No es parte del producto. Corresponde a las Notas 2 y 3.','empresa'],
