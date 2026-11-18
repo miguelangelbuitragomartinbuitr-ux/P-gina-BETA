@@ -844,9 +844,11 @@ video::-webkit-media-controls,video::-webkit-media-controls-start-playback-butto
     </div>
     <div class="sheet wide"><h3>Por qué esta bodega</h3><p class="lede">La bodega de Puente Aranda se calificó contra seis factores.</p><div class="tw"><table id="t-loc"></table></div></div>
     <div class="sheet wide"><h3>Qué área necesita estar junto a cuál</h3><p class="lede">A: absolutamente necesaria · E: especialmente importante · I: importante · O: ordinaria · U: sin importancia · X: no deseable.</p><div class="tw"><table id="t-mx" class="mxt"></table></div><h4 class="sh4">Razón de cada relación</h4><div class="tw"><table id="t-rel"></table></div></div>
-    <div class="sheet wide"><h3>La planta vista desde arriba</h3><p class="lede">Distribución esquemática de 297 m² (27 × 11 m, medidas supuestas hasta tener el plano del inmueble), con el recorrido del material y el del operario.</p><div id="plano" class="planow"></div><div class="grid" style="margin-top:20px"><div class="sheet" style="box-shadow:none"><div class="tw"><table id="t-dm"></table></div></div><div class="sheet" style="box-shadow:none"><div class="tw"><table id="t-do"></table></div></div></div></div>
+    <div class="sheet wide"><h3>Dónde queda la bodega</h3><p class="lede">Bodega de 297 m² en Puente Aranda, Bogotá, una zona industrial con salida a las vías principales de la ciudad. El mapa muestra la zona, no la dirección exacta.</p><iframe title="Mapa de Puente Aranda, Bogotá" src="https://www.openstreetmap.org/export/embed.html?bbox=-74.12%2C4.595%2C-74.07%2C4.64&amp;layer=mapnik&amp;marker=4.6167%2C-74.0975" style="width:100%;height:340px;border:1px solid var(--line);border-radius:12px" loading="lazy"></iframe><p class="src"><a href="https://www.openstreetmap.org/?mlat=4.6167&amp;mlon=-74.0975#map=14/4.6167/-74.0975">Ver el mapa completo</a></p></div>
+    <div class="sheet wide"><h3>Cómo se recorre la planta</h3><p class="lede">La planta sigue el orden del diagrama de operaciones: cada zona recibe lo que sale de la anterior.</p><div class="tw"><table id="t-disp"></table></div></div>
+    <div class="sheet wide"><h3>La planta vista desde arriba</h3><p class="lede">Distribución esquemática de 297 m² (27 × 11 m), con el recorrido del material y el del operario.</p><div id="plano" class="planow"></div><div class="grid" style="margin-top:20px"><div class="sheet" style="box-shadow:none"><div class="tw"><table id="t-dm"></table></div></div><div class="sheet" style="box-shadow:none"><div class="tw"><table id="t-do"></table></div></div></div></div>
     <div class="sheet wide"><h3>Dónde se guarda cada cosa</h3><p class="lede">Cuánto espacio necesita cada zona, según el lote.</p><div class="tw"><table id="t-zo"></table></div></div>
-    <div class="sheet wide"><h3>Maquinaria</h3><p class="lede">Máquinas necesarias por operación. Las fichas de los fabricantes se anexan al elegir cada marca.</p><div class="tw"><table id="t-maq"></table></div></div>
+    <div class="sheet wide"><h3>Maquinaria por estación</h3><p class="lede">Máquinas necesarias por operación. Las fichas de los fabricantes se anexan al elegir cada marca.</p><div class="tw"><table id="t-maq"></table></div></div>
     <div class="sheet wide"><h3>Orden en la planta</h3><p class="lede">Cómo se aplican las cinco S en esta planta.</p><div class="tw"><table id="t-5s"></table></div></div>
     <div class="sheet wide"><h3>Riesgos de la planta y cómo los controlamos</h3><p class="lede">Peligros por operación y sus controles.</p><div class="tw"><table id="t-gtc"></table></div></div>
     <div class="sheet wide"><h3>Cada puesto de trabajo</h3><p class="lede">Los cuatro puestos de trabajo de la planta.</p><div class="tw"><table id="t-pu"></table></div></div>
@@ -1463,14 +1465,22 @@ function zonas(){ const j=+(store.get('r2j')||21); const T=Math.ceil(j*(13.751*1
 ['Producto terminado','Muebles empacados esperando despacho','Un juego completo ocupa ~ 6 m²; se guardan 2 juegos','~ 14 m²']],[null,null,null,'num']); }
 zonas();
 /* --- máquinas --- */
-$('#t-maq').innerHTML=TB(['Operación','Máquina','Para qué sirve','Capacidad mínima','Ficha del fabricante'],[
-['Corte','Seccionadora de tableros','Corta tableros de melamina a medida en línea recta','Tablero de 2,44 m × 1,83 m, espesor hasta 18 mm','por anexar'],
-['Corte curvo','Router de mano con plantilla','Corta la curva de R120 mm del estante esquinero','Fresa recta de 12 mm','por anexar'],
-['Canteado','Canteadora de bordes','Pega y refila el canto sobre el borde recto','Canto de 0,45 a 2 mm','por anexar'],
-['Perforado','Taladro múltiple o taladro de columna con plantilla','Perfora tarugos, minifix, apoyos de repisa y tazas de bisagra','Brocas de 5 a 35 mm','por anexar'],
-['Armado','Prensa de cajones y atornilladores eléctricos','Arma las cajas y fija los herrajes','Prensa de 800 mm','por anexar'],
-['Corte de tubo','Tronzadora o sierra de corte','Corta los tubos de acero inoxidable','Tubo de Ø 25 mm','por anexar'],
-['Limpieza','Aspiradora industrial y compresor','Retira el polvo y limpia las piezas','Aspiradora de 20 L','por anexar']]);
+$('#t-maq').innerHTML=TB(['Estación del flujo','Máquina','Qué hace','Capacidad mínima','Qué pasa por ella'],[
+['2 · Corte','Seccionadora de tableros','Corta los tableros de melamina a medida en línea recta','Tablero de 2,44 m × 1,83 m, espesor hasta 18 mm','Clóset: 43 piezas de melamina y 10 de fondo · Cocina: 125 piezas de corte'],
+['2 · Corte curvo','Router de mano con plantilla','Corta la curva de R120 mm del estante esquinero','Fresa recta de 12 mm','Estante esquinero'],
+['3 · Canteado','Canteadora de bordes','Pega y refila el canto sobre el borde recto','Canto de 0,45 a 2 mm','Todas las piezas de melamina de 15 mm'],
+['4 · Perforado','Taladro múltiple o de columna con plantilla','Perfora tarugos, minifix, apoyos de repisa y tazas de bisagra','Brocas de 5 a 35 mm','21 tarugos y 58 tornillos del clóset; bisagras y rieles de la cocina'],
+['5 · Armado','Prensa de cajones y atornilladores eléctricos','Arma las cajas y fija los herrajes','Prensa de 800 mm','Los tres muebles'],
+['5 · Corte de tubo','Tronzadora o sierra de corte','Corta los tubos de acero inoxidable','Tubo de Ø 25 mm','2 tubos de 705 mm del clóset'],
+['6 · Calidad y empaque','Aspiradora industrial y compresor','Retira el polvo y limpia las piezas antes de empacar','Aspiradora de 20 L','Los tres muebles']]);
+$('#t-disp').innerHTML=TB(['Paso','Zona de la planta','Qué ocurre','Símbolo del diagrama de operaciones'],[
+['1','Recepción y almacén de tableros','Se recibe y se verifica contra la orden de compra; los tableros se apilan','Transporte · inspección · almacenaje'],
+['2','Corte','Los tableros pasan a la seccionadora y salen en piezas rotuladas','Operación'],
+['3','Canteado','Las piezas cortadas siguen en línea a la canteadora','Transporte · operación'],
+['4','Perforado','Perforado con plantilla de tarugos, minifix y bisagras','Operación · inspección'],
+['5','Armado y preensamble','Se arma el mueble con sus herrajes y se sujeta en prensa','Operación'],
+['6','Calidad y empaque','Se revisa el mueble armado y se empaca','Inspección · demora'],
+['7','Despacho','Los muebles empacados salen hacia la obra','Transporte']]);
 /* --- 5S, GTC 45, puestos --- */
 $('#t-5s').innerHTML=TB(['S','Qué significa','Cómo se aplica en esta planta'],[
 ['Seiri · Clasificar','Separar lo necesario de lo innecesario','Retirar retales y herrajes sobrantes de cada puesto; zona de rechazo marcada.'],
