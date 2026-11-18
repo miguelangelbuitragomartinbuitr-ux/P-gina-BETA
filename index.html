@@ -280,6 +280,37 @@ ul.clean{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:5px;f
 .pledge{list-style:none;margin-top:22px;display:grid;gap:14px;max-width:72ch}.pledge li{padding-left:22px;position:relative;font-size:15px;line-height:1.7;color:#c9d0d8;font-weight:300}.pledge li::before{content:"";position:absolute;left:0;top:.75em;width:8px;height:8px;border-radius:50%;background:var(--led)}.pledge b{color:#fff;font-weight:500}
 .plans{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:18px;margin-top:44px}.plans figure{margin:0;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:#fff}.plans img{width:100%;display:block}.plans figcaption{background:#10161c;padding:10px 14px;font-size:12px;letter-spacing:.08em;color:#c9d0d8}
 
+
+/* ---------- QUIÉNES SOMOS ---------- */
+#nos{background:var(--night)}
+.nos-hero{position:absolute;left:0;right:0;top:0;height:100svh;overflow:hidden;-webkit-mask-image:linear-gradient(to bottom,#000 0,#000 75%,transparent 100%);mask-image:linear-gradient(to bottom,#000 0,#000 75%,transparent 100%);background:radial-gradient(90% 70% at 70% 30%,rgba(255,184,105,.22),transparent 60%),linear-gradient(160deg,#1a222c,#0c1016 70%)}
+.nos-hero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 30%}
+.nos-hero::after{content:"";position:absolute;inset:0;background:linear-gradient(to bottom,rgba(6,8,11,.6),rgba(6,8,11,0) 22%),linear-gradient(to top,rgba(6,8,11,.55),rgba(6,8,11,0) 38%)}
+.nos-in .eb{color:#efe7d8;text-shadow:0 1px 14px rgba(6,8,11,.9)}
+.nos-body{position:relative;z-index:2;padding:74svh clamp(20px,5vw,64px) 40px}
+.nos-in{max-width:1040px;margin:0 auto}
+.nos-in h1{font-size:clamp(30px,5.2vw,66px);text-shadow:0 2px 30px rgba(6,8,11,.7)}
+.nos-in h1 em{font-family:var(--serif);font-style:italic;font-weight:400;text-transform:none;color:var(--led);letter-spacing:0}
+.nos-lead{max-width:62ch;margin-top:26px;font-size:clamp(16px,1.5vw,19px);line-height:1.75;color:#d9dde2;font-weight:300}
+.nos-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin-top:46px;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.nos-stats div{padding:22px 18px;text-align:center}.nos-stats div+div{border-left:1px solid var(--line)}
+.nos-stats b{display:block;font-family:var(--display);font-weight:800;font-size:clamp(22px,3vw,38px);color:var(--led);letter-spacing:-.02em}
+.nos-stats span{display:block;margin-top:6px;font-size:12.5px;color:var(--mute);line-height:1.5}
+.nos-h{margin-top:72px}.nos-h h2{font-size:clamp(22px,3vw,36px)}
+.nos-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin-top:28px}
+.nos-card{padding:26px 24px;border:1px solid var(--line);border-radius:14px;background:linear-gradient(180deg,rgba(255,255,255,.045),rgba(255,255,255,.015))}
+.nos-card i{font-style:normal;font-family:var(--mono);font-size:11px;letter-spacing:.18em;color:var(--led)}
+.nos-card h3{font-size:15px;margin:12px 0 10px;line-height:1.25}
+.nos-card p{margin:0;font-size:14px;line-height:1.7;color:#b9c0c9;font-weight:300}
+.nos-promise{margin-top:60px;padding:34px clamp(22px,4vw,48px);border-radius:16px;border:1px solid rgba(255,184,105,.35);background:rgba(255,184,105,.06)}
+.nos-promise p{margin:0;font-family:var(--serif);font-size:clamp(22px,2.6vw,32px);line-height:1.35;color:var(--ink)}
+.nos-promise small{display:block;margin-top:14px;font-family:var(--mono);font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--led)}
+.nos-cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:40px}
+.nos-cta a{display:inline-block;padding:14px 24px;border-radius:99px;border:1px solid var(--led);color:var(--led);text-decoration:none;font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;transition:.25s}
+.nos-cta a.p{background:var(--led);color:#1b1107}.nos-cta a:hover{background:var(--led2);color:#1b1107;border-color:var(--led2)}
+.nos-foot{max-width:1040px;margin:70px auto 0;padding-top:22px;border-top:1px solid var(--line);font-size:12px;color:var(--mute)}
+@media (max-width:760px){.nos-stats div{padding:16px 6px}.nos-stats span{font-size:11px}.nos-h{margin-top:56px}.nos-body{padding-top:70svh}}
+
 /* ---------- MÓVIL ---------- */
 @media (max-width:760px){
   .bar:not(.tbar){flex-wrap:wrap;row-gap:8px;column-gap:10px;padding:10px 14px}
@@ -453,8 +484,7 @@ video::-webkit-media-controls,video::-webkit-media-controls-start-playback-butto
 <div id="exp" class="page">
   <header class="bar" id="xbar">
     <div class="bleft"><button class="backbtn" data-back type="button" id="xback" aria-label="Volver a la página anterior" hidden><span aria-hidden="true">←</span><em>Atrás</em></button><span class="bsep" id="xsep" aria-hidden="true" hidden></span><button class="logo" data-go="lobby" aria-label="Beta Design, ir al inicio"><span class="brand"><img src="img/beta-mark.png" alt="Beta"><span class="ds" aria-label="Design"><i>D</i><i>E</i><i>S</i><i>I</i><i>G</i><i>N</i></span></span></button></div>
-    <nav><a href="#" data-sc="cine">Recorrido</a><a href="#" data-sc="apto">Apartamento</a><a href="#" data-sc="trio">Muebles</a><a href="#" data-sc="prod">Producción</a></nav>
-    <button class="pillbtn" data-go="tecnica" data-z="producto" data-t="apto">Información técnica</button>
+    <nav><a href="#" data-go="nosotros">¿Quiénes somos?</a><a href="#" data-sc="apto">Apartamento</a><a href="#" data-sc="trio">Muebles</a><a href="#" data-sc="prod">Nuestra producción</a></nav>
   </header>
 
   <section id="cine">
@@ -571,6 +601,42 @@ video::-webkit-media-controls,video::-webkit-media-controls-start-playback-butto
   </div></section>
 
   <footer><div class="wrap">Beta Ensambladora · Ejercicio académico de Diseño VIII Producción, UPTC Duitama, 2026-2. Página armada con apoyo de IA (Claude) a partir de los documentos del grupo; los diseños, planos, medidas y precios son del grupo. El video de recorrido y las imágenes de los muebles en su espacio son ambientación generada con IA (Higgsfield, Seedance 2.5) a partir de los renders y planos del grupo.</div></footer>
+</div>
+
+<!-- ============ QUIÉNES SOMOS ============ -->
+<div id="nos" class="page">
+  <header class="bar" id="nbar">
+    <div class="bleft"><button class="backbtn" data-back type="button" aria-label="Volver a la página anterior"><span aria-hidden="true">←</span><em>Atrás</em></button><span class="bsep" aria-hidden="true"></span><button class="logo" data-go="lobby" aria-label="Beta Design, ir al inicio"><span class="brand"><img src="img/beta-mark.png" alt="Beta"><span class="ds" aria-label="Design"><i>D</i><i>E</i><i>S</i><i>I</i><i>G</i><i>N</i></span></span></button></div>
+    <nav><a href="#" data-go="nosotros">¿Quiénes somos?</a><a href="#" data-sc="apto">Apartamento</a><a href="#" data-sc="trio">Muebles</a><a href="#" data-sc="prod">Nuestra producción</a></nav>
+  </header>
+  <div class="nos-hero"><img src="img/nosotros.jpg" alt="El equipo de Beta Ensambladora" onerror="this.remove()"></div>
+  <main class="nos-body"><div class="nos-in">
+    <span class="mono eb rv">Beta Ensambladora · ¿Quiénes somos?</span>
+    <h1 class="rv" style="margin-top:14px">Muebles a la medida, <em>fabricados con rigor</em></h1>
+    <p class="nos-lead rv">En Beta Ensambladora diseñamos y fabricamos mobiliario a la medida para apartamentos. Cada pieza nace del plano real de su espacio y llega lista para instalar: medidas exactas, acabados consistentes y un proceso que usted puede ver y revisar antes de que se corte la primera pieza.</p>
+
+    <div class="nos-stats rv">
+      <div><b>3</b><span>muebles a la medida por apartamento</span></div>
+      <div><b>66 m²</b><span>amoblados sobre planos reales</span></div>
+      <div><b>1 planta</b><span>en Bogotá, para todo el proceso</span></div>
+    </div>
+
+    <div class="nos-h rv"><span class="mono eb">Lo que nos define</span><h2 style="margin-top:12px">Cuatro razones para confiar en Beta</h2></div>
+    <div class="nos-cards rv">
+      <article class="nos-card"><i>01</i><h3>Diseño sobre el plano real</h3><p>Dibujamos cada mueble sobre la distribución y el acotado de su apartamento. No trabajamos con medidas genéricas ni con supuestos.</p></article>
+      <article class="nos-card"><i>02</i><h3>Lo que ve es lo que recibe</h3><p>Renders, vistas en 3D y despiece le permiten aprobar cada mueble en su espacio antes de fabricarlo. Sin sorpresas al instalar.</p></article>
+      <article class="nos-card"><i>03</i><h3>Fabricación bajo un solo estándar</h3><p>Producimos los tres muebles en una misma planta en Puente Aranda, Bogotá. El diseño ya considera cómo se corta, se arma y se instala cada pieza.</p></article>
+      <article class="nos-card"><i>04</i><h3>Materiales duraderos, lenguaje común</h3><p>Melamina, vidrio, acero inoxidable e iluminación LED, con madera cálida y gris grafito. Los muebles se sienten como un solo conjunto.</p></article>
+    </div>
+
+    <div class="nos-promise rv"><p>Nuestro compromiso es entregar mobiliario que funcione desde el primer día: medido con precisión, bien construido y documentado de principio a fin.</p><small>Beta Ensambladora · Diseño, planta e instalación</small></div>
+
+    <div class="nos-h rv"><span class="mono eb">Quién está detrás</span><h2 style="margin-top:12px">Un equipo de diseño industrial</h2></div>
+    <p class="nos-lead rv" style="margin-top:20px">Somos un equipo de diseñadores industriales. Pensamos el mueble desde cómo se usa y lo resolvemos hasta cómo se fabrica, porque un buen diseño también tiene que ser construible, instalable y sostenible en costo. Esa visión conjunta entre producto y planta es lo que nos permite darle claridad y seguridad a cada cliente.</p>
+
+    <div class="nos-cta rv"><a class="p" href="#" data-sc="apto">Conocer el apartamento →</a><a href="#" data-sc="trio">Ver los muebles</a><a href="#" data-sc="prod">Nuestra producción</a></div>
+  </div>
+  <div class="nos-foot">Beta Ensambladora · Bogotá, Colombia</div></main>
 </div>
 
 <!-- ============ INFORMACIÓN TÉCNICA ============ -->
@@ -1031,13 +1097,15 @@ let curPage='lobby', heroReset=false; const hist=[];
 function snap(){ return {page:curPage,y:scrollY,clip:curClip,z:$('#tec').dataset.z,t:($('#ttabs .tb[aria-pressed="true"]')||{dataset:{}}).dataset.t,m:curM}; }
 function pushHist(){ if(curPage==='lobby') return; const s=snap(), l=hist[hist.length-1]; if(l&&l.page===s.page&&l.z===s.z&&l.t===s.t&&Math.abs(l.y-s.y)<24) return; hist.push(s); if(hist.length>60) hist.shift(); syncBack(); }
 function syncBack(){ const on=curPage==='recorrido'&&hist.length>0; $('#xback').hidden=!on; $('#xsep').hidden=!on; }
-function go(n,m,rs){ const L=$('#lobby'),X=$('#exp'),T=$('#tec'), prev=curPage;
+let pendSc=null;
+function go(n,m,rs){ const L=$('#lobby'),X=$('#exp'),T=$('#tec'),N=$('#nos'), prev=curPage;
   if(!rs){ if(n==='lobby') hist.length=0; else if(prev!=='lobby') pushHist(); }
-  curPage=n; L.classList.toggle('on',n==='lobby'); X.classList.toggle('on',n==='recorrido'); T.classList.toggle('on',n==='tecnica');
+  curPage=n; L.classList.toggle('on',n==='lobby'); X.classList.toggle('on',n==='recorrido'); T.classList.toggle('on',n==='tecnica'); N.classList.toggle('on',n==='nosotros');
   cineOn=n==='recorrido'; scrollTo(0,0);
   if(n==='recorrido'){ const fresh=prev==='lobby'&&!rs; startCine(); cineOn=true;
     if(fresh){ heroReset=true; if(cineMode==='video'&&curClip!==0) goClip(0); else if(cineMode==='video'){ const A=$('#vA'); if(A.currentTime>.5) goClip(0); } }
-    else if(rs&&cineMode==='video'&&rs.clip!==curClip) goClip(rs.clip); }
+    else if(rs&&cineMode==='video'&&rs.clip!==curClip) goClip(rs.clip);
+    if(pendSc&&!rs){ const id=pendSc; pendSc=null; requestAnimationFrame(()=>{ const t=$('#'+id); if(t) t.scrollIntoView({behavior:'auto'}); }); } }
   if(n==='tecnica'){ if(m) curM=m; if(rs){ zone(rs.z,rs.t); if(rs.m) curM=rs.m; if(rs.t==='muebles') mueble(curM); } else { const nt=nextTab; nextTab=null; zone(nt&&nt.z||'producto',nt&&nt.t); } }
   if(rs) requestAnimationFrame(()=>{ scrollTo({top:rs.y,left:0,behavior:'instant'}); });
   syncBack(); }
@@ -1045,9 +1113,9 @@ function wipeTo(n,m,el,rs){ const w=$('#wipe'); if(RM){go(n,m,rs);return;} const
   w.classList.remove('run'); void w.offsetWidth; w.classList.add('run'); setTimeout(()=>go(n,m,rs),620); }
 function goBack(el){ const s=hist.pop(); syncBack(); if(!s){ wipeTo('recorrido',null,el); return; } wipeTo(s.page,null,el,s); }
 $('#go').addEventListener('click',e=>wipeTo('recorrido',null,e.currentTarget));
-document.addEventListener('click',e=>{ const bk=e.target.closest('[data-back]'); if(bk){ goBack(bk); return; } const b=e.target.closest('[data-go]'); if(b){ nextTab=b.dataset.z?{z:b.dataset.z,t:b.dataset.t}:null; wipeTo(b.dataset.go,b.dataset.m,b); return; }
-  const a=e.target.closest('[data-sc]'); if(a){ e.preventDefault(); $('#'+a.dataset.sc).scrollIntoView({behavior:RM?'auto':'smooth'}); } });
-addEventListener('scroll',()=>$('#xbar').classList.toggle('solid',scrollY>40),{passive:true});
+document.addEventListener('click',e=>{ const bk=e.target.closest('[data-back]'); if(bk){ goBack(bk); return; } const b=e.target.closest('[data-go]'); if(b){ e.preventDefault(); nextTab=b.dataset.z?{z:b.dataset.z,t:b.dataset.t}:null; wipeTo(b.dataset.go,b.dataset.m,b); return; }
+  const a=e.target.closest('[data-sc]'); if(a){ e.preventDefault(); if(curPage!=='recorrido'){ pendSc=a.dataset.sc; wipeTo('recorrido',null,a); } else $('#'+a.dataset.sc).scrollIntoView({behavior:RM?'auto':'smooth'}); } });
+addEventListener('scroll',()=>{ const v=scrollY>40; $('#xbar').classList.toggle('solid',v); $('#nbar').classList.toggle('solid',v); },{passive:true});
 $$('.acc details').forEach(d=>d.addEventListener('toggle',()=>{ if(d.open) $$('.acc details').forEach(o=>{if(o!==d) o.open=false;}); }));
 const io=('IntersectionObserver' in window)?new IntersectionObserver(es=>es.forEach(x=>{if(x.isIntersecting) x.target.classList.add('in');}),{threshold:.12}):null;
 $$('.rv').forEach(el=>io?io.observe(el):el.classList.add('in'));
